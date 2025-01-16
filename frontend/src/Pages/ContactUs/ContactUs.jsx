@@ -6,7 +6,7 @@ function ContactUs() {
   return (
     <div>
       <h1>Contact Us</h1>
-      <Link to='/'><p>To Home Page</p></Link>
+      <Link to='/HomePage'><p>To Home Page</p></Link>
     </div>
   )
 }

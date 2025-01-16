@@ -1,0 +1,19 @@
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.homeContainer{
+    height: 2000px;
+    margin-left: 78px;
+    padding-right: 78px;
+    background-image: url("../../Images/Authentification/Back.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    z-index: -1;
+
+    mask-image: url("../../Images/open.gif");
+    mask-size: cover;
+    mask-position: center;
+}

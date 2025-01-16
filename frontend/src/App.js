@@ -1,14 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
-import { ContactUs,HomePage } from './Pages';
+import { ContactUs, HomePage, Login, ForgotPassword, SignUp } from './Pages';
 
 function App() {
 
   return (
     <Routes>
-      <Route path='/' element={<HomePage />} />
+      <Route path='/' element={<Login />} />
+      <Route path='/HomePage' element={<HomePage />} />
       <Route path='/ContactUs' element={<ContactUs />} />
-    </Routes>
+      <Route path='/ForgotPassword' element={<ForgotPassword />} />
+      <Route path='/SignUp' element={<SignUp />} />
+      </Routes>
   );
-} 
+}
 
 export default App;
