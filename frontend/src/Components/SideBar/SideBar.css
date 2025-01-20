@@ -51,7 +51,6 @@
     right: 0;
     transform: translateY(-50%);
     font-size: 22px;
-    transition: all 0.4s ease;
     font-size: 23px;
     text-align: center;
     cursor: pointer;
@@ -112,7 +111,7 @@
 }
 
 .sidebar.open li .tooltip {
-    display: none;
+    display: none; 
 }
 
 .sidebar input {
@@ -179,12 +178,14 @@
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    transition: 1s;
+    transform: translateX(-20px);
+    transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
 .sidebar.open li a .links_name {
     opacity: 1;
     pointer-events: auto;
+    transform: translateX(0);
 }
 
 .sidebar li a:hover .links_name,
