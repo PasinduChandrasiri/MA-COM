@@ -2,18 +2,106 @@ body::-webkit-scrollbar {
     display: none;
 }
 
-.homeContainer{
-    height: 2000px;
+.homeContainer {
     margin-left: 78px;
     /* padding-right: 78px; */
-    background-image: url("../../Images/Authentification/Back.jpg");
+    background-image: url("../../Images/Backgroud.png");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    z-index: -1;
-
+    /* z-index: -1;
     mask-image: url("../../Images/open.gif");
     mask-size: cover;
-    mask-position: center;
+    mask-position: center; */
+}
+
+.cardProfileContainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.cardProfile {
+    display: flex;
+    flex-direction: row;
+    width: 600px;
+    /* background: white; */
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    box-shadow: 0px 2px 15px rgb(63, 63, 63);
+    overflow: hidden;
+}
+
+.cardProfileUpper {
+    height: 100%;
+    width: 150px;
+    background: linear-gradient(to left, #35315c, #000000);
+}
+
+.cardProfileImage .profilePic {
+    background: white;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    padding: 5px;
+    transform: translate(65px, 70px);
+}
+
+.profilePic {
+    border: 2px solid #454265;
+}
+
+.cardProfileLower {
+    margin: 50px 0px;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Titillium Web', 'sans-serif';
+}
+
+.cardProfileLower h3,
+h4,
+.profilePara {
+    margin: 0;
+    padding: 0;
+}
+
+.cardProfileLower h3 {
+    color: #302f2f;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.cardProfileLower h4 {
+    color: #59586b;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.cardProfileLower .profilePara {
+    margin: 1rem;
+    font-family: 'sans-serif';
+    color: #4b4b4b;
+    font-size: 0.9rem;
+    line-height: 0.5;
+}
+
+.profileVisitBtn {
+    margin: 0rem 1rem;
+    color: #000000;
+    font: bold;
+    background-color: #575477;
+    padding: 0.6rem;
+    border-radius: 20px;
+    transition-duration: 0.5s;
+    animation: ease-in-out;
+    cursor: pointer;
+}
+
+.profileVisitBtn:hover {
+    background-image: linear-gradient(to left, #35315c, #000000);
+    transform: scale(1.1);
+    color: white;
 }

@@ -4,8 +4,9 @@ import TeamLogo from '../../Images/Team_logo.png';
 
 const Header = () => {
 
-    const user_name = "K.M.P.S.Kulathunga";
-    const user_type = "student";
+    const user_name = localStorage.getItem("name");
+    const user_type = localStorage.getItem("profession");
+
     return (
         <div className='headerContainer'>
             <div className='leftHeaderContainer'>
