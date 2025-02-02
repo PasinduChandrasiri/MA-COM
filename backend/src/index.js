@@ -85,3 +85,35 @@ app.post('/forgotPassword', (req, res) => {
         });
     }
 });
+
+app.post('/notice', (req, res) => {
+
+    const { condition } = req.body;
+    
+    if (condition === "all") {
+        const sql = 'SELECT * FROM notice';
+
+        db.query(sql, (err, results) => {
+            if (err) {
+                return res.json("Error");
+            }
+            res.json(results);
+        });
+    }
+})
+
+app.post('/comments', (req, res) => {
+
+    const { condition } = req.body;
+    
+    if (condition === "all") {
+        const sql = 'SELECT * FROM comments';
+
+        db.query(sql, (err, results) => {
+            if (err) {
+                return res.json("Error");
+            }
+            res.json(results);
+        });
+    }
+})

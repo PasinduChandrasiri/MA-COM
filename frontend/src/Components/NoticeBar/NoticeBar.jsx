@@ -1,46 +1,68 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './NoticeBar.css';
+import axios from 'axios';
 
 const NoticeBar = () => {
-    const [active, setActive] = useState(3);
+    const [active, setActive] = useState();
+    const [records, setRecords] = useState([]);
 
-    const items = [
-        {
-            title: "Upcoming Event Alert",
-            description: "Our annual tech conference is right around the corner! Get ready for a day of networking, learning, and exploring the latest advancements in technology. Don’t miss out on sessions, workshops, and keynote speakers!"
-        },
-        {
-            title: "Limited-Time Sale",
-            description: "Shop now and save big! Our limited-time sale offers exclusive discounts on selected products. Hurry, the clock is ticking. Don’t miss your chance to grab the best deals before they’re gone!"
-        },
-        {
-            title: "Maintenance Scheduled",
-            description: "Please note that scheduled maintenance will take place this weekend from 10 PM to 2 AM. During this time, our website and services may be temporarily unavailable. We appreciate your patience and understanding."
-        },
-        {
-            title: "New Feature Launch",
-            description: "Exciting news! We’ve launched a new feature that will enhance your experience. Now you can enjoy more customization options, smoother navigation, and better functionality. Explore the update today!"
-        },
-        {
-            title: "Holiday Hours Update",
-            description: "Our office will be closed for the holidays from December 24th to January 2nd. We wish you a joyful and restful holiday season. If you need assistance, please contact us before the break."
-        },
-        {
-            title: "Contest Announcement",
-            description: "Join our exciting new contest for a chance to win fantastic prizes! The contest is open to all participants, and the rules are simple. Visit our website for more details and enter today!"
-        },
-        {
-            title: "Important Policy Change",
-            description: "We’re updating our terms and conditions to improve user experience and security. Please take a moment to review the changes. If you have any questions or concerns, feel free to reach out to us for clarification."
-        },
-        {
-            title: "Feedback Request",
-            description: "Your feedback matters! We’re conducting a brief survey to gather your thoughts on our services. Your responses will help us improve and better serve you in the future. We appreciate your time and input."
-        }
-    ];
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const condition = "all";
+                const res = await axios.post("http://localhost:8081/notice", { condition });
+
+                let lastFiveRecords = res.data.slice(-5);
+                let reorderedRecords = [...lastFiveRecords];
+
+                if (lastFiveRecords.length === 5) {
+                    reorderedRecords = [
+                        lastFiveRecords[1],
+                        lastFiveRecords[3],
+                        lastFiveRecords[4],
+                        lastFiveRecords[2],
+                        lastFiveRecords[0],
+                    ];
+                    setActive(2);
+                } else if (lastFiveRecords.length === 4) {
+                    reorderedRecords = [
+                        lastFiveRecords[1],
+                        lastFiveRecords[2],
+                        lastFiveRecords[3],
+                        lastFiveRecords[0],
+                    ];
+                    setActive(1);
+                } else if (lastFiveRecords.length === 3) {
+                    reorderedRecords = [
+                        lastFiveRecords[1],
+                        lastFiveRecords[2],
+                        lastFiveRecords[0],
+                    ];
+                    setActive(1);
+                } else if (lastFiveRecords.length === 2) {
+                    reorderedRecords = [
+                        lastFiveRecords[1],
+                        lastFiveRecords[0],
+                    ];
+                    setActive(0);
+                }
+                else {
+                    reorderedRecords = [
+                        lastFiveRecords[0],
+                    ];
+                    setActive(0);
+                }
+                setRecords(reorderedRecords);
+            } catch (error) {
+                console.error("Error fetching notices:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const loadShow = () => {
-        return items.map((item, index) => {
+        return records.map((item, index) => {
             let stt = Math.abs(index - active);
             const translateX = index > active ? 120 * stt : -120 * stt;
             const scale = 1 - 0.2 * stt;
@@ -57,17 +79,17 @@ const NoticeBar = () => {
                         transform: `translateX(${translateX}px) scale(${scale}) perspective(16px) ${rotateY}`,
                         zIndex,
                         filter,
-                        opacity, 
+                        opacity,
                     }}
                 >
                     <h1 className="noticeTitle">{item.title}</h1>
-                    <p className="noticeDescription">{item.description}</p>
+                    <p className="noticeDescription">{item.content}</p>
                 </div>
             );
         });
     };
     const handleNext = () => {
-        setActive((prev) => (prev + 1 < items.length ? prev + 1 : prev));
+        setActive((prev) => (prev + 1 < records.length ? prev + 1 : prev));
     };
 
     const handlePrev = () => {
@@ -75,7 +97,7 @@ const NoticeBar = () => {
     };
 
     return (
-        <div className="noticeSlider">
+        <><div className="noticeSlider">
             {loadShow()}
             <button
                 id="noticeNext"
@@ -90,6 +112,11 @@ const NoticeBar = () => {
                 &lt;
             </button>
         </div>
+            <div className="btnContainer">
+                <button className='noticeAddBtn'>Add Notice</button>
+                <button className='noticeAddBtn'>Manage Notice</button>
+            </div>
+        </>
     );
 };
 

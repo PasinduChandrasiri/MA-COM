@@ -1,11 +1,29 @@
 import React, { useEffect, useState } from "react";
 import "./CommentPanel.css";
-import { CommentData } from "../../Data/CommentData";
 import defaultImage from "../../Images/default_User.png";
+import axios from "axios";
 
 const CommentPanel = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [animation, setAnimation] = useState(""); // Animation class
+    const [animation, setAnimation] = useState("");
+    const [comments, setComment] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const condition = "all";
+                const res = await axios.post("http://localhost:8081/comments", { condition });
+
+                let lastFiveRecords = res.data.slice(-10);
+
+                setComment(lastFiveRecords);
+            } catch (error) {
+                console.error("Error fetching notices:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const changeTestimonial = (direction) => {
         setAnimation(direction === "next" ? "fade-out-left" : "fade-out-right");
@@ -13,46 +31,53 @@ const CommentPanel = () => {
         setTimeout(() => {
             setCurrentIndex((prevIndex) =>
                 direction === "next"
-                    ? (prevIndex + 1) % CommentData.length
+                    ? (prevIndex + 1) % comments.length
                     : prevIndex === 0
-                        ? CommentData.length - 1
+                        ? comments.length - 1
                         : prevIndex - 1
             );
             setAnimation(direction === "next" ? "fade-in-right" : "fade-in-left");
-        }, 300); // Match with CSS animation duration
+        }, 300);
 
-        setTimeout(() => setAnimation(""), 600); // Reset animation after transition
+        setTimeout(() => setAnimation(""), 600);
     };
 
     return (
         <div className="comment-container">
-            <div className={`comment-card ${animation}`}>
-                <img
-                    className="commentPic"
-                    src={CommentData[currentIndex].image || { defaultImage }}
-                    alt="Client"
-                    onError={(e) => (e.target.src = defaultImage)}
-                />
-                <p className="comment-p">{CommentData[currentIndex].text}</p>
-                <h3 className="comment-h3">{CommentData[currentIndex].name}</h3>
+            {comments.length > 0 && comments[currentIndex] ? (
+                <div className={`comment-card ${animation}`}>
+                    <img
+                        className="commentPic"
+                        src={comments[currentIndex].pic || { defaultImage }}
+                        alt="Client"
+                        onError={(e) => (e.target.src = defaultImage)}
+                    />
+                    <p className="comment-p">{comments[currentIndex].comment}</p>
+                    <h3 className="comment-h3">{comments[currentIndex].name}</h3>
 
-                <div className="comment-dots">
-                    {CommentData.map((_, index) => (
-                        <span
-                            key={index}
-                            className={index === currentIndex ? "comment-dot active" : "comment-dot"}
-                            onClick={() => setCurrentIndex(index)}
-                        ></span>
-                    ))}
+                    <div className="comment-dots">
+                        {comments.map((_, index) => (
+                            <span
+                                key={index}
+                                className={index === currentIndex ? "comment-dot active" : "comment-dot"}
+                                onClick={() => setCurrentIndex(index)}
+                            ></span>
+                        ))}
+                    </div>
+
+                    <div className="comment-buttons">
+                        <button className="CommentBtn1" onClick={() => changeTestimonial("prev")}>&#10094;</button>
+                        <div style={{ width: '10px' }} />
+                        <button className="CommentBtn2" onClick={() => changeTestimonial("next")}>&#10095;</button>
+                    </div>
+                    <div className="commentBtnContainer">
+                        <button className='commentAddBtn'>Add Comment</button>
+                        <button className='commentAddBtn'>Manage Comment</button>
+                    </div>
                 </div>
-
-                <div className="comment-buttons">
-                    <button className="CommentBtn1" onClick={() => changeTestimonial("prev")}>&#10094;</button>
-                    <div style={{ width: '10px' }} />
-                    <button className="CommentBtn2" onClick={() => changeTestimonial("next")}>&#10095;</button>
-                </div>
-
-            </div>
+            ) : (
+                <div>Loading comments...</div>
+            )}
         </div>
     );
 };
