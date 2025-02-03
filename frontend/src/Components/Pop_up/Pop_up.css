@@ -1,5 +1,5 @@
 #toastBox {
-    position: absolute;
+    position: fixed;
     bottom: 30px;
     right: 30px;
     display: flex;
@@ -7,16 +7,15 @@
     flex-direction: column;
     overflow: hidden;
     padding: 20px;
+    z-index: 100;
 }
 
 .toast {
     margin: 0;
-    padding: 0;
+    padding: 10px 0;
     font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
     width: 300px;
-    height: 80px;
-    /* background: #fff; */
     backdrop-filter: blur(15px);
     font-weight: 500;
     margin: 15px 0;
@@ -43,11 +42,17 @@
     color: green;
 }
 
-.toast.error i {
+.toast.error i,
+.toast.errorPasswordCompair i,
+.toast.NotAccount i {
     color: red;
 }
 
-.toast.invalid i {
+.toast.invalid i,
+.toast.signUpInvalid i,
+.toast.haveAccount i,
+.toast.AlreadyRecovered i,
+.toast.validation i {
     color: orange;
 }
 
@@ -55,11 +60,17 @@
     color: green;
 }
 
-.toast.error {
+.toast.error,
+.toast.errorPasswordCompair,
+.toast.NotAccount {
     color: red;
 }
 
-.toast.invalid {
+.toast.invalid,
+.toast.signUpInvalid,
+.toast.haveAccount,
+.toast.AlreadyRecovered,
+.toast.validation {
     color: orange;
 }
 
@@ -80,11 +91,17 @@
     }
 }
 
-.toast.error::after {
+.toast.error::after,
+.toast.errorPasswordCompair::after,
+.toast.NotAccount::after {
     background: red;
 }
 
-.toast.invalid::after {
+.toast.invalid::after,
+.toast.signUpInvalid::after,
+.toast.haveAccount::after,
+.toast.AlreadyRecovered::after,
+.toast.validation::after {
     background: orange;
 }
 
@@ -92,4 +109,4 @@
 .toast.moveRight {
     transform: translateX(100%);
     opacity: 0;
-  }
+}

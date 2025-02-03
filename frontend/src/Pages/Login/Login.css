@@ -140,11 +140,11 @@ a:hover {
     outline: none;
     box-sizing: border-box;
     transition: 0.3s;
-    color: var(--black-color);
 }
 
 .input-field:hover {
     background-color: var(--second-color);
+    color: var(--black-color);
 }
 
 .input-field:hover~.label,

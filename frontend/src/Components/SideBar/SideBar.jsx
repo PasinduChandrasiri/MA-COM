@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
+/* eslint-disable react/jsx-pascal-case */
+import React, { useRef, useState } from 'react';
 import './SideBar.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TeamLogo from '../../Images/Team_logo.png';
+import Pop_up from "../../Components/Pop_up/Pop_up";
 
 function SideBar({ userType }) {
     const [isOpen, setIsOpen] = useState(false);
+    const popUpRef = useRef();
+    const navigate = useNavigate();
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
 
+    const exitHandler = () => {
+        localStorage.clear();
+        popUpRef.current.showToast("exit");
+        setTimeout(() => {
+            navigate("/");
+        }, 3000);
+    };
+
     // Data array for the menu items
     const menuItems = {
-        ma: [
+        ManagementAssistant: [
             { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '#' },
             { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '#' },
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
@@ -22,7 +34,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-folder', tooltip: 'Report', linkName: 'Report Manager', href: '#' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '#' },
         ],
-        lecturer: [
+        Lecturer: [
             { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '#' },
             { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '#' },
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
@@ -31,7 +43,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '#' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '#' },
         ],
-        student: [
+        Student: [
             { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '#' },
             { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '#' },
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
@@ -89,9 +101,15 @@ function SideBar({ userType }) {
                             </div>
                         )}
                     </div>
-                    <i className="bx bx-log-out" id="log_out"></i>
+                    <i
+                        className="bx bx-log-out"
+                        id="log_out"
+                        onClick={exitHandler}
+                    />
                 </li>
             </ul>
+            {/* Conditionally render PopUp */}
+            <Pop_up ref={popUpRef} />
         </div>
     );
 }
