@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import './NoticeBar.css';
 import axios from 'axios';
 
-const NoticeBar = () => {
+const NoticeBar = ({ toggle, toggle2 }) => {
     const [active, setActive] = useState();
     const [records, setRecords] = useState([]);
 
@@ -97,24 +97,26 @@ const NoticeBar = () => {
     };
 
     return (
-        <><div className="noticeSlider">
-            {loadShow()}
-            <button
-                id="noticeNext"
-                onClick={handleNext}
-            >
-                &gt;
-            </button>
-            <button
-                id="noticePrev"
-                onClick={handlePrev}
-            >
-                &lt;
-            </button>
-        </div>
+        <>
+
+            <div className="noticeSlider">
+                {loadShow()}
+                <button
+                    id="noticeNext"
+                    onClick={handleNext}
+                >
+                    &gt;
+                </button>
+                <button
+                    id="noticePrev"
+                    onClick={handlePrev}
+                >
+                    &lt;
+                </button>
+            </div>
             <div className="btnContainer">
-                <button className='noticeAddBtn'>Add Notice</button>
-                <button className='noticeAddBtn'>Manage Notice</button>
+                <button className='noticeAddBtn' onClick={toggle}>Add Notice</button>
+                <button className='noticeAddBtn' onClick={toggle2} >Manage Notice</button>
             </div>
         </>
     );

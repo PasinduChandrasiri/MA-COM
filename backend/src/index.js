@@ -39,8 +39,40 @@ app.post('/ma_system/user', (req, res) => {
 })
 
 app.post('/ma_system/forgotpassword', (req, res) => {
-    const sql = "INSERT INTO forgotpassword(`email`) VALUES (?)";
-    const values = req.body.email;
+    const sql = "INSERT INTO forgotpassword(`title`,`content`) VALUES (?)";
+    const values = [
+        req.body.title,
+        req.body.content,
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) {
+            return res.json("Error");
+        }
+        return res.json(data);
+    })
+})
+
+app.post('/ma_system/notice', (req, res) => {
+    const sql = "INSERT INTO notice(`title`,`content`) VALUES (?)";
+    const values = [
+        req.body.title,
+        req.body.content,
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) {
+            return res.json("Error");
+        }
+        return res.json(data);
+    })
+})
+
+app.post('/ma_system/comments', (req, res) => {
+    const sql = "INSERT INTO comments(`name`,`comment`,`pic`) VALUES (?)";
+    const values = [
+        req.body.name,
+        req.body.comment,
+        req.body.pic,
+    ]
     db.query(sql, [values], (err, data) => {
         if (err) {
             return res.json("Error");
@@ -70,7 +102,7 @@ app.post('/user', (req, res) => {
 
 app.post('/forgotPassword', (req, res) => {
     const { condition, email } = req.body;
-    
+
     if (condition === "check") {
         const sql = "SELECT * FROM forgotPassword WHERE `email`=?";
         db.query(sql, [email], (err, data) => {
@@ -89,7 +121,7 @@ app.post('/forgotPassword', (req, res) => {
 app.post('/notice', (req, res) => {
 
     const { condition } = req.body;
-    
+
     if (condition === "all") {
         const sql = 'SELECT * FROM notice';
 
@@ -105,7 +137,7 @@ app.post('/notice', (req, res) => {
 app.post('/comments', (req, res) => {
 
     const { condition } = req.body;
-    
+
     if (condition === "all") {
         const sql = 'SELECT * FROM comments';
 
@@ -116,4 +148,45 @@ app.post('/comments', (req, res) => {
             res.json(results);
         });
     }
+})
+
+
+//Delete queries
+app.delete('/notice/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = "DELETE FROM notice WHERE id = ?";
+    db.query(sql, id, (err, data) => {
+        if (err) {
+            return res.json("Error");
+        }
+        return res.json("Updates")
+    })
+});
+
+app.delete('/comments/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = "DELETE FROM comments WHERE id = ?";
+    db.query(sql, id, (err, data) => {
+        if (err) {
+            return res.json("Error");
+        }
+        return res.json("Updates")
+    })
+});
+
+
+//Update queries
+app.put('/notice/:id', (req, res) => {
+    const id = req.params.id;
+    const { title, content } = req.body;
+
+    const sql = "UPDATE notice SET `title` = ?, `content` = ? WHERE `id` = ?";
+    db.query(sql, [title, content, id], (err, data) => {
+        if (err) {
+            return res.json("Error");
+        }
+        return res.json("Updates")
+    })
 })

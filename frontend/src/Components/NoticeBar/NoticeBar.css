@@ -26,6 +26,7 @@
 }
 
 .noticeDescription {
+    text-align: center;
     color: white;
     font-size: 16px;
 }
@@ -63,7 +64,7 @@
 
 .btnContainer {
     display: flex;
-    width: 100vw;
+    width: 100%;
     justify-content: center;
     align-content: center;
 }
@@ -85,3 +86,4 @@
     transform: scale(1.1);
     color: white;
 }
+

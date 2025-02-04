@@ -3,7 +3,7 @@ import "./CommentPanel.css";
 import defaultImage from "../../Images/default_User.png";
 import axios from "axios";
 
-const CommentPanel = () => {
+const CommentPanel = ({ toggle3, toggle4 }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [animation, setAnimation] = useState("");
     const [comments, setComment] = useState([]);
@@ -71,8 +71,8 @@ const CommentPanel = () => {
                         <button className="CommentBtn2" onClick={() => changeTestimonial("next")}>&#10095;</button>
                     </div>
                     <div className="commentBtnContainer">
-                        <button className='commentAddBtn'>Add Comment</button>
-                        <button className='commentAddBtn'>Manage Comment</button>
+                        <button className='commentAddBtn' onClick={toggle3}>Add Comment</button>
+                        <button className='commentAddBtn' onClick={toggle4}>Manage Comment</button>
                     </div>
                 </div>
             ) : (

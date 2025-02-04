@@ -44,7 +44,8 @@
 
 .toast.error i,
 .toast.errorPasswordCompair i,
-.toast.NotAccount i {
+.toast.NotAccount i,
+.toast.GoingWrong i {
     color: red;
 }
 
@@ -62,7 +63,8 @@
 
 .toast.error,
 .toast.errorPasswordCompair,
-.toast.NotAccount {
+.toast.NotAccount,
+.toast.GoingWrong {
     color: red;
 }
 
@@ -93,7 +95,8 @@
 
 .toast.error::after,
 .toast.errorPasswordCompair::after,
-.toast.NotAccount::after {
+.toast.NotAccount::after,
+.toast.GoingWrong::after {
     background: red;
 }
 
