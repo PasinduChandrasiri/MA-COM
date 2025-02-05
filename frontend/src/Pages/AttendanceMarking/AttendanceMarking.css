@@ -1,0 +1,118 @@
+.attendance-container {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f4f4;
+}
+
+.attendance-content {
+    margin-left: 80px;
+    padding: 20px;
+    width: 100%;
+}
+
+h2 {
+    text-align: center;
+    color: #11101d;
+}
+
+.course-info {
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.course-info p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.select-all-btn {
+    display: block;
+    float: right;
+    margin: 1vh 50px 10px 0;  /* Changed from fixed left margin */
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;  /* Add relative positioning */
+    z-index: 1;  /* Ensure button stays above table */
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    clear: both;  /* Clear the float */
+}
+
+.attendance-table th, .attendance-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.attendance-table th {
+    background: #007bff;
+    color: white;
+}
+
+.attendance-table tr:hover {
+    background: #f1f1f1;
+}
+
+.submit-btn {
+    display: block;
+    width: 10%;
+    padding: 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border: 2px solid #007bff;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+input:checked + .checkmark {
+    background-color: #007bff;
+}
+
+input:checked + .checkmark:after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}

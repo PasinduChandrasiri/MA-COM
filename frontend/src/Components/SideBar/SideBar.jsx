@@ -18,7 +18,7 @@ function SideBar({ userType }) {
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
             { icon: 'bx bx-notepad', tooltip: 'Notice', linkName: 'Notice', href: '#' },
             { icon: 'bx bx-chat', tooltip: 'Request', linkName: 'Feedback', href: '#' },
-            { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '#' },
+            { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '/AttendanceMarking' },
             { icon: 'bx bx-folder', tooltip: 'Report', linkName: 'Report Manager', href: '#' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '#' },
         ],
@@ -28,7 +28,7 @@ function SideBar({ userType }) {
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
             { icon: 'bx bx-notepad', tooltip: 'Notice', linkName: 'Notice', href: '#' },
             { icon: 'bx bx-chat', tooltip: 'Request', linkName: 'Feedback', href: '#' },
-            { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '#' },
+            { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: 'AttendanceMarking' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '#' },
         ],
         student: [
@@ -37,7 +37,7 @@ function SideBar({ userType }) {
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
             { icon: 'bx bx-notepad', tooltip: 'Notice', linkName: 'Notice', href: '#' },
             { icon: 'bx bx-chat', tooltip: 'Request', linkName: 'Feedback', href: '#' },
-            { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '#' },
+            { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: 'AttendanceMarking' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '#' },
         ],
     };
