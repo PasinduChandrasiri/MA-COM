@@ -69,10 +69,10 @@ function SideBar({ userType }) {
                 {/* Render menu items dynamically */}
                 {userMenuItems.map((item, index) => (
                     <li key={index}>
-                        <a href={item.href}>
+                        <Link to={item.href}>
                             <i className={item.icon}></i>
                             {isOpen && <span className="links_name">{item.linkName}</span>}
-                        </a>
+                        </Link>
                         <span className="tooltip">{item.tooltip}</span>
                     </li>
                 ))}
@@ -84,8 +84,8 @@ function SideBar({ userType }) {
 
                         {isOpen && (
                             <div className="name_job">
-                                <div className="name">Team Thadi</div>
-                                <div className="job">Web designer</div>
+                                <div className="name">Admin Hub</div>
+                                <div className="job">Web designing</div>
                             </div>
                         )}
                     </div>
