@@ -6,8 +6,19 @@ const Pop_up = forwardRef((props, ref) => {
 
     const messages = {
         success: '<i class="fa-solid fa-circle-check"></i> Successfully Logged in',
-        error: '<i class="fa-solid fa-circle-xmark"></i> Please fix the error',
+        exit: '<i class="fa-solid fa-circle-check"></i> Successfully Logged out',
+        accountCreate: '<i class="fa-solid fa-circle-check"></i> Account created Successfully',
+        Recovered: '<i class="fa-solid fa-circle-check"></i> Request submitted successfully',
+
+        error: '<i class="fa-solid fa-circle-xmark"></i> Password is incorrect',
+        errorPasswordCompair: '<i class="fa-solid fa-circle-xmark"></i> Password and confirm password are different',
+        NotAccount: '<i class="fa-solid fa-circle-xmark"></i> Account is not available. Please sign up!',
+
         invalid: '<i class="fa-solid fa-circle-exclamation"></i> Invalid input, check again',
+        AlreadyRecovered: '<i class="fa-solid fa-circle-exclamation"></i> Already submitted a request',
+        signUpInvalid: '<i class="fa-solid fa-circle-exclamation"></i> Some field(s) are empty, check again',
+        haveAccount: '<i class="fa-solid fa-circle-exclamation"></i> Already have account using this email',
+        validation: '<i class="fa-solid fa-circle-exclamation"></i> Password length should be at least 8 characters, lowercase, uppercase and symbols',
     };
 
     const showToast = (type) => {
@@ -26,7 +37,7 @@ const Pop_up = forwardRef((props, ref) => {
 
             setTimeout(() => {
                 setToasts((prevToasts) => prevToasts.filter((t) => t.id !== toast.id));
-            }, 500); 
+            }, 500);
         }, 4000);
     };
 

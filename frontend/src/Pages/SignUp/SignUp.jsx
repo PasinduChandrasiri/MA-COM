@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+/* eslint-disable react/jsx-pascal-case */
+import React, { useRef, useState } from "react";
 import "./SignUp.css";
 import 'boxicons/css/boxicons.min.css';
 import { Link, useNavigate } from "react-router-dom";
 import DropdownMenu from "../../Components/DropdownSelector/DropdownSelector";
+import Pop_up from "../../Components/Pop_up/Pop_up";
+import axios from 'axios';
 
 const SignUp = () => {
+    const popUpRef = useRef();
+
     const [formData, setFormData] = useState({
+        condition: "",
         firstName: "",
         secondName: "",
         profession: "",
@@ -14,6 +20,7 @@ const SignUp = () => {
         password: "",
         confirmPassword: ""
     });
+
     const profession = ["Profession", "Student", "Lecturer", "Management Assistant"];
     const semester = ["Semester", "5th Semester", "5th Extended Semester", "6th Semester", "7th Semester", "8th Semester"];
 
@@ -27,6 +34,33 @@ const SignUp = () => {
         }));
     };
 
+    const validatePassword = (password) => {
+        const passwordLength = password.length >= 8;
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasLowercase = /[a-z]/.test(password);
+        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        if (!passwordLength) {
+            return "Password must be at least 8 characters.";
+        }
+        if (!hasUppercase || !hasLowercase) {
+            return "Password must contain both uppercase and lowercase letters.";
+        }
+        if (!hasSpecialChar) {
+            return "Password must contain at least one special character.";
+        }
+
+        return "";
+    };
+
+    const handleBlurPassword = () => {
+        const password = formData.password;
+        const error = validatePassword(password);
+        if(error !== ""){
+            popUpRef.current.showToast("validation");
+        }
+    };
+
     const handleDropdownChange = (key, selectedOption) => {
         setFormData((prevData) => ({
             ...prevData,
@@ -36,8 +70,39 @@ const SignUp = () => {
 
     const handleCreateAccount = (e) => {
         e.preventDefault();
-        console.log("Form Data:", formData);
-        navigate("/");
+
+        if (formData.firstName === "" || formData.secondName === "" || formData.profession === "" || formData.semester === "" || formData.email === "" || formData.password === "" || formData.confirmPassword === ""
+        ) {
+            //If there empty fields
+            popUpRef.current.showToast("signUpInvalid");
+        } else {
+            //checking account available
+            axios.post('http://localhost:8081/user', {
+                condition: "normal",
+                email: formData.email
+            })
+                .then(res => {
+                    if (res.data.length > 0 && res.data[0].email === formData.email) {
+                        popUpRef.current.showToast("haveAccount");
+                    }
+                    //checking password and confirm password are same
+                    else if (formData.password === formData.confirmPassword) {
+                        axios.post('http://localhost:8081/ma_system/user', formData)
+                            .then(res => {
+                                console.log("Form Data:", formData);
+                                popUpRef.current.showToast("accountCreate");
+                                setTimeout(() => {
+                                    navigate("/");
+                                }, 3000);
+                            })
+                            .catch(err => console.log(err));
+                    }
+                    else {
+                        popUpRef.current.showToast("errorPasswordCompair");
+                    }
+                })
+                .catch(err => console.log(err));
+        }
     };
 
     return (
@@ -111,6 +176,7 @@ const SignUp = () => {
                                 className="input-field_SU"
                                 value={formData.password}
                                 onChange={handleInputChange}
+                                onBlur={handleBlurPassword}
                                 required
                             />
                             <label htmlFor="password" className="label_SU">Password</label>
@@ -130,7 +196,6 @@ const SignUp = () => {
                             <i className="bx bx-lock-alt icon"></i>
                         </div>
 
-
                         <div className="input_box_SU">
                             <input
                                 type="submit"
@@ -148,6 +213,8 @@ const SignUp = () => {
                     </div>
                 </div>
             </div>
+            {/* Conditionally render PopUp */}
+            <Pop_up ref={popUpRef} />
         </div>
     );
 };
