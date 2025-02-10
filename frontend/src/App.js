@@ -10,7 +10,7 @@ function App() {
       <Route path='/ContactUs' element={<ContactUs />} />
       <Route path='/ForgotPassword' element={<ForgotPassword />} />
       <Route path='/SignUp' element={<SignUp />} />
-      </Routes>
+    </Routes>
   );
 }
 

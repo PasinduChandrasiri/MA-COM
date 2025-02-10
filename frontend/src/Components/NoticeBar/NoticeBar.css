@@ -26,6 +26,7 @@
 }
 
 .noticeDescription {
+    text-align: center;
     color: white;
     font-size: 16px;
 }
@@ -60,3 +61,29 @@
 #noticeNext:hover {
     opacity: 1;
 }
+
+.btnContainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-content: center;
+}
+
+.noticeAddBtn {
+    margin: 0rem 1rem;
+    color: #000000;
+    font: bold;
+    background-color: #575477;
+    padding: 0.6rem;
+    border-radius: 20px;
+    transition-duration: 0.5s;
+    animation: ease-in-out;
+    cursor: pointer;
+}
+
+.noticeAddBtn:hover {
+    background-image: linear-gradient(to left, #35315c, #000000);
+    transform: scale(1.1);
+    color: white;
+}
+

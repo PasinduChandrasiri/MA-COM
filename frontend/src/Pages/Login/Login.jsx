@@ -38,7 +38,9 @@ const Login = () => {
                     popUpRef.current.showToast("error");
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                popUpRef.current.showToast("NotAccount");
+            })
     };
 
 return (

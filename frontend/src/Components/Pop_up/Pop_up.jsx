@@ -9,10 +9,15 @@ const Pop_up = forwardRef((props, ref) => {
         exit: '<i class="fa-solid fa-circle-check"></i> Successfully Logged out',
         accountCreate: '<i class="fa-solid fa-circle-check"></i> Account created Successfully',
         Recovered: '<i class="fa-solid fa-circle-check"></i> Request submitted successfully',
+        addNotice: '<i class="fa-solid fa-circle-check"></i> Notice added successfully',
+        update: '<i class="fa-solid fa-circle-check"></i> Updated successfully',
+        delete: '<i class="fa-solid fa-circle-check"></i> Deleted successfully',
+        addComment: '<i class="fa-solid fa-circle-check"></i> Comment added successfully',
 
         error: '<i class="fa-solid fa-circle-xmark"></i> Password is incorrect',
         errorPasswordCompair: '<i class="fa-solid fa-circle-xmark"></i> Password and confirm password are different',
         NotAccount: '<i class="fa-solid fa-circle-xmark"></i> Account is not available. Please sign up!',
+        GoingWrong: '<i class="fa-solid fa-circle-xmark"></i> Something went wrong!',
 
         invalid: '<i class="fa-solid fa-circle-exclamation"></i> Invalid input, check again',
         AlreadyRecovered: '<i class="fa-solid fa-circle-exclamation"></i> Already submitted a request',
