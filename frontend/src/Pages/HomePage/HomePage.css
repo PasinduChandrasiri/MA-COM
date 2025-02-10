@@ -1,0 +1,353 @@
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.homeContainer {
+    margin-left: 78px;
+    /* padding-right: 78px; */
+    background-image: url("../../Images/Backgroud.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* z-index: -1;
+    mask-image: url("../../Images/open.gif");
+    mask-size: cover;
+    mask-position: center; */
+}
+
+.cardProfileContainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.cardProfile {
+    display: flex;
+    flex-direction: row;
+    width: 600px;
+    /* background: white; */
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    box-shadow: 0px 2px 15px rgb(63, 63, 63);
+    overflow: hidden;
+}
+
+.cardProfileUpper {
+    height: 100%;
+    width: 150px;
+    background: linear-gradient(to left, #35315c, #000000);
+}
+
+.cardProfileImage .profilePic {
+    background: white;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    padding: 5px;
+    transform: translate(65px, 70px);
+}
+
+.profilePic {
+    border: 2px solid #454265;
+}
+
+.cardProfileLower {
+    margin: 50px 0px;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Titillium Web', 'sans-serif';
+}
+
+.cardProfileLower h3,
+h4,
+.profilePara {
+    margin: 0;
+    padding: 0;
+}
+
+.cardProfileLower h3 {
+    color: #302f2f;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.cardProfileLower h4 {
+    color: #59586b;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.cardProfileLower .profilePara {
+    margin: 1rem;
+    font-family: 'sans-serif';
+    color: #4b4b4b;
+    font-size: 0.9rem;
+    line-height: 0.5;
+}
+
+.profileVisitBtn {
+    margin: 0rem 1rem;
+    color: #000000;
+    font: bold;
+    background-color: #575477;
+    padding: 0.6rem;
+    border-radius: 20px;
+    transition-duration: 0.5s;
+    animation: ease-in-out;
+    cursor: pointer;
+}
+
+.profileVisitBtn:hover {
+    background-image: linear-gradient(to left, #35315c, #000000);
+    transform: scale(1.1);
+    color: white;
+}
+
+.container {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100vh;
+    transition: 0.5s;
+    z-index: 19;
+}
+
+.container.blur {
+    filter: blur(20px);
+    pointer-events: none;
+    user-select: none;
+}
+
+#popup {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    padding: 50px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 20;
+    border-radius: 10px;
+    margin-left: 39px;
+}
+
+#popup.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+#popup2 {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    padding: 50px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 20;
+    margin-left: 39px;
+}
+
+#popup2.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+#popup3 {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    padding: 50px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 20;
+    margin-left: 39px;
+    border-radius: 10px;
+}
+
+#popup3.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+#popup4 {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    padding: 50px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 20;
+    margin-left: 39px;
+}
+
+#popup4.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.addNoticeForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.addNoticeH2 {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+    padding: 0;
+}
+
+.addNoticeInput {
+    padding: 10px 0;
+    padding-left: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.addNoticeButton {
+    border-radius: 5px;
+    padding: 8px 15px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    background: #000;
+    border: none;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.homeCloseBtn {
+    border-radius: 5px;
+    padding: 0px 15px;
+    height: 35px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    background: #000;
+    border: none;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.addNoticeButton:hover,
+.homeCloseBtn:hover {
+    background: #35315c;
+}
+
+.HomeTableContainer {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+}
+
+.homeTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.homeTR {
+    background-color: #f2f2f2;
+    color: #000;
+    position: sticky;
+    top: 0;
+}
+
+.homeTH {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+.homeTD {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.homeTableInput {
+    width: 100%;
+    padding: 5px;
+    border: none;
+}
+
+.homeTableTextarea {
+    width: 100%;
+    padding: 5px;
+    height: 50px;
+    border: none;
+    overflow-y: hidden;
+    resize: none;
+}
+
+.homeTableUpdateBtn {
+    margin-right: 10px;
+    background: blue;
+    color: white;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.5s;
+}
+.homeTableUpdateBtn:hover {
+    background: rgb(0, 0, 116);
+}
+
+.homeTableDeleteBtn {
+    background: red;
+    color: white;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.5s;
+}
+
+.homeTableDeleteBtn:hover {
+    background: rgb(116, 1, 1);
+}
+.homeTablePic {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 4px solid #35315c;
+    object-fit: cover;
+    margin-top: 5px;
+}
