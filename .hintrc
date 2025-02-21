@@ -12,7 +12,9 @@
           "mask-size",
           "mask-image",
           "mask-repeat",
-          "user-select"
+          "user-select",
+          "scrollbar-width",
+          "scrollbar-width: none"
         ]
       }
     ]
