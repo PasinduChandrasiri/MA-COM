@@ -19,16 +19,27 @@ app.listen(8081, () => {
 
 //Insert queries
 app.post('/ma_system/user', (req, res) => {
-    const sql = "INSERT INTO user(`f_Name`,`l_Name`,`profession`,`semester`,`email`,`password`,`about`,`pic`) VALUES (?)";
+    const sql = "INSERT INTO user(`f_Name`,`l_Name`,`profession`,`semester`,`regNo`,`email`,`password`,`about`,`pic`,`subject1`,`subject2`,`subject3`,`subject4`,`subject5`,`subject6`,`subject7`,`subject8`,`subject9`,`subject10`) VALUES (?)";
     const values = [
         req.body.firstName,
         req.body.secondName,
         req.body.profession,
         req.body.semester,
+        req.body.regNo,
         req.body.email,
         req.body.password,
         "No more details",
         "",
+        req.body.subject1,
+        req.body.subject2,
+        req.body.subject3,
+        req.body.subject4,
+        req.body.subject5,
+        req.body.subject6,
+        req.body.subject7,
+        req.body.subject8,
+        req.body.subject9,
+        req.body.subject10,
     ]
     db.query(sql, [values], (err, data) => {
         if (err) {
@@ -150,6 +161,23 @@ app.post('/comments', (req, res) => {
     }
 })
 
+app.post('/subjects', (req, res) => {
+    const { condition, semester } = req.body;
+
+    if (condition === "subject") {
+        const sql = "SELECT * FROM subjects WHERE `semester`=?";
+        db.query(sql, [semester], (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
 
 //Delete queries
 app.delete('/notice/:id', (req, res) => {
@@ -190,3 +218,19 @@ app.put('/notice/:id', (req, res) => {
         return res.json("Updates")
     })
 })
+
+app.put('/user/:id', (req, res) => {
+    const userId = req.params.id;
+    const { password, condition } = req.body;
+
+    if (condition === "pwdRecovery") {
+        const sql = "UPDATE user SET `password` = ? WHERE `id` = ?";
+        db.query(sql, [password, userId], (err, data) => {
+            if (err) {
+                return res.json("Error");
+            }
+            return res.json("Updates")
+        })
+    }
+})
+

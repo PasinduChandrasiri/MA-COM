@@ -54,6 +54,7 @@ function HomePage() {
   const [email, setEmail] = useState(localStorage.getItem('email'));
   const [semester, setSemester] = useState(localStorage.getItem('semester'));
   const [profession, setProfession] = useState(localStorage.getItem('profession'));
+  const [regNo, setRegNo] = useState(localStorage.getItem('regNo'));
   const [about, setAbout] = useState(localStorage.getItem('about'));
   const [pic, setPic] = useState("");
 
@@ -219,6 +220,7 @@ function HomePage() {
                 <h4>{email}</h4>
                 <p className='profilePara'>Semester: {semester}</p>
                 <p className='profilePara'>Profession: {profession}</p>
+                <p className='profilePara'>Registration Number: {regNo}</p>
                 <p className='profilePara'>{about}</p>
                 <button className='profileVisitBtn'>Visit Profile</button>
               </div>
