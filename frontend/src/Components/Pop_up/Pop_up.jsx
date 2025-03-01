@@ -6,6 +6,7 @@ const Pop_up = forwardRef((props, ref) => {
 
     const messages = {
         success: '<i class="fa-solid fa-circle-check"></i> Successfully Logged in',
+        submit: '<i class="fa-solid fa-circle-check"></i> Submitted successfully',
         exit: '<i class="fa-solid fa-circle-check"></i> Successfully Logged out',
         accountCreate: '<i class="fa-solid fa-circle-check"></i> Account created Successfully',
         Recovered: '<i class="fa-solid fa-circle-check"></i> Request submitted successfully',
