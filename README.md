@@ -33,7 +33,7 @@ The Management Assistant Web Application for the Computer Engineering Department
    ✅ **Tailwind CSS**
   
 - ### **Database**
- **Mysql**  
+  **Mysql**  
 
 
 ---
