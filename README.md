@@ -13,8 +13,7 @@ The Management Assistant Web Application for the Computer Engineering Department
 - Maintain feedback management system for lecturers and courses.
 - Digitize the process of recording non-academic details, leaves, payments making it more accessible and faster.
 - Introduce an efficient petty cash handling and recording system.
-- Provide department hall details and lecture venues.
-- Create a digital notice board.
+- Insight about the file handling inside the faculty
 
 ---
 
