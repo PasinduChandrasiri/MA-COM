@@ -27,6 +27,11 @@ The Management Assistant Web Application for the Computer Engineering Department
 
 - ### **Framework**  
    ✅ **React JS**
+   ✅ **Express JS**
+   ✅ **Tailwind CSS**
+- ### **Database**
+- **Mysql**  
+
 
 ---
 
