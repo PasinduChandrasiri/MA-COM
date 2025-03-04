@@ -1,11 +1,53 @@
+// import React, { useState } from 'react';
+// import { Link } from 'react-router-dom';
+// import '../SideBar/SideBar.css';
+
+// function SideBarAttendance() {
+//     const [isOpen, setIsOpen] = useState(false);
+
+//     const toggleSidebar = () => {
+//         setIsOpen(!isOpen);
+//     };
+
+//     return (
+//         <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+//             <div className="logo-details">
+//                 <div className="logo_name">Attendance</div>
+//                 <i
+//                     className={`bx ${isOpen ? 'bx-menu-alt-right' : 'bx-menu'}`}
+//                     id="btn"
+//                     onClick={toggleSidebar}
+//                 ></i>
+//             </div>
+
+//             <ul className="nav-list">
+//                 <li>
+//                     <Link to="/HomePage">
+//                         <i className="bx bx-home"></i>
+//                         {isOpen && <span className="links_name">Back to Homepage</span>}
+//                     </Link>
+//                 </li>
+//                 <li>
+//                     <Link to="/logout">
+//                         <i className="bx bx-log-out"></i>
+//                         {isOpen && <span className="links_name" >Logout</span>}
+//                     </Link>
+//                 </li>
+//             </ul>
+//         </div>
+//     );
+// }
+
+// export default SideBarAttendance;
+
 /* eslint-disable react/jsx-pascal-case */
 import React, { useRef, useState } from 'react';
-import './SideBar.css';
+import '../SideBar/SideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import TeamLogo from '../../Images/Team_logo.png';
 import Pop_up from "../../Components/Pop_up/Pop_up";
 
-function SideBar({ userType }) {
+function SideBarAttendance({ userType }) {
     const [isOpen, setIsOpen] = useState(false);
     const popUpRef = useRef();
     const navigate = useNavigate();
@@ -29,7 +71,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '#' },
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
             { icon: 'bx bx-notepad', tooltip: 'Notice', linkName: 'Notice', href: '#' },
-            { icon: 'bx bx-chat', tooltip: 'Feedback', linkName: 'Feedback', href: '/Feedback' },
+            { icon: 'bx bx-chat', tooltip: 'Request', linkName: 'Feedback', href: '#' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '/AttendanceMarking' },
             { icon: 'bx bx-folder', tooltip: 'Report', linkName: 'Report Manager', href: '#' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '#' },
@@ -39,7 +81,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '#' },
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
             { icon: 'bx bx-notepad', tooltip: 'Notice', linkName: 'Notice', href: '#' },
-            { icon: 'bx bx-chat', tooltip: 'Feedback', linkName: 'Feedback', href: '/Feedback' },
+            { icon: 'bx bx-chat', tooltip: 'Request', linkName: 'Feedback', href: '#' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: 'AttendanceMarking' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '#' },
         ],
@@ -48,7 +90,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '#' },
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
             { icon: 'bx bx-notepad', tooltip: 'Notice', linkName: 'Notice', href: '#' },
-            { icon: 'bx bx-chat', tooltip: 'Feedback', linkName: 'Feedback', href: '/Feedback' },
+            { icon: 'bx bx-chat', tooltip: 'Request', linkName: 'Feedback', href: '#' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: 'AttendanceMarking' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '#' },
         ],
@@ -114,4 +156,5 @@ function SideBar({ userType }) {
     );
 }
 
-export default SideBar;
+export default SideBarAttendance;
+
