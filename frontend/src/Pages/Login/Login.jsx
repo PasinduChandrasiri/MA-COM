@@ -28,7 +28,8 @@ const Login = () => {
                     localStorage.setItem('semester', res.data[0].semester);
                     localStorage.setItem('profession', res.data[0].profession);
                     localStorage.setItem('about', res.data[0].about);                    
-                    localStorage.setItem('pic', res.data[0].pic);            
+                    localStorage.setItem('pic', res.data[0].pic);
+                    localStorage.setItem('id', res.data[0].id);            
 
                     setTimeout(() => {
                         navigate("/HomePage");

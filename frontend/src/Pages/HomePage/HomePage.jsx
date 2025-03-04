@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./HomePage.css"
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import SideBar from '../../Components/SideBar/SideBar';
 import Footer from '../../Components/Footer/Footer';
 import Pop_up from '../../Components/Pop_up/Pop_up';
