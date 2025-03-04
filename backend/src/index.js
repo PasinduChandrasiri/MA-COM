@@ -21,8 +21,8 @@ db.connect((err) => {
     console.log("Successfully connected to database");
 });
 
-app.listen(8082, () => {
-    console.log("Server is running on port 8082");
+app.listen(8081, () => {
+    console.log("Server is running on port 8081");
 })
 
 // Insert queries
@@ -373,7 +373,7 @@ app.delete('/comments/:id', (req, res) => {
             return res.json("Error");
         }
         return res.json("Updates")
-    })
+    }) 
 });
 
 // Update queries
