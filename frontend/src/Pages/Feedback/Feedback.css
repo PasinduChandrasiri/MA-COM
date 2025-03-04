@@ -1,0 +1,275 @@
+/* Hide scrollbar */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Main feedback container */
+.feedback-container {
+    margin-left: 78px;
+    /*padding-right: 78px;*/
+    background-image: url("../../Images/Backgroud.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* z-index: -1;
+    mask-image: url("../../Images/open.gif");
+    mask-size: cover;
+    mask-position: center; */
+}
+
+/* Feedback section container */
+.feedback-section {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 2000px;
+    gap: 15px;
+}
+
+/* Common styling for feedback inside */
+.feedback-inside {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    align-items: center;
+}
+
+/* Different colors for different professions */
+.managing-assistant {
+    border-left: 5px solid #e67e22;
+    /* Orange */
+}
+
+.lecturer {
+    border-left: 5px solid #27ae60;
+    /* Green */
+}
+
+.student {
+    border-left: 5px solid #9b59b6;
+    /* Purple */
+}
+
+/* Feedback section headers */
+.feedback-inside-h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* css for editing */
+.card-container {
+    width: 60%;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    justify-content: center;
+}
+
+.card-section {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.create-button-container {
+    display: flex;
+    justify-content: right;
+    margin-top: 20px;
+}
+.create-button{
+    background-color: #9b59b6;
+    border-radius: 10px;
+    border: none;
+    padding: 5px;
+    margin-right: 45px;
+}
+
+.feedback-inside-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #107e44;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.feedback-inside-button:hover {
+    background-color: #0056b3;
+}
+
+.feedback-form {
+    padding: 10px;
+}
+
+.feedback-form-h2 {
+    text-align: center;
+    color: #333;
+}
+
+.feedback-form-ul {
+    list-style: none;
+    padding: 0;
+}
+
+.feedback-form-li {
+    background: #e9ecef;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.feedback-form-li-button {
+    background-color: #28a745;
+}
+
+.feedback-form-li-button:hover {
+    background-color: #218838;
+}
+
+/* Modal Styling */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    width: 50%;
+}
+
+.modal-h3 {
+    margin-bottom: 10px;
+}
+
+.modal-textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+.modal-button {
+    margin: 10px 5px 0;
+}
+
+.second-div {
+    display: flex;
+    height: 500px;
+    width: 100%;
+    background-color: blue;
+    z-index: 0;
+    margin-top: -300px;
+    display: none;
+}
+.feedback-form-table-row {
+    font-display: bold;
+    color: #000;
+    padding: 10px;
+}
+
+.feedback-form-table-row:hover {
+    background-color: #f1f1f1;
+}
+
+.feedback-form-table-row:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.feedback-form-table-row-heading {
+    font-display: bold;
+    color: #000000;
+    padding: 20px; 
+    text-align: center;
+    width: 10px;
+}
+
+.feedback-form-table-data {
+    padding: 10px;
+    width: 70%;
+}
+
+.feedback-form-table-data-button {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    align-items: center;
+    align-content: space-between;
+}
+
+.action-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+    margin-right: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+} 
+
+/* Student css */
+
+.legend {
+    display: flex;
+    justify-content: left;
+    margin-top: 5px;
+    flex-direction: column;
+}
+
+.CFtext {
+    margin-left: 15px;
+    font-size: 15px;
+    color: #000000;
+    /* margin-bottom: 10px; */
+}
+
+.form-submit-button{
+    background-color: #9b59b6;
+    border-radius: 10px;
+    border: none;
+    padding: 5px;
+    margin-right: 45px;
+}
+
+.feedback-checkbox {
+    margin-right: 10px;
+}
+
+.dropdown-option{
+    color: #000000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.modal-h3 {
+    color: #000000;
+}
