@@ -1,0 +1,206 @@
+.attendance-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f4f4f4;
+}
+
+.attendance-content {
+    flex: 1;
+    margin-left: 80px;
+    padding: 20px;
+    width: 90%;
+    padding-bottom: 440px;
+}
+
+h2 {
+    text-align: center;
+    color: #11101d;
+}
+
+.course-info {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0)), url('../../Images/Attendance/attendance_marking_bg.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right center;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    color: black;
+}
+
+.course-info .info-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.course-info .info-row label {
+    margin-right: 10px;
+}
+
+.course-info .info-row input[type="date"],
+.course-info .info-row select {
+    margin-left: 10px;
+}
+
+.course-info .info-row:nth-child(1) { margin-bottom: 1px; } /* Subject */
+.course-info .info-row:nth-child(2) { margin-bottom: 15px; } /* Lecturer */
+.course-info .info-row:nth-child(3) { margin-bottom: 5px; } /* Date */
+.course-info .info-row:nth-child(4) { margin-bottom: 15px; } /* Time Slot */
+
+.course-info .info-row:nth-child(1) label { margin-right: 20px; } /* Subject */
+.course-info .info-row:nth-child(3) label { margin-right: 73.5px; } /* Date */
+.course-info .info-row:nth-child(4) label { margin-right: 36.5px; } /* Time Slot */
+
+.lecname {
+    margin-left: 54px;
+}
+
+.course-info p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.table-controls {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.select-all-btn {
+    display: inline-block;
+    position: relative;
+    right: calc(10% + 10px);
+    margin: 1vh;
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1;
+    font-weight: bold;
+    transition-duration: 0.5s;
+    animation: ease-in-out;
+    border-color: #0056b3;
+}
+
+.select-all-btn:hover {
+    background-image: linear-gradient(to left, #007bff, #0056b3);
+    transform: scale(1.1);
+    color: white;
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    clear: both;
+    color: black;
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.attendance-table th {
+    background: #007bff;
+    color: white;
+}
+
+.attendance-table tr:hover {
+    background: #f1f1f1;
+}
+
+.submit-btn {
+    display: block;
+    width: 10%;
+    padding: 10px;
+    margin-top: 15px;
+    background: #28a745;
+    color: white;
+    font: bold;
+    border-radius: 5px;
+    transition-duration: 0.5s;
+    animation: ease-in-out;
+    cursor: pointer;
+    border-color: #218838;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.submit-btn:hover {
+    background-image: linear-gradient(to left, #28a745, #218838);
+    transform: scale(1.1);
+    color: white;
+}
+
+.radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border: 2px solid #007bff;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+input:checked+.checkmark {
+    background-color: #007bff;
+}
+
+input:checked+.checkmark:after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.time-slot-select {
+    padding: 0.5rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    min-width: 200px;
+}
+
+.time-slot-select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.submit-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.footer {
+    margin-top: auto;
+}
