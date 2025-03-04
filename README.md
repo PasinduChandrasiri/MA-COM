@@ -24,15 +24,17 @@ The Management Assistant Web Application for the Computer Engineering Department
 
    ✅ **Visual Studio Code**  
 
-- ### **Framework**  
+- ### **Tech stack**  
    ✅ **React JS**
+
+   ✅ **Node JS**
   
    ✅ **Express JS**
   
    ✅ **Tailwind CSS**
   
 - ### **Database**
-  **Mysql**  
+   ✅ **Mysql**  
 
 
 ---
