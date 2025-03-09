@@ -11,7 +11,6 @@ The Management Assistant Web Application for the Computer Engineering Department
 ## 🌟 **Objectives**  
 - Provide an automated student attendance tracking system, ensuring efficient record-keeping and easy access to attendance summaries.
 - Maintain feedback management system for lecturers and courses.
-- Digitize the process of recording non-academic details, leaves, payments making it more accessible and faster.
 - Introduce an efficient petty cash handling and recording system.
 - Insight about the file handling inside the faculty
 
