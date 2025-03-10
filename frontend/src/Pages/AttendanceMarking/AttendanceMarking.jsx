@@ -3,6 +3,7 @@ import SideBar from '../../Components/SideBar/SideBar';
 import DropDownSelector from '../../Components/CourseDropDownSelector/CourseDropDownSelector';
 import Pop_up from '../../Components/Pop_up/Pop_up';
 import Footer from '../../Components/Footer/Footer';
+import Header from '../../Components/Header/Header';
 import './AttendanceMarking.css';
 
 const AttendanceMarking = () => {
@@ -188,101 +189,104 @@ const AttendanceMarking = () => {
     }
 
     return (
-        <div className="attendance-container">
-            <SideBar />
-            <div className="attendance-content">
-                <h2>Attendance Marking Sheet (MA)</h2>
-                <div className="course-info">
-                    <div className="info-row">
-                        <DropDownSelector
-                            title="Subject"
-                            options={subjectOptions}
-                            value={selectedSubject}
-                            onChange={setSelectedSubject}
-                        />
+        <>
+            <Header />
+            <div className="attendance-container">
+                <SideBar />
+                <div className="attendance-content">
+                    <h2>Attendance Marking Sheet (MA)</h2>
+                    <div className="course-info">
+                        <div className="info-row">
+                            <DropDownSelector
+                                title="Subject"
+                                options={subjectOptions}
+                                value={selectedSubject}
+                                onChange={setSelectedSubject}
+                            />
+                        </div>
+
+                        {subjectInfo && (
+                            <>
+                                <div className="info-row">
+                                    <p><strong>Lecturer:</strong><label className='lecname'>{subjectInfo.lecturer}</label> </p>
+                                </div>
+                                <div className="info-row">
+                                    <label><strong>Date:</strong></label>
+                                    <input
+                                        type="date"
+                                        value={currentDate}
+                                        onChange={(e) => setCurrentDate(e.target.value)}
+                                    />
+                                </div>
+                                <div className="info-row">
+                                    <label><strong>Time Slot:</strong></label>
+                                    <select
+                                        value={selectedTimeSlot}
+                                        onChange={(e) => setSelectedTimeSlot(e.target.value)}
+                                        className="time-slot-select"
+                                    >
+                                        <option value="">Select Time Slot</option>
+                                        {timeSlots.map((slot, index) => (
+                                            <option key={index} value={`${slot.startTime}-${slot.endTime}`}>
+                                                {slot.startTime} - {slot.endTime}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </>
+                        )}
                     </div>
-    
-                    {subjectInfo && (
+
+                    {selectedTimeSlot && (
                         <>
-                            <div className="info-row">
-                                <p><strong>Lecturer:</strong><label className='lecname'>{subjectInfo.lecturer}</label> </p>
+                            <div className="table-controls">
+                                <button className="select-all-btn" onClick={handleSelectAll}>
+                                    {Object.values(attendance).every((val) => val) ? 'Deselect All' : 'Select All'}
+                                </button>
                             </div>
-                            <div className="info-row">
-                                <label><strong>Date:</strong></label>
-                                <input
-                                    type="date"
-                                    value={currentDate}
-                                    onChange={(e) => setCurrentDate(e.target.value)}
-                                />
-                            </div>
-                            <div className="info-row">
-                                <label><strong>Time Slot:</strong></label>
-                                <select
-                                    value={selectedTimeSlot}
-                                    onChange={(e) => setSelectedTimeSlot(e.target.value)}
-                                    className="time-slot-select"
-                                >
-                                    <option value="">Select Time Slot</option>
-                                    {timeSlots.map((slot, index) => (
-                                        <option key={index} value={`${slot.startTime}-${slot.endTime}`}>
-                                            {slot.startTime} - {slot.endTime}
-                                        </option>
+                            <table className="attendance-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Reg Number</th>
+                                        <th>Name</th>
+                                        <th>Attendance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {students.map((student, index) => (
+                                        <tr key={student.regNo}>
+                                            <td>{index + 1}</td>
+                                            <td>{student.regNo}</td>
+                                            <td>{student.name}</td>
+                                            <td>
+                                                <label className="radio-container">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={attendance[student.regNo]}
+                                                        onChange={() => handleAttendanceChange(student.regNo)}
+                                                    />
+                                                    <span className="checkmark"></span>
+                                                </label>
+                                            </td>
+                                        </tr>
                                     ))}
-                                </select>
-                            </div>
+                                </tbody>
+                            </table>
+                            <button
+                                className="submit-btn"
+                                onClick={handleSubmit}
+                                disabled={!selectedTimeSlot}
+                            >
+                                Submit
+                            </button>
                         </>
                     )}
                 </div>
-    
-                {selectedTimeSlot && (
-                    <>
-                        <div className="table-controls">
-                            <button className="select-all-btn" onClick={handleSelectAll}>
-                                {Object.values(attendance).every((val) => val) ? 'Deselect All' : 'Select All'}
-                            </button>
-                        </div>
-                        <table className="attendance-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Reg Number</th>
-                                    <th>Name</th>
-                                    <th>Attendance</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {students.map((student, index) => (
-                                    <tr key={student.regNo}>
-                                        <td>{index + 1}</td>
-                                        <td>{student.regNo}</td>
-                                        <td>{student.name}</td>
-                                        <td>
-                                            <label className="radio-container">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={attendance[student.regNo]}
-                                                    onChange={() => handleAttendanceChange(student.regNo)}
-                                                />
-                                                <span className="checkmark"></span>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        <button
-                            className="submit-btn"
-                            onClick={handleSubmit}
-                            disabled={!selectedTimeSlot}
-                        >
-                            Submit
-                        </button>
-                    </>
-                )}
+                <Pop_up ref={popUpRef} />
+                <Footer className="footer" />
             </div>
-            <Pop_up ref={popUpRef} />
-            <Footer className="footer" />
-        </div>
+        </>
     );
 };
 
