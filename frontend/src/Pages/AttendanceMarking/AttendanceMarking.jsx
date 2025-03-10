@@ -56,7 +56,7 @@ const AttendanceMarking = () => {
                 setLoading(false);
                 return;
             }
-
+    
             setLoading(true);
             try {
                 console.log('Fetching subject details for:', selectedSubject);
@@ -67,25 +67,31 @@ const AttendanceMarking = () => {
                 const data = await response.json();
                 console.log('Received subject data:', data);
                 console.log('Time slots received:', data.timeSlots);
-
+    
                 if (!data.subject) {
                     throw new Error('No subject data received');
                 }
-
+    
                 setSubjectInfo({
                     subjectId: data.subject.subjectId,
                     subjectName: data.subject.subjectName,
                     lecturer: data.subject.lecturer
                 });
-
+    
                 setTimeSlots(data.timeSlots || []);
-                setStudents(data.students?.map(student => ({
-                    regNo: student.regNo,
-                    name: `${student.f_Name} ${student.l_Name}`
-                })) || []);
-
-                // Initialize attendance
-                const initialAttendance = (data.students || []).reduce(
+                
+                // Sort students by registration number alphabetically before setting state
+                const sortedStudents = (data.students || [])
+                    .map(student => ({
+                        regNo: student.regNo,
+                        name: `${student.f_Name} ${student.l_Name}`
+                    }))
+                    .sort((a, b) => a.regNo.localeCompare(b.regNo));
+                    
+                setStudents(sortedStudents);
+    
+                // Initialize attendance with sorted student data
+                const initialAttendance = sortedStudents.reduce(
                     (acc, student) => ({ ...acc, [student.regNo]: false }),
                     {}
                 );
@@ -98,7 +104,7 @@ const AttendanceMarking = () => {
                 setLoading(false);
             }
         };
-
+    
         fetchData();
     }, [selectedSubject]);
 
@@ -194,7 +200,7 @@ const AttendanceMarking = () => {
             <div className="attendance-container">
                 <SideBar />
                 <div className="attendance-content">
-                    <h2>Attendance Marking Sheet (MA)</h2>
+                    <h2>Attendance Marking Sheet</h2>
                     <div className="course-info">
                         <div className="info-row">
                             <DropDownSelector

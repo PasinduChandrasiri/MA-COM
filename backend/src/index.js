@@ -195,19 +195,6 @@ app.put('/notice/:id', (req, res) => {
     })
 });
 
-// Get all subjects
-app.get('/api/subjects', (req, res) => {
-    const sql = "SELECT subjectId as subjectId, subjectName as subjectName, lecturer as lecturer FROM subjects";
-    
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error fetching subjects:', err);
-            return res.status(500).json({ message: "Error fetching subjects" });
-        }
-        res.json(results);
-    });
-});
-
 // Get specific subject details and enrolled students
 app.get('/api/subjects/:subjectId', (req, res) => {
     const { subjectId } = req.params;
@@ -320,5 +307,77 @@ app.post('/api/attendance', (req, res) => {
                 res.json({ message: "Attendance saved successfully" });
             });
         });
+    });
+});
+
+// Fetch subjects for dropdown
+app.get('/api/subjects', (req, res) => {
+    const sql = "SELECT subjectId, subjectName, lecturer FROM subjects";
+    
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching subjects:', err);
+            return res.status(500).json({ message: "Error fetching subjects" });
+        }
+        res.json(results);
+    });
+});
+
+// Fetch attendance data for a selected subject
+app.get('/api/attendance/:subjectId', (req, res) => {
+    const { subjectId } = req.params;
+
+    const sql = `
+        SELECT 
+            a.regNo, 
+            u.f_Name, 
+            u.l_Name,
+            COUNT(*) as totalClasses,
+            SUM(CASE WHEN a.attendance = 'present' THEN 1 ELSE 0 END) as presentClasses,
+            ROUND((SUM(CASE WHEN a.attendance = 'present' THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2) AS attendancePercentage
+        FROM 
+            attendance a
+        JOIN 
+            user u ON a.regNo = u.regNo
+        WHERE 
+            a.subjectId = ?
+        GROUP BY 
+            a.regNo, u.f_Name, u.l_Name
+    `;
+
+    db.query(sql, [subjectId], (err, results) => {
+        if (err) {
+            console.error('Error fetching attendance:', err);
+            return res.status(500).json({ message: "Error fetching attendance" });
+        }
+        
+        // Return empty array if no attendance records found
+        if (results.length === 0) {
+            console.log(`No attendance records found for subject: ${subjectId}`);
+        }
+        
+        res.json(results);
+    });
+});
+
+
+// Fetch attendance period (first and last date) for a subject
+app.get('/api/attendance-period/:subjectId', (req, res) => {
+    const { subjectId } = req.params;
+    const sql = "SELECT MIN(date) AS firstDate, MAX(date) AS lastDate FROM attendance WHERE subjectId = ?";
+    
+    db.query(sql, [subjectId], (err, result) => {
+        if (err) {
+            console.error('Error fetching attendance period:', err);
+            return res.status(500).json({ message: "Error fetching attendance period" });
+        }
+        if (result.length > 0) {
+            res.json({
+                firstDate: result[0].firstDate,
+                lastDate: result[0].lastDate
+            });
+        } else {
+            res.json({ firstDate: null, lastDate: null });
+        }
     });
 });
