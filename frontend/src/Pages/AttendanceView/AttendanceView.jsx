@@ -25,13 +25,13 @@ const AttendanceView = () => {
                     throw new Error('Failed to fetch subjects');
                 }
                 const data = await response.json();
-                
+
                 const formattedSubjects = data.map(subject => ({
                     id: subject.subjectId,
                     name: subject.subjectName,
                     lecturer: subject.lecturer // Keep the lecturer info
                 }));
-                
+
                 setSubjectOptions(formattedSubjects);
             } catch (err) {
                 console.error('Error fetching subjects:', err);
@@ -46,7 +46,7 @@ const AttendanceView = () => {
         if (!selectedSubject) return;
         setLoading(true);
         setHasAttendanceData(false); // Reset attendance data status
-    
+
         // Fetch attendance data
         fetch(`http://localhost:8082/api/attendance/${selectedSubject}`)
             .then(res => res.json())
@@ -60,7 +60,7 @@ const AttendanceView = () => {
                 setHasAttendanceData(false);
             })
             .finally(() => setLoading(false));
-    
+
         // Fetch attendance period
         fetch(`http://localhost:8082/api/attendance-period/${selectedSubject}`)
             .then(res => res.json())
@@ -72,7 +72,7 @@ const AttendanceView = () => {
                 }
             })
             .catch(err => console.error('Error fetching attendance period:', err));
-        
+
         // Find the selected subject's info from the options
         const subject = subjectOptions.find(option => option.id === selectedSubject);
         if (subject) {
@@ -111,18 +111,18 @@ const AttendanceView = () => {
                         <DropDownSelector title="Subject" options={subjectOptions} value={selectedSubject} onChange={setSelectedSubject} />
                         {subjectInfo && (
                             <>
-                            <p><strong>Lecturer:</strong> {subjectInfo.lecturer}</p>
-                            <p><strong>Date:</strong> {attendancePeriod}</p>
+                                <p><strong>Lecturer:</strong> <span className="lecturer-name">{subjectInfo.lecturer}</span></p>
+                                <p><strong>Date:</strong> <span className="date-period">{attendancePeriod}</span></p>
                             </>
                         )}
                     </div>
-                    
+
                     {selectedSubject && !hasAttendanceData && !loading && (
                         <div className="no-data-message">
                             <p>No Attendance Data Available</p>
                         </div>
                     )}
-                    
+
                     {hasAttendanceData && (
                         <>
                             <table className="attendanceview-table">
@@ -135,16 +135,16 @@ const AttendanceView = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {students.map((student, index) => (
-    <tr key={student.regNo}>
-        <td>{index + 1}</td>
-        <td>{student.regNo}</td>
-        <td>{`${student.f_Name} ${student.l_Name}`}</td>
-        <td style={{ backgroundColor: student.attendancePercentage < 80 ? '#ffcccb' : '#D1FFBD' }}>
-            {student.attendancePercentage}%
-        </td>
-    </tr>
-))}
+                                    {students.map((student, index) => (
+                                        <tr key={student.regNo}>
+                                            <td>{index + 1}</td>
+                                            <td>{student.regNo}</td>
+                                            <td>{`${student.f_Name} ${student.l_Name}`}</td>
+                                            <td style={{ backgroundColor: student.attendancePercentage < 80 ? '#ffcccb' : '#D1FFBD' }}>
+                                                {student.attendancePercentage}%
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                             <button className="download-btn" onClick={handleDownload}>Download</button>
