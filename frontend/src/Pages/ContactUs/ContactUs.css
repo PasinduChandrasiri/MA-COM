@@ -1,0 +1,46 @@
+/* ContactUs.css */
+
+/* Main page layout */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .content-wrapper {
+    display: flex;
+    flex: 1;
+    margin-top: 60px; /* Adjust based on header height */
+  }
+  
+  
+  
+  /* Main content area */
+  .main-content {
+    flex: 1;
+    margin-left: 250px; /* Same as sidebar width */
+    margin-right: 250px;
+    padding: 30px;
+    background-color: rgb(23, 9, 53);
+    min-height: calc(100vh - 120px); /* Adjust based on header/footer height */
+  }
+  .form-group{
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    bottom: 10,10,10,10;
+  }
+  .contact-us-input{
+  }
+  /* For mobile responsiveness */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+      position: relative;
+      height: auto;
+    }
+    
+    .main-content {
+      margin-left: 0;
+    }
+  }
