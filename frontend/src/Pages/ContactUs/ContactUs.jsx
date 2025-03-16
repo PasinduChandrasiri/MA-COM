@@ -80,13 +80,13 @@ function ContactUs() {
           <label>Message:</label>
           <textarea
             name="message"
-            className='contact-us-input'
+            class='contact-us-input-textarea'
             value={formData.message}
             onChange={handleChange}
             required />
         </div>
 
-        <button class='contact-us-submit' type="submit" disabled={submitting}>
+        <button class='contact-us-submit-button' type="submit" disabled={submitting}>
           {submitting ? 'Submitting...' : 'Submit'}
         </button>
 
@@ -97,6 +97,32 @@ function ContactUs() {
     </div>
     </div>
     </>
+    <div className='contact-us-contact-lables'>
+      <div className='cont-us-label'>
+        <div class='cont-us-label-icon'><i class='bx bx-location-plus'  ></i></div>
+        <div class='cont-us-label-text'>
+        <div class='cont-us-label-heading'><p1><b>Address</b></p1></div>
+        <div class='cont-us-label-content'><p1>Ariviyal Nagar , Kilinochchi , SriLanka</p1></div>
+        </div>
+        </div>
+      
+      <div className='cont-us-label'>
+        <div class='cont-us-label-icon'><i class='bx bx-envelope'></i></div>
+        <div className='cont-us-label-text'>
+        <div class='cont-us-label-heading'><p1><b>Email</b></p1></div>
+        <div class='cont-us-label-content'><p1>deptwise.uoje@gmail.com</p1></div>
+        </div>
+      </div>
+      <div className='cont-us-label'>
+        <div class='cont-us-label-icon'><i class='bx bx-phone'></i></div>
+        <div className='cont-us-label-text'>
+        <div class='cont-us-label-heading'><p1><b>Contact Number</b></p1></div>
+        <div class='cont-us-label-content'><p1>+94 000-0000000</p1></div>
+        
+      </div>
+    </div>
+    </div>
+
     <Footer />
 
     </div>

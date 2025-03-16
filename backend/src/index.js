@@ -13,10 +13,7 @@ const db = mysql.createConnection({
     database: "ma_system"
 })
 
-<<<<<<< Updated upstream
-app.listen(8081, () => {
-    console.log("listening");
-=======
+
 db.connect((err) => {
     if (err) {
         console.log("Error connecting to database:", err);
@@ -27,7 +24,6 @@ db.connect((err) => {
 
 app.listen(8081, () => {
     console.log("Server is running on port 8081");
->>>>>>> Stashed changes
 })
 
 //Insert queries
