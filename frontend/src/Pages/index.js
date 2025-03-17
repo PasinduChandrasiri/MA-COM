@@ -5,5 +5,7 @@ import ForgotPassword from './ForgotPassword/ForgotPassword';
 import SignUp from "./SignUp/SignUp";
 import AttendanceMarking from './AttendanceMarking/AttendanceMarking';
 import AttendanceView from './AttendanceView/AttendanceView';
+import CashRequest from './CashRequest/CashRequest';
+import CashApprove from './CashApprove/CashApprove';
 
-export { HomePage, ContactUs, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView }
+export { HomePage, ContactUs, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove };

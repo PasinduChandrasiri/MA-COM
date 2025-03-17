@@ -381,3 +381,74 @@ app.get('/api/attendance-period/:subjectId', (req, res) => {
         }
     });
 });
+
+// Submit a cash request
+app.post('/api/cash-requests', (req, res) => {
+    const { userId, type, topic, description } = req.body;
+    console.log('Received request body:', req.body); // Debugging log
+
+    const sql = "INSERT INTO cash_requests (userId, type, topic, description, status) VALUES (?, ?, ?, ?, 'Pending')";
+    db.query(sql, [userId, type, topic, description], (err, result) => {
+        if (err) {
+            console.error('Error submitting cash request:', err);
+            return res.status(500).json({ message: "Error submitting cash request" });
+        }
+
+        console.log('Inserted request ID:', result.insertId); // Debugging log
+
+        // Fetch the newly created request using the inserted ID
+        const newRequestId = result.insertId;
+        const fetchSql = "SELECT * FROM cash_requests WHERE id = ?";
+        db.query(fetchSql, [newRequestId], (err, newRequest) => {
+            if (err) {
+                console.error('Error fetching new cash request:', err);
+                return res.status(500).json({ message: "Error fetching new cash request" });
+            }
+            console.log('Fetched new request:', newRequest[0]); // Debugging log
+            res.json(newRequest[0]); // Return the newly created request
+        });
+    });
+});
+
+// Get cash requests by status for a user
+app.get('/api/cash-requests', (req, res) => {
+    const sql = "SELECT * FROM cash_requests";
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching cash requests:', err);
+            return res.status(500).json({ message: "Error fetching cash requests" });
+        }
+        console.log('Fetched cash requests:', results); // Debugging log
+        res.json(results);
+    });
+});
+
+// Get all pending cash requests for Management Assistant
+app.get('/api/cash-requests/pending', (req, res) => {
+    const sql = "SELECT cr.*, u.f_Name, u.l_Name FROM cash_requests cr JOIN user u ON cr.userId = u.id WHERE cr.status = 'Pending'";
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching pending cash requests:', err);
+            return res.status(500).json({ message: "Error fetching pending cash requests" });
+        }
+        res.json(results);
+    });
+});
+
+// Approve or decline a cash request
+app.put('/api/cash-requests/:id', (req, res) => {
+    const { id } = req.params;
+    const { status, funds, responseDescription } = req.body;
+
+    console.log(`Updating request ID: ${id} with status: ${status}`); // Debugging log
+
+    const sql = "UPDATE cash_requests SET status = ?, funds = ?, responseDescription = ? WHERE id = ?";
+    db.query(sql, [status, funds, responseDescription, id], (err, result) => {
+        if (err) {
+            console.error('Error updating cash request:', err);
+            return res.status(500).json({ message: "Error updating cash request" });
+        }
+        console.log('Cash request updated successfully:', result); // Debugging log
+        res.json({ message: "Cash request updated successfully" });
+    });
+});

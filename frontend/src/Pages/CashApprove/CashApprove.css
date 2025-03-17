@@ -1,0 +1,54 @@
+.cashapprove-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.cashapprove-content {
+    flex: 1;
+    margin-left: 80px;
+    padding: 20px;
+}
+
+.requests-panel {
+    margin-bottom: 20px;
+}
+
+.requests-panel ul {
+    list-style: none;
+    padding: 0;
+}
+
+.requests-panel li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.blue-tick {
+    color: blue;
+    margin-left: 10px;
+}
+
+.request-details {
+    margin-top: 20px;
+}
+
+textarea, input {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
