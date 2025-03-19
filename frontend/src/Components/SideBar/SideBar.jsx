@@ -25,7 +25,7 @@ function SideBar({ userType }) {
     // Data array for the menu items
     const menuItems = {
         ManagementAssistant: [
-            { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '#' },
+            { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '/Homepage' },
             { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '#' },
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
             { icon: 'bx bx-notepad', tooltip: 'Notice', linkName: 'Notice', href: '#' },
@@ -35,7 +35,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '#' },
         ],
         Lecturer: [
-            { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '#' },
+            { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '/Homepage' },
             { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '#' },
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
             { icon: 'bx bx-notepad', tooltip: 'Notice', linkName: 'Notice', href: '#' },
@@ -44,7 +44,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '#' },
         ],
         Student: [
-            { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '#' },
+            { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '/Homepage' },
             { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '#' },
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
             { icon: 'bx bx-notepad', tooltip: 'Notice', linkName: 'Notice', href: '#' },

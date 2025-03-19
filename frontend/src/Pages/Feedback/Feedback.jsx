@@ -84,7 +84,7 @@ const Feedback = () => {
         if (selectedFeedbackType === "Lecturer" && editingQuestion === "Lecturer") {
             return (
                 <form>
-                    <table>
+                    <table className='feedback-form-table-ma'>
                         <thead>
                             <tr className='feedback-form-table-row-heading'>
                                 <th >Questions</th>
@@ -109,7 +109,7 @@ const Feedback = () => {
         if (selectedFeedbackType === "Course") {
             return (
                 <form>
-                    <table>
+                    <table className='feedback-form-table-ma'>
                         <thead>
                             <tr className='feedback-form-table-row-heading'>
                                 <th>Questions</th>
@@ -221,7 +221,7 @@ const Feedback = () => {
         if (selectedFeedbackType === "Lecturer" && dropdownOptions === "Lecturer") {
             return (
                 <form>
-                    <table>
+                    <table className='feedback-form-table-lecturer'>
                         <thead>
                             <tr className="feedback-form-table-row-heading">
                                 <th>Questions</th>
@@ -249,7 +249,7 @@ const Feedback = () => {
         if (selectedFeedbackType === "Course" && dropdownOptions === "Course") {
             return (
                 <form>
-                    <table>
+                    <table className='feedback-form-table-lecturer'>
                         <thead>
                             <tr className="feedback-form-table-row-heading">
                                 <th>Questions</th>
@@ -349,7 +349,7 @@ const Feedback = () => {
         if (selectedFeedbackType === "Lecturer" && dropdownOptions === "Lecturer") {
             return (
                 <form onSubmit={(e) => handleSubmit(e, "Lecturer")}>
-                    <table>
+                    <table className='feedback-form-table-student'>
                         <thead>
                             <tr className='feedback-form-table-row-heading'>
                                 <th>Questions</th>
@@ -386,7 +386,7 @@ const Feedback = () => {
         if (selectedFeedbackType === "Course" && dropdownOptions === "Course") {
             return (
                 <form onSubmit={(e) => handleSubmit(e, "Course")}>
-                    <table>
+                    <table className='feedback-form-table-student'>
                         <thead>
                             <tr className='feedback-form-table-row-heading'>
                                 <th>Questions</th>
