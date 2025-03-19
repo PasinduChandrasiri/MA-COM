@@ -669,3 +669,91 @@ app.get("/coursefeedbackrate_avg", (req, res) => {
         console.log("Results:", results);
     });
 });
+
+
+
+//---------------------------------------------------------------------------------
+
+// --------------------- FILE HANDLING ENDPOINTS ---------------------
+const multer = require('multer');
+const path = require('path');
+
+// Configure storage for uploaded files
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Ensure the 'uploads' folder exists
+  },
+  filename: (req, file, cb) => {
+    // Create a unique filename using the current timestamp and original extension
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage });
+
+// Lecturer uploads file endpoint
+app.post('/ma_system/upload', upload.single('file'), (req, res) => {
+  const lecturerId = req.body.lecturerId;
+  const description = req.body.description;
+  const destination = req.body.destination;
+  const destinationType = req.body.destinationType; // 'internal' or 'external'
+  const filePath = req.file ? req.file.path : null;
+
+  if (!filePath) {
+    return res.status(400).json({ error: "No file uploaded." });
+  }
+  
+  const status = "pending"; // Initial status
+
+  const sql = "INSERT INTO files (lecturer_id, file_name, file_path, description, destination, destination_type, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+  const values = [lecturerId, req.file.originalname, filePath, description, destination, destinationType, status];
+
+  db.query(sql, values, (err, data) => {
+    if (err) {
+      console.error("Error inserting file data:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json({ message: "File uploaded successfully", fileId: data.insertId });
+  });
+});
+
+// Get files for a specific lecturer
+app.get('/ma_system/files', (req, res) => {
+  const lecturerId = req.query.lecturerId;
+  if (!lecturerId) {
+    return res.status(400).json({ error: "Missing lecturerId parameter" });
+  }
+  const sql = "SELECT * FROM files WHERE lecturer_id = ?";
+  db.query(sql, [lecturerId], (err, results) => {
+    if (err) {
+      console.error("Error fetching files:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json(results);
+  });
+});
+
+// Get all files (for the Managing Assistant)
+app.get('/ma_system/all-files', (req, res) => {
+  const sql = "SELECT * FROM files";
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error fetching all files:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json(results);
+  });
+});
+
+// Update file status (for MA)
+app.put('/ma_system/files/:id', (req, res) => {
+  const fileId = req.params.id;
+  const { status } = req.body;
+  const sql = "UPDATE files SET status = ? WHERE id = ?";
+  db.query(sql, [status, fileId], (err, results) => {
+    if (err) {
+      console.error("Error updating file status:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json({ message: "Status updated successfully" });
+  });
+});

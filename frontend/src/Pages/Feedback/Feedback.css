@@ -2,6 +2,7 @@
 
 /* Main container */
 .feedback-container {
+    padding-left: 40px;
     position: relative;
     width: 100%;
     background-color: #f0f2f5;

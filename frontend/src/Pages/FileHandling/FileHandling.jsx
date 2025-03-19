@@ -48,7 +48,7 @@ const FileHandling = () => {
     formData.append("destinationType", destinationType);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/upload", formData, {
+      const res = await axios.post("http://localhost:8081/ma_system/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
       alert("File uploaded successfully");
@@ -61,7 +61,7 @@ const FileHandling = () => {
 
   const fetchLecturerFiles = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/files", {
+      const res = await axios.get("http://localhost:8081/ma_system/files", {
         params: { lecturerId: userId }
       });
       setUploadedFiles(res.data);
@@ -73,7 +73,7 @@ const FileHandling = () => {
   // -------------------- MA FUNCTIONS --------------------
   const fetchAllFiles = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/all-files");
+      const res = await axios.get("http://localhost:8081/ma_system/all-files");
       setFiles(res.data);
     } catch (error) {
       console.error(error);
@@ -87,7 +87,7 @@ const FileHandling = () => {
   const updateStatus = async (fileId) => {
     try {
       const status = selectedStatus[fileId] || "pending";
-      await axios.put(`http://localhost:5000/api/files/${fileId}`, { status });
+      await axios.put(`http://localhost:8081/ma_system/files/${fileId}`, { status });
       alert("Status updated");
       fetchAllFiles();
     } catch (error) {

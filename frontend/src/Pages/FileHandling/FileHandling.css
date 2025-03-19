@@ -1,0 +1,190 @@
+/* FileHandling.css */
+
+/* Main container */
+.file-handling-container {
+    padding-left: 40px;
+    position: relative;
+    width: 100%;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+}
+
+/* Section container */
+.file-handling-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 0 auto 2rem;
+    width: 90%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Inner container */
+.file-handling-inner {
+    margin-bottom: 2rem;
+}
+
+.file-handling-inner h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+/* Button styles */
+.file-handling-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.file-handling-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* Card layout */
+.card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Form group styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    color: black;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group select,
+.form-group textarea {
+    color: black;
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Table styles */
+.file-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.file-table th,
+.file-table td {
+    color: black;
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+}
+
+.file-table th {
+    background-color: #3498db;
+    color: white;
+    font-weight: 600;
+}
+
+.file-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.file-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Dropdown container */
+.dropdown-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+    color: #2c3e50;
+}
+
+.dropdown-container select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.dropdown-container select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Utility classes */
+.bottomSpace {
+    clear: both;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .file-handling-container {
+        left: 0;
+        width: 100%;
+        padding-top: 60px;
+    }
+
+    .file-handling-section {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .card-section {
+        flex-direction: column;
+    }
+
+    .file-handling-button {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .file-table th,
+    .file-table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .file-table th,
+    .file-table td {
+        padding: 10px;
+        font-size: 12px;
+    }
+}
