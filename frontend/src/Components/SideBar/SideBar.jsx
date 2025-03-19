@@ -32,6 +32,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-chat', tooltip: 'Feedback', linkName: 'Feedback', href: '/Feedback' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '/AttendanceMarking' },
             { icon: 'bx bx-folder', tooltip: 'Report', linkName: 'Report Manager', href: '#' },
+            { icon: 'bx bx-cog', tooltip: 'FileHandling', linkName: 'FileHandling', href: '/FileHandling' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '#' },
         ],
         Lecturer: [
@@ -41,6 +42,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-notepad', tooltip: 'Notice', linkName: 'Notice', href: '#' },
             { icon: 'bx bx-chat', tooltip: 'Feedback', linkName: 'Feedback', href: '/Feedback' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: 'AttendanceMarking' },
+            { icon: 'bx bx-cog', tooltip: 'FileHandling', linkName: 'FileHandling', href: '/FileHandling' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '#' },
         ],
         Student: [

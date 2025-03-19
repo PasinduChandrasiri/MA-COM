@@ -5,5 +5,6 @@ import ForgotPassword from './ForgotPassword/ForgotPassword';
 import SignUp from "./SignUp/SignUp";
 import AttendanceMarking from './AttendanceMarking/AttendanceMarking';
 import Feedback from "./Feedback/Feedback";
+import FileHandling from "./FileHandling/FileHandling";
 
-export { HomePage, ContactUs, Login, ForgotPassword, SignUp, AttendanceMarking, Feedback };
+export { HomePage, ContactUs, Login, ForgotPassword, SignUp, AttendanceMarking, Feedback, FileHandling };

@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { ContactUs, HomePage, Login, ForgotPassword, SignUp, AttendanceMarking, Feedback } from './Pages';
+import { ContactUs, HomePage, Login, ForgotPassword, SignUp, AttendanceMarking, Feedback, FileHandling } from './Pages';
 
 
 function App() {
@@ -13,6 +13,7 @@ function App() {
       <Route path='/SignUp' element={<SignUp />} />
       <Route path='/AttendanceMarking' element={<AttendanceMarking />} />
       <Route path='/Feedback' element={<Feedback />} />
+      <Route path='/FileHandling' element={<FileHandling />} />
     </Routes>
 
   );
