@@ -237,12 +237,12 @@
 }
 
 @media (max-width: 480px) {
-    .feedback-form-table-row-heading th {
+    .feedback-form-table-row-heading-th {
         padding: 10px;
         font-size: 14px;
     }
 
-    .feedback-form-table-row td {
+    .feedback-form-table-row-td {
         padding: 10px;
         font-size: 14px;
     }
