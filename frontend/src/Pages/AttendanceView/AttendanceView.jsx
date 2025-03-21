@@ -15,7 +15,6 @@ const AttendanceView = () => {
     const [attendancePeriod, setAttendancePeriod] = useState(null);
     const [hasAttendanceData, setHasAttendanceData] = useState(false);
 
-    // Remove duplicate useEffect - keep only one for fetching subjects
     useEffect(() => {
         const fetchSubjects = async () => {
             setLoading(true);
@@ -29,7 +28,7 @@ const AttendanceView = () => {
                 const formattedSubjects = data.map(subject => ({
                     id: subject.subjectId,
                     name: subject.subjectName,
-                    lecturer: subject.lecturer // Keep the lecturer info
+                    lecturer: subject.lecturer
                 }));
 
                 setSubjectOptions(formattedSubjects);
@@ -45,14 +44,13 @@ const AttendanceView = () => {
     useEffect(() => {
         if (!selectedSubject) return;
         setLoading(true);
-        setHasAttendanceData(false); // Reset attendance data status
+        setHasAttendanceData(false);
 
         // Fetch attendance data
         fetch(`http://localhost:8081/api/attendance/${selectedSubject}`)
             .then(res => res.json())
             .then(data => {
                 setStudents(data);
-                // Check if we have actual attendance data
                 setHasAttendanceData(data && data.length > 0);
             })
             .catch(err => {
@@ -86,25 +84,47 @@ const AttendanceView = () => {
     };
 
     const handleDownload = () => {
-        const data = students.map(student => ({
-            RegNo: student.regNo,
-            Name: `${student.f_Name} ${student.l_Name}`,
-            Attendance: student.attendancePercentage + '%'
-        }));
+        // Prepare the header information
+        const headerData = [
+            [`Subject ID: ${subjectInfo?.id || 'N/A'}`],
+            [`Subject Name: ${subjectInfo?.name || 'N/A'}`],
+            [`Lecturer: ${subjectInfo?.lecturer || 'N/A'}`],
+            [`Date Period: ${attendancePeriod || 'N/A'}`],
+            [], // Empty row for spacing
+        ];
 
-        const ws = XLSX.utils.json_to_sheet(data);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Attendance");
-        XLSX.writeFile(wb, `Attendance_${subjectInfo?.name}.xlsx`);
+        // Prepare the student attendance data
+        const studentData = [
+            ['#', 'Reg Number', 'Name', 'Attendance (%)'], // Table headers
+            ...students.map((student, index) => [
+                index + 1,
+                student.regNo,
+                `${student.f_Name} ${student.l_Name}`,
+                `${student.attendancePercentage}%`,
+            ]),
+        ];
+
+        // Combine header and student data
+        const combinedData = [...headerData, ...studentData];
+
+        // Convert the combined data to a worksheet
+        const worksheet = XLSX.utils.aoa_to_sheet(combinedData);
+
+        // Create a workbook and append the worksheet
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Attendance");
+
+        // Write the workbook to a file
+        XLSX.writeFile(workbook, `Attendance_${subjectInfo?.name || 'Unknown'}.xlsx`);
     };
 
     if (loading) return <h2>Loading...</h2>;
 
     return (
         <>
-            <Header />
+            <SideBar />
             <div className="attendanceview-container">
-                <SideBar />
+                <Header />
                 <div className="attendanceview-content">
                     <h2>Attendance View</h2>
                     <div className="courseview-info">

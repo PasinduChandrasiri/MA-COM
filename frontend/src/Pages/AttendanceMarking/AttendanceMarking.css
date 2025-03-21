@@ -3,11 +3,13 @@
     flex-direction: column;
     min-height: 100vh;
     background: #f4f4f4;
+    margin-left: 78px;
 }
 
 .attendance-content {
     flex: 1;
-    margin-left: 80px;
+    margin-left: 51px;
+    margin-top: 15px;
     padding: 20px;
     width: 90%;
     padding-bottom: 440px;

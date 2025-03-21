@@ -62,9 +62,12 @@ const CashApprove = () => {
                 const data = await response.json();
 
                 if (Array.isArray(data)) {
-                    const pending = data.filter(req => req.status === 'Pending');
-                    const approved = data.filter(req => req.status === 'Approved');
-                    const declined = data.filter(req => req.status === 'Declined');
+                    const sortByTimestampDesc = (a, b) => new Date(b.timestamp) - new Date(a.timestamp);
+
+                    const pending = data.filter(req => req.status === 'Pending').sort(sortByTimestampDesc);
+                    const approved = data.filter(req => req.status === 'Approved').sort(sortByTimestampDesc);
+                    const declined = data.filter(req => req.status === 'Declined').sort(sortByTimestampDesc);
+
                     setPendingRequests(pending);
                     setApprovedRequests(approved);
                     setDeclinedRequests(declined);

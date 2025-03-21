@@ -37,10 +37,16 @@ const CashRequest = () => {
 
                 const allRequests = await response.json();
 
-                // Filter requests for the specific userId and status
-                const pending = allRequests.filter(req => req.userId === userId && req.status === 'Pending');
-                const approved = allRequests.filter(req => req.userId === userId && req.status === 'Approved');
-                const declined = allRequests.filter(req => req.userId === userId && req.status === 'Declined');
+                // Filter and sort requests for the specific userId and status
+                const pending = allRequests
+                    .filter(req => req.userId === userId && req.status === 'Pending')
+                    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                const approved = allRequests
+                    .filter(req => req.userId === userId && req.status === 'Approved')
+                    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                const declined = allRequests
+                    .filter(req => req.userId === userId && req.status === 'Declined')
+                    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
                 setPendingRequests(pending);
                 setApprovedRequests(approved);

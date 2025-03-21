@@ -200,9 +200,9 @@ const AttendanceMarking = () => {
 
     return (
         <>
-            <Header />
+            <SideBar />
             <div className="attendance-container">
-                <SideBar />
+                <Header />
                 <div className="attendance-content">
                     <h2>Attendance Marking Sheet</h2>
                     <div className="course-info">
