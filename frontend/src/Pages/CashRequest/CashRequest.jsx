@@ -29,7 +29,7 @@ const CashRequest = () => {
             setIsLoading(true);
             setError(null);
             try {
-                const response = await fetch('http://localhost:8082/api/cash-requests');
+                const response = await fetch('http://localhost:8081/api/cash-requests');
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -63,7 +63,7 @@ const CashRequest = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:8082/api/cash-requests', {
+            const response = await fetch('http://localhost:8081/api/cash-requests', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId, type, topic, description }), // Send the correct userId
@@ -130,14 +130,14 @@ const CashRequest = () => {
 
     return (
         <>
-            <Pop_up ref={popUpRef} /> {/* Attach the ref to Pop_up */}
-            <Header />
-            <div className="cashapprove-container">
-                <SideBar />
-                <div className="cashapprove-main">
+            <SideBar />
+            <div className="cashrequest-container">
+                <Header />
+                <Pop_up ref={popUpRef} />
+                <div className="cashrequest-main">
                     {!selectedRequest ? (
                         <>
-                            <div className="cashapprove-sidebar">
+                            <div className="cashrequest-sidebar">
                                 <div className="search-container">
                                     <FaSearch className="search-icon" />
                                     <input
@@ -181,7 +181,7 @@ const CashRequest = () => {
                                 </ul>
                             </div>
 
-                            <div className="cashapprove-content">
+                            <div className="cashrequest-content">
                                 {showForm && (
                                     <div className="request-form-panel">
                                         <div className="request-form-header">
@@ -264,7 +264,7 @@ const CashRequest = () => {
                             </div>
                         </>
                     ) : (
-                        <div className="cashapprove-content">
+                        <div className="cashrequest-content">
                             <div className="request-details-panel">
                                 <div className="request-header">
                                     <button className="back-button" onClick={handleGoBack}>
@@ -316,7 +316,7 @@ const CashRequest = () => {
                                         {selectedRequest.funds && (
                                             <div className="previous-funds">
                                                 <strong>Approved Funds:</strong>
-                                                <p>${selectedRequest.funds}</p>
+                                                <p>{selectedRequest.funds} LKR</p>
                                             </div>
                                         )}
                                     </div>

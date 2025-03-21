@@ -1,18 +1,18 @@
 .cashapprove-container {
     display: flex;
-    min-height: calc(100vh - 140px); /* Adjust based on your header/footer heights */
+    min-height: calc(100vh - 105px); /* Adjust based on your header/footer heights */
     background-color: #f5f5f5;
-    margin-left: -140px;
+    margin-left: 78px;
 }
 
 .cashapprove-main {
     display: flex;
     flex: 1;
-    margin-left: 220px; /* Adjust based on your SideBar width */
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    margin-top: 10px;
 }
 
 /* Left sidebar styles */
@@ -191,12 +191,12 @@
 .request-details-panel {
     display: flex;
     flex-direction: column;
-    height: auto;
-    min-height: 65vh; /* Set a minimum height that works with your layout */
-    max-height: calc(100vh - 90px); /* Maximum height that respects header/footer */
+    height: auto; /* Allow the height to grow based on content */
+    min-height: auto; /* Remove the minimum height constraint */
+    max-height: none; /* Remove the maximum height constraint */
     width: 100%; /* Full width of its container */
     padding-bottom: 20px;
-    overflow-y: auto; /* Allow scrolling if content is too tall */
+    overflow: visible; /* Ensure no scrolling occurs */
     position: relative;
 }
 

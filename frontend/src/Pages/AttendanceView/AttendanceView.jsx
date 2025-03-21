@@ -20,7 +20,7 @@ const AttendanceView = () => {
         const fetchSubjects = async () => {
             setLoading(true);
             try {
-                const response = await fetch('http://localhost:8082/api/subjects');
+                const response = await fetch('http://localhost:8081/api/subjects');
                 if (!response.ok) {
                     throw new Error('Failed to fetch subjects');
                 }
@@ -48,7 +48,7 @@ const AttendanceView = () => {
         setHasAttendanceData(false); // Reset attendance data status
 
         // Fetch attendance data
-        fetch(`http://localhost:8082/api/attendance/${selectedSubject}`)
+        fetch(`http://localhost:8081/api/attendance/${selectedSubject}`)
             .then(res => res.json())
             .then(data => {
                 setStudents(data);
@@ -62,7 +62,7 @@ const AttendanceView = () => {
             .finally(() => setLoading(false));
 
         // Fetch attendance period
-        fetch(`http://localhost:8082/api/attendance-period/${selectedSubject}`)
+        fetch(`http://localhost:8081/api/attendance-period/${selectedSubject}`)
             .then(res => res.json())
             .then(data => {
                 if (data.firstDate && data.lastDate) {

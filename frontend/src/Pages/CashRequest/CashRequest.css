@@ -1,15 +1,15 @@
-/* Importing the same styling as CashApprove for consistency */
-.cashapprove-container {
+/* Importing the same styling as cashrequest for consistency */
+.cashrequest-container {
     display: flex;
     min-height: calc(100vh - 140px); /* Adjust based on your header/footer heights */
     background-color: #f5f5f5;
-    margin-left: -140px;
+    margin-left: 78px;
 }
 
-.cashapprove-main {
+.cashrequest-main {
     display: flex;
-    flex: 1;
-    margin-left: 220px; /* Adjust based on your SideBar width */
+    flex: 1; 
+    margin-top: 10px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -17,7 +17,7 @@
 }
 
 /* Left sidebar styles */
-.cashapprove-sidebar {
+.cashrequest-sidebar {
     width: 220px;
     background-color: #f5f5f5;
     border-right: 1px solid #e0e0e0;
@@ -126,7 +126,7 @@
 }
 
 /* Main content area */
-.cashapprove-content {
+.cashrequest-content {
     flex: 1;
     padding: 30px;
     overflow-y: auto;
@@ -139,7 +139,7 @@
     box-sizing: border-box;
 }
 
-.cashapprove-content * {
+.cashrequest-content * {
     max-width: 100%;
     word-wrap: break-word;
     box-sizing: border-box;
@@ -486,11 +486,11 @@
 
 /* Responsive styles */
 @media (max-width: 1024px) {
-    .cashapprove-main {
+    .cashrequest-main {
         flex-direction: column;
     }
     
-    .cashapprove-sidebar {
+    .cashrequest-sidebar {
         width: 100%;
         border-right: none;
         border-bottom: 1px solid #e0e0e0;

@@ -4,7 +4,7 @@ import Pop_up from '../../Components/Pop_up/Pop_up';
 import Footer from '../../Components/Footer/Footer';
 import Header from '../../Components/Header/Header';
 import './CashApprove.css';
-import { FaSearch, FaChevronLeft, FaRegCheckCircle, FaRegTimesCircle, FaInbox, FaCheck, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaChevronLeft, FaRegCheckCircle, FaRegTimesCircle, FaInbox, FaCheck, FaTimes, FaArrowAltCircleLeft } from 'react-icons/fa';
 import { format } from 'date-fns';
 
 const CashApprove = () => {
@@ -53,7 +53,7 @@ const CashApprove = () => {
             setIsLoading(true);
             setError(null);
             try {
-                const response = await fetch('http://localhost:8082/api/cash-requests');
+                const response = await fetch('http://localhost:8081/api/cash-requests');
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -89,7 +89,7 @@ const CashApprove = () => {
             const fetchUserDetails = async () => {
                 try {
                     // Fetch user by ID instead of email
-                    const response = await fetch(`http://localhost:8082/api/user/${selectedRequest.userId}`, {
+                    const response = await fetch(`http://localhost:8081/api/user/${selectedRequest.userId}`, {
                         method: 'GET',
                         headers: { 'Content-Type': 'application/json' },
                     });
@@ -132,7 +132,7 @@ const CashApprove = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8082/api/cash-requests/${selectedRequest.id}`, {
+            const response = await fetch(`http://localhost:8081/api/cash-requests/${selectedRequest.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: 'Approved', funds, responseDescription }),
@@ -180,7 +180,7 @@ const CashApprove = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8082/api/cash-requests/${selectedRequest.id}`, {
+            const response = await fetch(`http://localhost:8081/api/cash-requests/${selectedRequest.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: 'Declined', responseDescription }),
@@ -277,10 +277,10 @@ const CashApprove = () => {
 
     return (
         <>
-            <Header />
+            <SideBar />
             <Pop_up ref={popupRef} />
             <div className="cashapprove-container">
-                <SideBar />
+                <Header />
                 <div className="cashapprove-main">
                     {/* Gmail-like left sidebar navigation */}
                     <div className="cashapprove-sidebar">

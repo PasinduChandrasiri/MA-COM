@@ -24,7 +24,7 @@ const AttendanceMarking = () => {
         const fetchSubjects = async () => {
             setLoading(true);
             try {
-                const response = await fetch('http://localhost:8082/api/subjects');
+                const response = await fetch('http://localhost:8081/api/subjects');
                 if (!response.ok) {
                     throw new Error('Failed to fetch subjects');
                 }
@@ -41,7 +41,9 @@ const AttendanceMarking = () => {
             } catch (err) {
                 console.error('Error fetching subjects:', err);
                 setError('Failed to load subjects.');
-                popUpRef.current.showToast('GoingWrong');
+                if (popUpRef.current) {
+                    popUpRef.current.showToast('GoingWrong');
+                }
             } finally {
                 setLoading(false);
             }
@@ -56,30 +58,30 @@ const AttendanceMarking = () => {
                 setLoading(false);
                 return;
             }
-    
+
             setLoading(true);
             try {
                 console.log('Fetching subject details for:', selectedSubject);
-                const response = await fetch(`http://localhost:8082/api/subjects/${selectedSubject}`);
+                const response = await fetch(`http://localhost:8081/api/subjects/${selectedSubject}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch subject details');
                 }
                 const data = await response.json();
                 console.log('Received subject data:', data);
                 console.log('Time slots received:', data.timeSlots);
-    
+
                 if (!data.subject) {
                     throw new Error('No subject data received');
                 }
-    
+
                 setSubjectInfo({
                     subjectId: data.subject.subjectId,
                     subjectName: data.subject.subjectName,
                     lecturer: data.subject.lecturer
                 });
-    
+
                 setTimeSlots(data.timeSlots || []);
-                
+
                 // Sort students by registration number alphabetically before setting state
                 const sortedStudents = (data.students || [])
                     .map(student => ({
@@ -87,9 +89,9 @@ const AttendanceMarking = () => {
                         name: `${student.f_Name} ${student.l_Name}`
                     }))
                     .sort((a, b) => a.regNo.localeCompare(b.regNo));
-                    
+
                 setStudents(sortedStudents);
-    
+
                 // Initialize attendance with sorted student data
                 const initialAttendance = sortedStudents.reduce(
                     (acc, student) => ({ ...acc, [student.regNo]: false }),
@@ -99,12 +101,14 @@ const AttendanceMarking = () => {
             } catch (err) {
                 console.error('Error details:', err);
                 setError('Failed to load data.');
-                popUpRef.current.showToast('GoingWrong');
+                if (popUpRef.current) {
+                    popUpRef.current.showToast('GoingWrong');
+                }
             } finally {
                 setLoading(false);
             }
         };
-    
+
         fetchData();
     }, [selectedSubject]);
 
@@ -143,7 +147,7 @@ const AttendanceMarking = () => {
         });
 
         try {
-            const response = await fetch('http://localhost:8082/api/attendance', {
+            const response = await fetch('http://localhost:8081/api/attendance', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
