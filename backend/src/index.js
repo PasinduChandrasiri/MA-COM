@@ -28,7 +28,7 @@ app.post('/ma_system/user', (req, res) => {
         req.body.regNo,
         req.body.email,
         req.body.password,
-        "No more details",
+        "Add about you",
         "",
         req.body.subject1,
         req.body.subject2,
@@ -111,24 +111,6 @@ app.post('/user', (req, res) => {
     }
 })
 
-app.post('/forgotPassword', (req, res) => {
-    const { condition, email } = req.body;
-
-    if (condition === "check") {
-        const sql = "SELECT * FROM forgotPassword WHERE `email`=?";
-        db.query(sql, [email], (err, data) => {
-            if (err) {
-                return res.status(500).json("Error");
-            }
-            if (data.length > 0) {
-                return res.json(data);
-            } else {
-                return res.json("unavailable");
-            }
-        });
-    }
-});
-
 app.post('/notice', (req, res) => {
 
     const { condition } = req.body;
@@ -186,7 +168,7 @@ app.delete('/notice/:id', (req, res) => {
     const sql = "DELETE FROM notice WHERE id = ?";
     db.query(sql, id, (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json("Updates")
     })
@@ -198,7 +180,7 @@ app.delete('/comments/:id', (req, res) => {
     const sql = "DELETE FROM comments WHERE id = ?";
     db.query(sql, id, (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json("Updates")
     })
@@ -213,7 +195,7 @@ app.put('/notice/:id', (req, res) => {
     const sql = "UPDATE notice SET `title` = ?, `content` = ? WHERE `id` = ?";
     db.query(sql, [title, content, id], (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json("Updates")
     })
@@ -221,13 +203,23 @@ app.put('/notice/:id', (req, res) => {
 
 app.put('/user/:id', (req, res) => {
     const userId = req.params.id;
-    const { password, condition } = req.body;
+    const { password, condition, name, semester, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8, subject9, subject10, about, pic } = req.body;
 
     if (condition === "pwdRecovery") {
         const sql = "UPDATE user SET `password` = ? WHERE `id` = ?";
         db.query(sql, [password, userId], (err, data) => {
             if (err) {
-                return res.json("Error");
+                return res.status(500).json("Error");
+            }
+            return res.json("Updates")
+        })
+    }
+
+    else if (condition === "editDetails") {
+        const sql = "UPDATE user SET `f_Name` = ?,`l_Name` = ?,`semester` = ?,`subject1` = ?,`subject2` = ?,`subject3` = ?,`subject4` = ?,`subject5` = ?,`subject6` = ?,`subject7` = ?,`subject8` = ?,`subject9` = ?,`subject10` = ?,`about` = ?,`pic` = ? WHERE `id` = ?";
+        db.query(sql, [name, "", semester, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8, subject9, subject10, about, pic, userId], (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
             }
             return res.json("Updates")
         })

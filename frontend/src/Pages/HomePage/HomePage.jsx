@@ -15,7 +15,7 @@ import CommentPanel from '../../Components/CommentPanel/CommentPanel';
 import defaultImage from "../../Images/default_User.png";
 import axios from 'axios';
 
-// Example data from datacase
+// Example data from database
 import { FeedbackDataLecturer } from '../../Data/FeedbackDataLecturer';
 import { AttendanceStudent } from '../../Data/AttendanceStudent';
 import { AttendanceLecturer } from '../../Data/AttendanceLecturer';
@@ -200,7 +200,7 @@ function HomePage() {
         <Header />
         <div style={{ height: '70px' }} />  {/* make distance between header and first component */}
 
-        <div className={`container ${isActive || isActive2 || isActive3 || isActive4 ? "blur" : ""}`} id="blur">
+        <div className={`homeMainContainer ${isActive || isActive2 || isActive3 || isActive4 ? "blur" : ""}`} id="blur">
           <ImageSlider />
 
           {/* Profile card */}

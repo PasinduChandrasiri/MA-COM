@@ -13,9 +13,8 @@ svg {
 
 /* css slider */
 .slider {
-    margin-top: 80px;
-    height: 100vh;
-    margin-top: -50px;
+    height: calc(100vh + 20px);
+    margin-top: -80px;
     position: relative;
 }
 

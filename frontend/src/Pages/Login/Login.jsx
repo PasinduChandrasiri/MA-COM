@@ -29,41 +29,57 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        axios.post('http://localhost:8081/user', {
-            condition: "normal",
-            email: email
-        })
-            .then(res => {
-                if (res.data[0].password === password) {
-                    popUpRef.current.showToast("success");
+        if (email === "" || password === "") {
+            popUpRef.current.showToast("signUpInvalid");
+        }
+        else {
+            axios.post('http://localhost:8081/user', {
+                condition: "normal",
+                email: email
+            })
+                .then(res => {
+                    if (res.data[0].password === password) {
+                        popUpRef.current.showToast("success");
 
-                    localStorage.setItem('name', res.data[0].f_Name + " " + res.data[0].l_Name);
-                    localStorage.setItem('email', res.data[0].email);
-                    localStorage.setItem('semester', res.data[0].semester);
-                    localStorage.setItem('profession', res.data[0].profession);
-                    localStorage.setItem('regNo', res.data[0].regNo);
-                    localStorage.setItem('about', res.data[0].about);
-                    localStorage.setItem('pic', res.data[0].pic);
+                        localStorage.setItem('id', res.data[0].id);
+                        localStorage.setItem('name', res.data[0].f_Name + " " + res.data[0].l_Name);
+                        localStorage.setItem('email', res.data[0].email);
+                        localStorage.setItem('semester', res.data[0].semester);
+                        localStorage.setItem('profession', res.data[0].profession);
+                        localStorage.setItem('regNo', res.data[0].regNo);
+                        localStorage.setItem('about', res.data[0].about);
+                        localStorage.setItem('pic', res.data[0].pic);
+                        localStorage.setItem('subject1', res.data[0].subject1);
+                        localStorage.setItem('subject2', res.data[0].subject2);
+                        localStorage.setItem('subject3', res.data[0].subject3);
+                        localStorage.setItem('subject4', res.data[0].subject4);
+                        localStorage.setItem('subject5', res.data[0].subject5);
+                        localStorage.setItem('subject6', res.data[0].subject6);
+                        localStorage.setItem('subject7', res.data[0].subject7);
+                        localStorage.setItem('subject8', res.data[0].subject8);
+                        localStorage.setItem('subject9', res.data[0].subject9);
+                        localStorage.setItem('subject10', res.data[0].subject10);
 
-                    if (rememberMe) {
-                        Cookies.set("rememberedEmail", email, { expires: 5 }); // Save for 5 days
-                        Cookies.set("rememberedPassword", password, { expires: 5 });
-                    } else {
-                        Cookies.remove("rememberedEmail");
-                        Cookies.remove("rememberedPassword");
+                        if (rememberMe) {
+                            Cookies.set("rememberedEmail", email, { expires: 5 }); // Save for 5 days
+                            Cookies.set("rememberedPassword", password, { expires: 5 });
+                        } else {
+                            Cookies.remove("rememberedEmail");
+                            Cookies.remove("rememberedPassword");
+                        }
+
+                        setTimeout(() => {
+                            navigate("/HomePage");
+                        }, 3000);
                     }
-
-                    setTimeout(() => {
-                        navigate("/HomePage");
-                    }, 3000);
-                }
-                else {
-                    popUpRef.current.showToast("error");
-                }
-            })
-            .catch(err => {
-                popUpRef.current.showToast("NotAccount");
-            })
+                    else {
+                        popUpRef.current.showToast("error");
+                    }
+                })
+                .catch(err => {
+                    popUpRef.current.showToast("NotAccount");
+                })
+        }
     };
 
     return (
@@ -75,6 +91,7 @@ const Login = () => {
 
                 <div className="input_box">
                     <input
+                        name="user"
                         type="text"
                         id="user"
                         className="input-field"
@@ -88,6 +105,7 @@ const Login = () => {
 
                 <div className="input_box">
                     <input
+                        name="pass"
                         type="password"
                         id="pass"
                         className="input-field"

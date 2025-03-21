@@ -4,8 +4,9 @@
     justify-content: space-between;
     width: calc(100% - 78px);
     height: 60px;
-    /* background-color: #2563EB; */
-    backdrop-filter: blur(15px);
+    background-color: #1d1b31;
+    opacity: 0.8;
+    /* backdrop-filter: blur(15px); */
     z-index: 100;
 }
 

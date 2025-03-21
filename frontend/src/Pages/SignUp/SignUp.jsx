@@ -182,7 +182,7 @@ const SignUp = () => {
         setFormData(updatedFormData);
         setIsOpen(false);
         console.log(formData);
-    };
+    }; 
 
     //Sign up function
     const handleCreateAccount = (e) => {
