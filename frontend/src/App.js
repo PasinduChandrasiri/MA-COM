@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { ContactUs, HomePage, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove } from './Pages';
+import { ContactUs, HomePage, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback } from './Pages';
 
 function App() {
 
@@ -14,6 +14,7 @@ function App() {
       <Route path='/AttendanceView' element={<AttendanceView />} />
       <Route path='/CashRequest' element={<CashRequest />} />
       <Route path='/CashApprove' element={<CashApprove />} />
+      <Route path='/Feedback' element={<Feedback />} />
     </Routes>
   );
 }

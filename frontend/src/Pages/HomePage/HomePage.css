@@ -4,7 +4,7 @@ body::-webkit-scrollbar {
 
 .homeContainer {
     margin-left: 78px;
-    /* padding-right: 78px; */
+    /*padding-right: 78px;*/
     background-image: url("../../Images/Backgroud.png");
     background-position: center;
     background-size: cover;

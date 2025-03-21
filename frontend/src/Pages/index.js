@@ -7,5 +7,6 @@ import AttendanceMarking from './AttendanceMarking/AttendanceMarking';
 import AttendanceView from './AttendanceView/AttendanceView';
 import CashRequest from './CashRequest/CashRequest';
 import CashApprove from './CashApprove/CashApprove';
+import Feedback from "./Feedback/Feedback";
 
-export { HomePage, ContactUs, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove };
+export { HomePage, ContactUs, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback };
