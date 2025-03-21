@@ -413,12 +413,19 @@ app.post('/api/cash-requests', (req, res) => {
 // Get cash requests by status for a user
 app.get('/api/cash-requests', (req, res) => {
     const sql = "SELECT * FROM cash_requests";
+
     db.query(sql, (err, results) => {
         if (err) {
-            console.error('Error fetching cash requests:', err);
-            return res.status(500).json({ message: "Error fetching cash requests" });
+            console.error('❌ Database Query Error:', err);
+            return res.status(500).json({ message: "Database query error", error: err });
         }
-        console.log('Fetched cash requests:', results); // Debugging log
+
+        if (!results || results.length === 0) {
+            console.warn('⚠ No cash requests found in the database.');
+            return res.json([]); // Return an empty array if no records found
+        }
+
+        console.log('✅ Cash Requests Fetched Successfully:', results);
         res.json(results);
     });
 });
@@ -450,5 +457,24 @@ app.put('/api/cash-requests/:id', (req, res) => {
         }
         console.log('Cash request updated successfully:', result); // Debugging log
         res.json({ message: "Cash request updated successfully" });
+    });
+});
+
+// Get user by ID
+app.get('/api/user/:id', (req, res) => {
+    const userId = req.params.id;
+    
+    const sql = "SELECT id, f_Name, l_Name, profession FROM user WHERE id = ?";
+    db.query(sql, [userId], (err, results) => {
+        if (err) {
+            console.error('Error fetching user:', err);
+            return res.status(500).json({ message: "Error fetching user details" });
+        }
+        
+        if (results.length === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        
+        res.json(results[0]);
     });
 });

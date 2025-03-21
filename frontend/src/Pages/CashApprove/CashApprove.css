@@ -1,54 +1,494 @@
 .cashapprove-container {
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    min-height: calc(100vh - 140px); /* Adjust based on your header/footer heights */
+    background-color: #f5f5f5;
+    margin-left: -140px;
 }
 
-.cashapprove-content {
+.cashapprove-main {
+    display: flex;
     flex: 1;
-    margin-left: 80px;
-    padding: 20px;
+    margin-left: 220px; /* Adjust based on your SideBar width */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-.requests-panel {
-    margin-bottom: 20px;
+/* Left sidebar styles */
+.cashapprove-sidebar {
+    width: 220px;
+    background-color: #f5f5f5;
+    border-right: 1px solid #e0e0e0;
+    padding: 75px 50px 0px 0px;
 }
 
-.requests-panel ul {
+.search-container {
+    position: relative;
+    margin: 0 15px 20px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #5f6368;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 10px 10px 35px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    outline: none;
+    transition: box-shadow 0.2s;
+}
+
+.search-input:focus {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+}
+
+.nav-menu {
     list-style: none;
     padding: 0;
-}
-
-.requests-panel li {
-    padding: 5px 0;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-}
-
-.blue-tick {
-    color: blue;
-    margin-left: 10px;
-}
-
-.request-details {
-    margin-top: 20px;
-}
-
-textarea, input {
-    display: block;
+    margin: 0;
     width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
 }
 
-button {
-    padding: 10px 20px;
-    margin-right: 10px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
+.nav-menu li {
+    padding: 10px 15px 10px 15px; 
+    margin: 2px 0;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #5f6368;
+    border-radius: 0 20px 20px 0;
+    position: relative;
+}
+
+.nav-menu li:hover {
+    background-color: #e8eaed;
+}
+
+.nav-menu li.active {
+    background-color: #d3e3fd;
+    color: #1a73e8;
+    font-weight: 500;
+}
+
+.nav-menu li svg {
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+.badge {
+    position: absolute;
+    right: 15px;
+    background-color: #dadce0;
+    font-size: 12px;
+    border-radius: 10px;
+    padding: 1px 8px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.nav-menu li.active .badge {
+    background-color: #1a73e8;
+    color: white;
+}
+
+/* Main content area */
+.cashapprove-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    padding-top: 0;
+    position: relative;
+    margin-top: 15px;
+    max-width: 100%; /* Ensure it doesn't exceed the container width */
+    width: calc(100% - 40px);
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* For responsive content handling */
+.cashapprove-content * {
+    max-width: 100%; /* Make sure all children elements respect container width */
+    word-wrap: break-word; /* Allow long words to break */
+    box-sizing: border-box;
+}
+
+.loading, .error, .no-requests {
+    padding: 20px;
+    text-align: center;
+    color: #5f6368;
+}
+
+.error {
+    color: #d93025;
+}
+
+/* Request list styles */
+.requests-list h2 {
+    padding: 0 0 15px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 15px;
+    color: #202124;
+}
+
+.request-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.request-item {
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f3f4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.request-item:hover {
+    background-color: #f8f9fa;
+}
+
+.request-item-content {
+    flex: 1;
+    min-width: 0; /* Allow text to truncate properly */
+}
+
+.request-title {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #202124;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.request-preview {
+    color: #5f6368;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.request-item-date {
+    width: 100px;
+    text-align: right, 20px;
+    color: #5f6368;
+    font-size: 13px;
+}
+
+/* Request details panel */
+.request-details-panel {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 65vh; /* Set a minimum height that works with your layout */
+    max-height: calc(100vh - 90px); /* Maximum height that respects header/footer */
+    width: 100%; /* Full width of its container */
+    padding-bottom: 20px;
+    overflow-y: auto; /* Allow scrolling if content is too tall */
+    position: relative;
+}
+
+/* Update the back-button styling */
+
+.back-button {
+    background-color: #f1f3f4;
+    border: none;
+    border-radius: 4px;
+    color: #1a73e8;
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-right: 15px;
+    transition: background-color 0.2s;
+}
+
+.back-button:hover {
+    background-color: #e8eaed;
+}
+
+.back-button svg {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+/* Add this to create a sticky header with the back button */
+.request-header {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+    padding: 65px 0px 0px 0px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* Only show the floating back button on smaller screens */
+@media (min-width: 1024px) {
+    .floating-back-button {
+        display: flex;
+        bottom: 30px;
+        right: 30px;
+    }
+}
+
+.request-header h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #242020;
+}
+
+.request-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.sender-info {
+    display: flex;
+    align-items: center;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #1a73e8;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    margin-right: 10px;
+}
+
+.sender-name {
+    font-weight: 500;
+    color: #202124;
+}
+
+.sender-profession {
+    color: #5f6368;
+    font-size: 13px;
+}
+
+.request-date {
+    color: #5f6368;
+    font-size: 13px;
+    margin-right: 20px;
+}
+
+.request-body {
+    padding: 20px 0;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.request-type, .request-description {
+    margin-bottom: 15px;
+    color: #242020;
+}
+
+.request-description p {
+    margin-top: 5px;
+    line-height: 1.5;
+    color: #202124;
+}
+
+.previous-response {
+    margin-top: 25px;
+    padding: 15px;
+    color: #242020;
+    background-color: #e0e5eb;
+    border-left: 4px solid #4285f4;
+    border-radius: 4px;
+}
+
+.response-status {
+    margin-bottom: 10px;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.status.approved {
+    background-color: #e6f4ea;
+    color: #0d652d;
+}
+
+.status.declined {
+    background-color: #fce8e6;
+    color: #c5221f;
+}
+
+.status svg {
+    margin-right: 5px;
+}
+
+.previous-response-text p, .previous-funds p {
+    margin-top: 5px;
+    color: #5f6368;
+}
+
+/* Response form */
+.response-form {
+    margin-top: -10px;
+}
+
+.response-form h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #202124;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #5f6368;
+}
+
+.form-group textarea {
+    width: 100%;
+    min-height: 70px;
+    padding: 12px;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group textarea:focus, .form-group input:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.action-buttons button {
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s;
+    border: none;
+}
+
+.action-buttons svg {
+    margin-right: 8px;
+}
+
+.approve-button {
+    background-color: #1a73e8;
+    color: white;
+}
+
+.approve-button:hover {
+    background-color: #1967d2;
+}
+
+.decline-button {
+    background-color: white;
+    color: #d93025;
+    border: 1px solid #dadce0 !important;
+}
+
+.decline-button:hover {
+    background-color: #fce8e6;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+    .cashapprove-main {
+        flex-direction: column;
+    }
+    
+    .cashapprove-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 10px 0;
+    }
+    
+    .nav-menu {
+        display: flex;
+        overflow-x: auto;
+        padding: 0 15px;
+    }
+    
+    .nav-menu li {
+        white-space: nowrap;
+        border-radius: 20px;
+        margin: 0 5px;
+    }
+    
+    .search-container {
+        margin: 10px 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .request-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .request-date {
+        margin-top: 10px;
+        align-self: flex-end;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .action-buttons button {
+        width: 100%;
+    }
 }
