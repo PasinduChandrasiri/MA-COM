@@ -6,7 +6,7 @@ import axios from "axios";
 const CommentPanel = ({ toggle3, toggle4 }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [animation, setAnimation] = useState("");
-    const [comments, setComment] = useState([]);
+    const [comments, setComments] = useState([]); // Fixed setter name
 
     useEffect(() => {
         const fetchData = async () => {
@@ -14,11 +14,14 @@ const CommentPanel = ({ toggle3, toggle4 }) => {
                 const condition = "all";
                 const res = await axios.post("http://localhost:8081/comments", { condition });
 
-                let lastFiveRecords = res.data.slice(-10);
-
-                setComment(lastFiveRecords);
+                // Ensure response data is an array
+                const dataArray = Array.isArray(res.data) ? res.data : [];
+                const lastTenRecords = dataArray.slice(-10);
+                
+                setComments(lastTenRecords);
             } catch (error) {
-                console.error("Error fetching notices:", error);
+                console.error("Error fetching comments:", error);
+                setComments([]); // Reset to empty array on error
             }
         };
 
@@ -44,11 +47,12 @@ const CommentPanel = ({ toggle3, toggle4 }) => {
 
     return (
         <div className="comment-container">
-            {comments.length > 0 && comments[currentIndex] ? (
+            {comments.length > 0 ? (
                 <div className={`comment-card ${animation}`}>
+                    {/* Fixed image source */}
                     <img
                         className="commentPic"
-                        src={comments[currentIndex].pic || { defaultImage }}
+                        src={comments[currentIndex].pic || defaultImage}
                         alt="Client"
                         onError={(e) => (e.target.src = defaultImage)}
                     />
@@ -56,6 +60,7 @@ const CommentPanel = ({ toggle3, toggle4 }) => {
                     <h3 className="comment-h3">{comments[currentIndex].name}</h3>
 
                     <div className="comment-dots">
+                        {/* Added array safety check */}
                         {comments.map((_, index) => (
                             <span
                                 key={index}
@@ -76,7 +81,7 @@ const CommentPanel = ({ toggle3, toggle4 }) => {
                     </div>
                 </div>
             ) : (
-                <div>Loading comments...</div>
+                <div>No comments available</div>
             )}
         </div>
     );

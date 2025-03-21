@@ -1,0 +1,126 @@
+/* ContactUs.css */
+
+/* Main page layout */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    gap:20px;
+    background-image: url("../../Images/Backgroud.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    padding-left: 78px;
+
+  }
+  
+  .content-wrapper {
+    display: flex;
+    flex: 1;
+    margin-top: 60px; /* Adjust based on header height */
+  }
+  
+  
+  
+  /* Main content area */
+  .main-content {
+    flex: 1;
+    margin-left: 250px; /* Same as sidebar width */
+    margin-right: 250px;
+    padding: 30px;
+    background-color: rgb(23, 9, 53);
+    min-height: calc(100vh - 120px); /* Adjust based on header/footer height */
+    
+  }
+  .form-group{
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    gap:20px
+  }
+  .contact-us-input{
+    width: 50%;
+    height: 2rem;
+    border-radius: 20px;
+    box-shadow: none;
+    border:none;
+    outline: none;
+    padding: 5px;
+    
+  }
+  .contact-us-input:focus{
+    border:1px solid rgb(11, 1, 1);
+  }
+  .contact-us-input-textarea{
+    height: 9rem;
+    width: 50%;
+    border-radius: 20px;
+    padding: 10px;
+    border:none;
+    outline: none;
+  }
+  .contact-us-input-textarea:focus{
+    border:1px solid rgb(11, 1, 1);
+
+  }
+  .contact-us-submit-button{
+    margin-top: 5%;
+    margin-bottom: 20px;
+    width: 10rem;
+    height: 2.2rem;
+    border-radius: 20px;
+    font-size: 1rem;
+  }
+  .contact-us-submit-button:hover{
+    color: #f7f5f5;
+    border: #fffcfc solid ;
+    background-color:rgb(23, 9, 53) ;}
+
+  .contact-us-contact-lables{
+    display: flex;
+  }
+  .cont-us-label{
+    
+    width: 50rem;
+    height: 6rem;
+    background-color: rgb(8, 12, 37);
+    margin-left:2rem ;
+    margin-right: 2rem;
+    border-radius: 10px;
+    display:flex;
+    padding: 1rem;
+  }
+  .cont-us-label-icon{
+    color: #ffffff;
+    font-size: 3.5rem;
+    margin-right: 1rem;
+    margin-left: 2rem;
+    padding:0.7rem 0rem 1rem 1rem;
+  }
+  .cont-us-label-text{
+    padding-top: 1rem;
+    display: block;
+  }
+  .cont-us-label-heading{
+    text-decoration: underline 2px;
+    text-align: left;
+    margin-bottom: 3px;
+    
+  }
+  .cont-us-label-content{
+text-align: left;
+    }
+
+    /* For mobile responsiveness */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+      position: relative;
+      height: auto;
+    }
+    
+    .main-content {
+      margin-left: 0;
+    }
+  }
