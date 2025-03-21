@@ -259,7 +259,7 @@ const CashRequest = () => {
                                                             <div className="request-preview">{request.type}: {request.description.substring(0, 60)}...</div>
                                                         </div>
                                                         <div className="request-item-date">
-                                                            {formatDate(request.timestamp)}
+                                                            {formatDate(request.timestamp)} at {formatTime(request.timestamp)}
                                                         </div>
                                                     </li>
                                                 ))}

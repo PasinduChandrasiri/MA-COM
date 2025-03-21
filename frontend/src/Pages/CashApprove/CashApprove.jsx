@@ -454,7 +454,7 @@ const CashApprove = () => {
                                                     <div className="request-preview">{req.description.substring(0, 60)}...</div>
                                                 </div>
                                                 <div className="request-item-date">
-                                                    {formatDate(req.timestamp)}
+                                                    {formatDate(req.timestamp)} at {formatTime(req.timestamp)}
                                                 </div>
                                             </li>
                                         ))}
