@@ -389,12 +389,18 @@
     border-bottom: 1px solid #f1f3f4;
 }
 
-.request-type, .request-description {
+.request-type, .request-description, .request-topic {
     margin-bottom: 15px;
     color: #242020;
 }
 
 .request-description p {
+    margin-top: 5px;
+    line-height: 1.5;
+    color: #202124;
+}
+
+.request-topic p {
     margin-top: 5px;
     line-height: 1.5;
     color: #202124;

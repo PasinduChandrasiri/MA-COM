@@ -299,9 +299,11 @@ const CashRequest = () => {
                                     <div className="request-type">
                                         <strong>Type:</strong> {selectedRequest.type}
                                     </div>
-                                    <div className="request-description">
+                                    <div className="request-topic">
                                         <strong>Topic:</strong> {selectedRequest.topic}
-                                        <p>{selectedRequest.description}</p>
+                                    </div>
+                                    <div className="request-description">
+                                        <strong>Description:</strong> {selectedRequest.description}
                                     </div>
                                 </div>
 
