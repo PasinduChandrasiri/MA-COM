@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaSearch, FaInbox, FaCheckCircle, FaTimesCircle, FaPlus } from 'react-icons/fa';
+import { FaSearch, FaInbox, FaCheckCircle, FaTimesCircle, FaPlus, FaChevronLeft } from 'react-icons/fa';
 import SideBar from '../../Components/SideBar/SideBar';
 import Pop_up from '../../Components/Pop_up/Pop_up';
 import Footer from '../../Components/Footer/Footer';
@@ -268,7 +268,7 @@ const CashRequest = () => {
                             <div className="request-details-panel">
                                 <div className="request-header">
                                     <button className="back-button" onClick={handleGoBack}>
-                                        <FaTimesCircle /> Back
+                                        <FaChevronLeft /> Back
                                     </button>
                                     <h2>Request Details</h2>
                                 </div>

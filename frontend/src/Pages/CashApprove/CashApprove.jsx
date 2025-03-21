@@ -4,7 +4,7 @@ import Pop_up from '../../Components/Pop_up/Pop_up';
 import Footer from '../../Components/Footer/Footer';
 import Header from '../../Components/Header/Header';
 import './CashApprove.css';
-import { FaSearch, FaChevronLeft, FaRegCheckCircle, FaRegTimesCircle, FaInbox, FaCheck, FaTimes, FaArrowAltCircleLeft } from 'react-icons/fa';
+import { FaSearch, FaChevronLeft, FaRegCheckCircle, FaRegTimesCircle, FaInbox, FaCheck, FaTimes } from 'react-icons/fa';
 import { format } from 'date-fns';
 
 const CashApprove = () => {
