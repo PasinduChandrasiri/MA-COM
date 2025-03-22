@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 
 import "./ContactUs.css"
 import SideBar from '../../Components/SideBar/SideBar';
 import Footer from '../../Components/Footer/Footer';
 import Header from '../../Components/Header/Header';
-
-import { Link } from 'react-router-dom';
-
+import emailjs from '@emailjs/browser';
 
 // ContactUs.jsx
 
 function ContactUs() {
-    const [profession, setProfession] = useState(localStorage.getItem('profession'));
+    const [profession] = useState(localStorage.getItem('profession'));
   
   const [formData, setFormData] = useState({
     name:'',
+    email:'',
     subject: '',
     message: ''
   });
@@ -26,20 +25,37 @@ function ContactUs() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+ 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     
     try {
-      const response = await axios.post('http://localhost:5000/send-email', formData);
+      //const response = await axios.post('http://localhost:5000/send-email', formData);
       setStatus('Message sent successfully!');
       setFormData({ name: '', email: '', subject: '', message: '' });
+      await emailjs
+      .sendForm("deptwise_gmail", "contact_us_deptwise", e.target, {
+        publicKey: "UJ9LFwc1LWo6bfrpw",
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+        },
+        (error) => {
+          console.log(error.text);
+        },
+      );
     } catch (error) {
       setStatus('Error sending message. Please try again.');
     } finally {
       setSubmitting(false);
     }
   };
+
+ 
+
 
   return (
     
@@ -63,11 +79,19 @@ function ContactUs() {
             type="text"
             name="name"
             className='contact-us-input'
-
             value={formData.name}
             onChange={handleChange}
             required />
-        
+
+          <label>Email:</label>
+          <input
+            type="text"
+            name="email"
+            className='contact-us-input'
+            value={formData.email}
+            onChange={handleChange}
+            required />
+
           <label>Subject:</label>
           <input
             type="text"
@@ -117,7 +141,7 @@ function ContactUs() {
         <div class='cont-us-label-icon'><i class='bx bx-phone'></i></div>
         <div className='cont-us-label-text'>
         <div class='cont-us-label-heading'><p1><b>Contact Number</b></p1></div>
-        <div class='cont-us-label-content'><p1>+94 000-0000000</p1></div>
+        <div class='cont-us-label-content'><p1>+94 076-8758499</p1></div>
         
       </div>
     </div>
