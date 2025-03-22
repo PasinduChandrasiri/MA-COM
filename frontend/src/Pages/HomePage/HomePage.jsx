@@ -49,7 +49,7 @@ function HomePage() {
     }
   };
 
-  //Getting data from 
+  //Getting data from localStorage
   const [name, setName] = useState(localStorage.getItem('name'));
   const [email, setEmail] = useState(localStorage.getItem('email'));
   const [semester, setSemester] = useState(localStorage.getItem('semester'));
@@ -106,13 +106,13 @@ function HomePage() {
     axios.delete(`http://localhost:8081/notice/` + id)
       .then(res => {
         setRecords((prevRecords) => prevRecords.filter((item) => item.id !== id));
-        setTimeout(() => window.location.reload(), 1000);
         toggle2();
+        setTimeout(() => window.location.reload(), 1000);
         popUpRef.current.showToast("delete");
       })
       .catch(err => {
-        console.error("Error deleting notice:", err);
         toggle2();
+        console.error("Error deleting notice:", err);
         popUpRef.current.showToast("GoingWrong");
       })
   };
@@ -127,13 +127,13 @@ function HomePage() {
           prevRecords.map((item) =>
             item.id === id ? { ...item, title: updatedTitle, content: updatedDescription } : item
           ));
-        setTimeout(() => window.location.reload(), 1000);
         toggle2();
+        setTimeout(() => window.location.reload(), 1000);
         popUpRef.current.showToast("update");
       })
       .catch(err => {
-        console.error("Error updating notice:", err);
         toggle2();
+        console.error("Error updating notice:", err);
         popUpRef.current.showToast("GoingWrong");
       })
   };
@@ -163,13 +163,13 @@ function HomePage() {
     axios.delete(`http://localhost:8081/comments/` + id)
       .then(res => {
         setRecords2((prevRecords2) => prevRecords2.filter((item) => item.id !== id));
-        setTimeout(() => window.location.reload(), 1000);
         toggle4();
+        setTimeout(() => window.location.reload(), 1000);
         popUpRef.current.showToast("delete");
       })
       .catch(err => {
-        console.error("Error deleting notice:", err);
         toggle4();
+        console.error("Error deleting notice:", err);
         popUpRef.current.showToast("GoingWrong");
       })
   };

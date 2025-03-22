@@ -1,0 +1,214 @@
+.managementContainer {
+    margin-left: 78px;
+    background-image: url("../../Images/Backgroud.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.managementMainContainer {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100vh;
+    transition: 0.5s;
+    z-index: 19;
+}
+
+.managementMainContainer.blur {
+    filter: blur(20px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.ManagementMonthSelector {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    margin-right: 8px;
+}
+
+.ManagementButton {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 10px;
+    transition: 0.5s;
+    color: #ffffff;
+}
+
+.ManagementButton:hover {
+    opacity: 0.8;
+}
+
+.ManagementDownloadBtn {
+    background-color: rgb(183, 205, 94);
+}
+
+.ManagementUpdateBtn {
+    background-color: rgb(38, 21, 114);
+    margin-right: 8px;
+}
+
+.ManagementDeleteBtn {
+    background-color: rgb(227, 37, 37);
+}
+
+.ManagementAddBtn {
+    background-color: #35315c;
+    margin-top: 10px;
+}
+
+.ManagementTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: rgb(241, 239, 246);
+}
+
+.ManagementTh,
+.ManagementTd {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    color: #161616;
+}
+
+.ManagementTr {
+    border: 1px solid #ddd;
+    background-color: #35315c;
+    color: white;
+    text-align: center;
+    height: 40px;
+}
+
+#popup7 {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    padding: 30px 50px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 20;
+    border-radius: 10px;
+    margin-left: 39px;
+}
+
+#popup7.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+#popup8 {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    padding: 30px 50px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 20;
+    border-radius: 10px;
+    margin-left: 39px;
+}
+
+#popup8.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+#popup9 {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    padding: 30px 50px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 20;
+    border-radius: 10px;
+    margin-left: 39px;
+}
+
+#popup9.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.ManagementEditDetailsH2 {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+    padding: 0;
+}
+
+.ManagementEditDetailsCloseBtn {
+    border-radius: 5px;
+    padding: 0px 15px;
+    height: 35px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    background: #000;
+    border: none;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.ManagementEditDetailsForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.ManagementEditDetailsInput {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.ManagementEditDetailsButton {
+    border-radius: 5px;
+    padding: 8px 15px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    background: #000;
+    border: none;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.ManagementEditDetailsButton:hover,
+.ManagementEditDetailsCloseBtn:hover {
+    background: #35315c;
+}
