@@ -1,0 +1,196 @@
+.settingsMainContainer {
+    margin-left: 78px;
+    background-image: url("../../Images/Backgroud.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.settings-container {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100vh;
+    transition: 0.5s;
+    z-index: 19;
+}
+
+.settings-container.blur {
+    filter: blur(20px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.settings-profile-card {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.settings-profile-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-right: 100px;
+}
+
+.settings-profile-info {
+    text-align: left;
+}
+
+.settings-profile-info p {
+    margin: 5px 0;
+    color: #1d1d42;
+}
+
+.settings-profile-info ul {
+    padding-left: 20px;
+    color: #1d1d42;
+
+}
+
+.settings-edit-btn {
+    color: #000000;
+    font: bold;
+    background-color: #575477;
+    padding: 0.6rem;
+    border-radius: 8px;
+    transition-duration: 0.5s;
+    animation: ease-in-out;
+    cursor: pointer;
+}
+
+.settings-edit-btn:hover {
+    background-image: linear-gradient(to left, #35315c, #000000);
+    transform: scale(1.1);
+    color: white;
+}
+
+.settings-password-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    padding: 0 20%;
+}
+
+.settings-password-container input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: 0.5s;
+}
+
+.settings-password-container input:focus {
+    outline: none;
+    border-color: #7a42f4;
+}
+
+#popup5 {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    padding: 30px 50px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 20;
+    border-radius: 10px;
+    margin-left: 39px;
+}
+
+#popup5.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+#popup6 {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    padding: 30px 50px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 20;
+    border-radius: 10px;
+    margin-left: 39px;
+}
+
+#popup6.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.editDetailsH2 {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+    padding: 0;
+}
+
+.editDetailsCloseBtn {
+    border-radius: 5px;
+    padding: 0px 15px;
+    height: 35px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    background: #000;
+    border: none;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.editDetailsForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.editDetailsInput {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.editDetailsButton {
+    border-radius: 5px;
+    padding: 8px 15px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    background: #000;
+    border: none;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.editDetailsButton:hover,
+.editDetailsCloseBtn:hover {
+    background: #35315c;
+}
+

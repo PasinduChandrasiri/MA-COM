@@ -45,7 +45,8 @@
 .toast.error i,
 .toast.errorPasswordCompair i,
 .toast.NotAccount i,
-.toast.GoingWrong i {
+.toast.GoingWrong i,
+.toast.OTPsentFailed i {
     color: red;
 }
 
@@ -53,7 +54,9 @@
 .toast.signUpInvalid i,
 .toast.haveAccount i,
 .toast.AlreadyRecovered i,
-.toast.validation i {
+.toast.validation i,
+.toast.emailValidation i,
+.toast.invalidOTP i {
     color: orange;
 }
 
@@ -64,7 +67,8 @@
 .toast.error,
 .toast.errorPasswordCompair,
 .toast.NotAccount,
-.toast.GoingWrong {
+.toast.GoingWrong,
+.toast.OTPsentFailed {
     color: red;
 }
 
@@ -72,7 +76,9 @@
 .toast.signUpInvalid,
 .toast.haveAccount,
 .toast.AlreadyRecovered,
-.toast.validation {
+.toast.validation,
+.toast.emailValidation,
+.toast.invalidOTP {
     color: orange;
 }
 
@@ -96,7 +102,8 @@
 .toast.error::after,
 .toast.errorPasswordCompair::after,
 .toast.NotAccount::after,
-.toast.GoingWrong::after {
+.toast.GoingWrong::after,
+.toast.OTPsentFailed::after {
     background: red;
 }
 
@@ -104,7 +111,9 @@
 .toast.signUpInvalid::after,
 .toast.haveAccount::after,
 .toast.AlreadyRecovered::after,
-.toast.validation::after {
+.toast.validation::after,
+.toast.emailValidation::after,
+.toast.invalidOTP::after {
     background: orange;
 }
 

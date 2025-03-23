@@ -28,20 +28,31 @@ app.listen(8081, () => {
 
 //Insert queries
 app.post('/ma_system/user', (req, res) => {
-    const sql = "INSERT INTO user(`f_Name`,`l_Name`,`profession`,`semester`,`email`,`password`,`about`,`pic`) VALUES (?)";
+    const sql = "INSERT INTO user(`f_Name`,`l_Name`,`profession`,`semester`,`regNo`,`email`,`password`,`about`,`pic`,`subject1`,`subject2`,`subject3`,`subject4`,`subject5`,`subject6`,`subject7`,`subject8`,`subject9`,`subject10`) VALUES (?)";
     const values = [
         req.body.firstName,
         req.body.secondName,
         req.body.profession,
         req.body.semester,
+        req.body.regNo,
         req.body.email,
         req.body.password,
-        "No more details",
+        "Add about you",
         "",
+        req.body.subject1,
+        req.body.subject2,
+        req.body.subject3,
+        req.body.subject4,
+        req.body.subject5,
+        req.body.subject6,
+        req.body.subject7,
+        req.body.subject8,
+        req.body.subject9,
+        req.body.subject10,
     ]
     db.query(sql, [values], (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json(data);
     })
@@ -55,7 +66,7 @@ app.post('/ma_system/forgotpassword', (req, res) => {
     ]
     db.query(sql, [values], (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json(data);
     })
@@ -69,7 +80,7 @@ app.post('/ma_system/notice', (req, res) => {
     ]
     db.query(sql, [values], (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json(data);
     })
@@ -84,7 +95,55 @@ app.post('/ma_system/comments', (req, res) => {
     ]
     db.query(sql, [values], (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
+        }
+        return res.json(data);
+    })
+})
+
+app.post('/ma_system/nonacademicdetails', (req, res) => {
+    const sql = "INSERT INTO nonacademicdetails(`registerNumber`,`name`,`attendance`,`dailyCharge`,`month`) VALUES (?)";
+    const values = [
+        req.body.regNo,
+        req.body.name,
+        req.body.attendance,
+        req.body.dailyCharge,
+        req.body.month,
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json(data);
+    })
+})
+
+app.post('/ma_system/subjects', (req, res) => {
+    const sql = "INSERT INTO subjects(`semester`,`subjectId`,`subjectName`,`lecturer`) VALUES (?)";
+    const values = [
+        req.body.semester,
+        req.body.subjectId,
+        req.body.subjectName,
+        req.body.lecturer,
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json(data);
+    })
+})
+
+app.post('/ma_system/lecturers', (req, res) => {
+    const sql = "INSERT INTO lecturers(`lecturerId`,`lecturerName`,`department`) VALUES (?)";
+    const values = [
+        req.body.lecturerId,
+        req.body.lecturerName,
+        req.body.department,
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
         }
         return res.json(data);
     })
@@ -108,24 +167,6 @@ app.post('/user', (req, res) => {
         })
     }
 })
-
-app.post('/forgotPassword', (req, res) => {
-    const { condition, email } = req.body;
-
-    if (condition === "check") {
-        const sql = "SELECT * FROM forgotPassword WHERE `email`=?";
-        db.query(sql, [email], (err, data) => {
-            if (err) {
-                return res.status(500).json("Error");
-            }
-            if (data.length > 0) {
-                return res.json(data);
-            } else {
-                return res.json("unavailable");
-            }
-        });
-    }
-});
 
 app.post('/notice', (req, res) => {
 
@@ -159,6 +200,152 @@ app.post('/comments', (req, res) => {
     }
 })
 
+app.post('/subjects', (req, res) => {
+    const { condition, semester, lecturer } = req.body;
+
+    if (condition === "subject") {
+        const sql = "SELECT * FROM subjects WHERE `semester`=?";
+        db.query(sql, [semester], (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+    else if (condition === "all") {
+        const sql = "SELECT * FROM subjects";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+    else if (condition === "feedbackLecturer") {
+        const sql = "SELECT * FROM subjects WHERE `lecturer`=?";
+        db.query(sql, [lecturer], (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/lecturers', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM lecturers";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+    else if (condition === "lecturer") {
+        const sql = "SELECT lecturerName FROM lecturers";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/nonacademicdetails', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM nonacademicdetails";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/coursefeedbackrate', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM coursefeedbackrate";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/lecturerfeedbackrate', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM lecturerfeedbackrate";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/batchdetails', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM batchdetails";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
 
 //Delete queries
 app.delete('/notice/:id', (req, res) => {
@@ -167,7 +354,7 @@ app.delete('/notice/:id', (req, res) => {
     const sql = "DELETE FROM notice WHERE id = ?";
     db.query(sql, id, (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json("Updates")
     })
@@ -179,7 +366,43 @@ app.delete('/comments/:id', (req, res) => {
     const sql = "DELETE FROM comments WHERE id = ?";
     db.query(sql, id, (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
+});
+
+app.delete('/nonacademicdetails/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = "DELETE FROM nonacademicdetails WHERE id = ?";
+    db.query(sql, id, (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
+});
+
+app.delete('/subjects/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = "DELETE FROM subjects WHERE id = ?";
+    db.query(sql, id, (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
+});
+
+app.delete('/lecturers/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = "DELETE FROM lecturers WHERE id = ?";
+    db.query(sql, id, (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
         }
         return res.json("Updates")
     })
@@ -194,7 +417,84 @@ app.put('/notice/:id', (req, res) => {
     const sql = "UPDATE notice SET `title` = ?, `content` = ? WHERE `id` = ?";
     db.query(sql, [title, content, id], (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
+})
+
+app.put('/user/:id', (req, res) => {
+    const userId = req.params.id;
+    const { password, condition, name, semester, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8, subject9, subject10, about, pic } = req.body;
+
+    if (condition === "pwdRecovery") {
+        const sql = "UPDATE user SET `password` = ? WHERE `id` = ?";
+        db.query(sql, [password, userId], (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            return res.json("Updates")
+        })
+    }
+
+    else if (condition === "editDetails") {
+        const sql = "UPDATE user SET `f_Name` = ?,`l_Name` = ?,`semester` = ?,`subject1` = ?,`subject2` = ?,`subject3` = ?,`subject4` = ?,`subject5` = ?,`subject6` = ?,`subject7` = ?,`subject8` = ?,`subject9` = ?,`subject10` = ?,`about` = ?,`pic` = ? WHERE `id` = ?";
+        db.query(sql, [name, "", semester, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8, subject9, subject10, about, pic, userId], (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            return res.json("Updates")
+        })
+    }
+})
+
+app.put('/nonacademicdetails/:id', (req, res) => {
+    const id = req.params.id;
+    const { regNo, name, attendance, dailyCharge, month } = req.body;
+
+    const sql = "UPDATE nonacademicdetails SET `registerNumber` = ?,`name` = ?,`attendance` = ?,`dailyCharge` = ?,`month` = ? WHERE `id` = ?";
+    db.query(sql, [regNo, name, attendance, dailyCharge, month, id], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
+})
+
+app.put('/subjects/:id', (req, res) => {
+    const id = req.params.id;
+    const { semester, subjectId, subjectName, lecturer } = req.body;
+
+    const sql = "UPDATE subjects SET `semester` = ?,`subjectId` = ?,`subjectName` = ?,`lecturer` = ? WHERE `id` = ?";
+    db.query(sql, [semester, subjectId, subjectName, lecturer, id], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
+})
+
+app.put('/lecturers/:id', (req, res) => {
+    const id = req.params.id;
+    const { lecturerId, lecturerName, department } = req.body;
+
+    const sql = "UPDATE lecturers SET `lecturerId` = ?,`lecturerName` = ?,`department` = ? WHERE `id` = ?";
+    db.query(sql, [lecturerId, lecturerName, department, id], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
+})
+
+app.put('/batchdetails/:id', (req, res) => {
+    const id = req.params.id;
+    const { batchName, batchSemester } = req.body;
+
+    const sql = "UPDATE batchdetails SET `batch` = ?,`semester` = ? WHERE `id` = ?";
+    db.query(sql, [batchName, batchSemester, id], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
         }
         return res.json("Updates")
     })
