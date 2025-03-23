@@ -15,7 +15,7 @@ function ContactUs() {
     const [lecturer, setLecturer] = useState([]);
     const [subject, setSubject] = useState([]);
     const [nonAcademicDetails, setNonAcademicDetails] = useState([]);
-
+    const [batch, setBatch] = useState([]);
 
     //Pop-up details
     const [isActive7, setIsActive7] = useState(false);
@@ -29,6 +29,10 @@ function ContactUs() {
     const [isActive9, setIsActive9] = useState(false);
     const toggle9 = () => {
         setIsActive9(!isActive9);
+    };
+    const [isActive10, setIsActive10] = useState(false);
+    const toggle10 = () => {
+        setIsActive10(!isActive10);
     };
 
     const [add, setAdd] = useState(false);
@@ -44,13 +48,16 @@ function ContactUs() {
     const [courseId, setCourseId] = useState();
     const [courseName, setCourseName] = useState();
     const [courseLecturer, setCourseLecturer] = useState();
-    const semesterList = ["4th Semester", "5th Semester", "5th Extended Semester", "6th Semester", "7th Semester", "8th Semester"];
+    const semesterList = ["4th semester", "5th semester", "5th Extended semester", "6th semester", "7th semester", "8th semester"];
     const [lecturerNames, setLecturerNames] = useState([]);
 
     const [lecturerId, setLecturerId] = useState();
     const [lecturerName, setLecturerName] = useState();
     const [lecturerDepartment, setLecturerDepartment] = useState();
     const departmentList = ["Department of Computer Engineering", "Department of Electrical and Electronic Engineering", "Department of Interdisciplinary"];
+
+    const [batchName, setBatchName] = useState();
+    const [batchSemester, setBatchSemester] = useState();
 
     //Getting data from localStorage
     const [profession, setProfession] = useState(localStorage.getItem('profession'));
@@ -114,10 +121,23 @@ function ContactUs() {
             }
         };
 
+        const fetchData5 = () => {
+            axios.post('http://localhost:8081/batchdetails', {
+                condition: "all",
+            })
+                .then(res => {
+                    setBatch(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        };
+
         fetchData();
         fetchData2();
         fetchData3();
         fetchData4();
+        fetchData5();
     }, []);
 
     const handleAddNonAcademicDetails = async (e) => {
@@ -267,6 +287,23 @@ function ContactUs() {
             })
     };
 
+    const handleBatchDetails = async (e) => {
+        e.preventDefault();
+        axios.put(`http://localhost:8081/batchdetails/` + itemId, {
+            batchName: batchName,
+            batchSemester: batchSemester,
+        })
+            .then(res => {
+                toggle10();
+                setTimeout(() => window.location.reload(), 2000);
+                popUpRef.current.showToast("update");
+            })
+            .catch(err => {
+                toggle10();
+                popUpRef.current.showToast("GoingWrong");
+            })
+    }
+
     //Filtering data
     const [filterMonth, setFilterMonth] = useState("");
     const [filterSemester, setFilterSemester] = useState("");
@@ -344,7 +381,7 @@ function ContactUs() {
                 <Header />
                 <div style={{ height: '70px' }} />  {/* make distance between header and first component */}
 
-                <div className={`managementMainContainer ${isActive7 || isActive8 || isActive9 ? "blur" : ""}`} id="blur">
+                <div className={`managementMainContainer ${isActive7 || isActive8 || isActive9 || isActive10 ? "blur" : ""}`} id="blur">
 
                     {/* Non-Academic Details Table */}
                     <Topic name={"NON-ACADEMIC DETAILS"} marginTop="5%" />
@@ -476,6 +513,33 @@ function ContactUs() {
                             </tbody>
                         </table>
                         <button className='ManagementButton ManagementAddBtn' onClick={() => { toggle9(); setAdd(true); setLecturerId(); setLecturerName(); setLecturerDepartment(); }}>Add Lecturer</button>
+                    </div>
+
+                    {/* Lecturer Details Table */}
+                    <Topic name={"BATCH DETAILS"} />
+                    <div style={{ padding: '30px 10%' }}>
+                        <table className='ManagementTable'>
+                            <thead>
+                                <tr className='ManagementTr'>
+                                    <th classname='ManagementTh'>No</th>
+                                    <th classname='ManagementTh'>Batch</th>
+                                    <th classname='ManagementTh'>Semester</th>
+                                    <th classname='ManagementTh'>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {batch.map((item, index) => (
+                                    <tr key={item.id}>
+                                        <td className='ManagementTd'>{index + 1}</td>
+                                        <td className='ManagementTd'>{item.batch}</td>
+                                        <td className='ManagementTd'>{item.semester}</td>
+                                        <td className='ManagementTd'>
+                                            <button className='ManagementButton ManagementUpdateBtn' onClick={() => { toggle10(); setBatchName(item.batch); setBatchSemester(item.semester); setItemId(item.id) }}>Update</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
 
                     <div style={{ height: '60px' }}></div>
@@ -649,6 +713,46 @@ function ContactUs() {
                                 type="submit"
                                 className='ManagementEditDetailsButton'
                             >{add ? "Submit" : "Update"}</button>
+                        </form>
+                    </div>
+                )}
+                {isActive10 && (
+                    <div id="popup10" className="active">
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <h2 className='ManagementEditDetailsH2'>Update Batch Details</h2>
+                            <button
+                                type="button"
+                                onClick={toggle10}
+                                className='ManagementEditDetailsCloseBtn'
+                            >Close</button>
+                        </div>
+
+                        <form onSubmit={handleBatchDetails} className='ManagementEditDetailsForm'>
+
+                            <input
+                                type="text"
+                                placeholder="Batch"
+                                value={batchName}
+                                onChange={(e) => setBatchName(e.target.value)}
+                                className='ManagementEditDetailsInput'
+                                required
+                            />
+                            <select
+                                value={batchSemester}
+                                onChange={(e) => setBatchSemester(e.target.value)}
+                                className='ManagementEditDetailsInput'
+                                required
+                            >
+                                <option value="" >Select Semester</option>
+                                {semesterList.map((sem, index) => (
+                                    <option key={index} value={sem}>{sem}</option>
+                                ))}
+                            </select>
+
+                            <button
+                                type="submit"
+                                className='ManagementEditDetailsButton'
+                            >Update</button>
                         </form>
                     </div>
                 )}

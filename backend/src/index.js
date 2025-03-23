@@ -192,7 +192,7 @@ app.post('/comments', (req, res) => {
 })
 
 app.post('/subjects', (req, res) => {
-    const { condition, semester } = req.body;
+    const { condition, semester, lecturer } = req.body;
 
     if (condition === "subject") {
         const sql = "SELECT * FROM subjects WHERE `semester`=?";
@@ -210,6 +210,19 @@ app.post('/subjects', (req, res) => {
     else if (condition === "all") {
         const sql = "SELECT * FROM subjects";
         db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+    else if (condition === "feedbackLecturer") {
+        const sql = "SELECT * FROM subjects WHERE `lecturer`=?";
+        db.query(sql, [lecturer], (err, data) => {
             if (err) {
                 return res.status(500).json("Error");
             }
@@ -258,6 +271,60 @@ app.post('/nonacademicdetails', (req, res) => {
 
     if (condition === "all") {
         const sql = "SELECT * FROM nonacademicdetails";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/coursefeedbackrate', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM coursefeedbackrate";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/lecturerfeedbackrate', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM lecturerfeedbackrate";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/batchdetails', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM batchdetails";
         db.query(sql, (err, data) => {
             if (err) {
                 return res.status(500).json("Error");
@@ -404,6 +471,19 @@ app.put('/lecturers/:id', (req, res) => {
 
     const sql = "UPDATE lecturers SET `lecturerId` = ?,`lecturerName` = ?,`department` = ? WHERE `id` = ?";
     db.query(sql, [lecturerId, lecturerName, department, id], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
+})
+
+app.put('/batchdetails/:id', (req, res) => {
+    const id = req.params.id;
+    const { batchName, batchSemester } = req.body;
+
+    const sql = "UPDATE batchdetails SET `batch` = ?,`semester` = ? WHERE `id` = ?";
+    db.query(sql, [batchName, batchSemester, id], (err, data) => {
         if (err) {
             return res.status(500).json("Error");
         }

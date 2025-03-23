@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { useEffect, useRef, useState } from 'react'
 import "./HomePage.css"
-import { Link } from 'react-router-dom';
 import SideBar from '../../Components/SideBar/SideBar';
 import Footer from '../../Components/Footer/Footer';
 import Pop_up from '../../Components/Pop_up/Pop_up';
@@ -16,10 +15,7 @@ import defaultImage from "../../Images/default_User.png";
 import axios from 'axios';
 
 // Example data from database
-import { FeedbackDataLecturer } from '../../Data/FeedbackDataLecturer';
 import { AttendanceStudent } from '../../Data/AttendanceStudent';
-import { AttendanceLecturer } from '../../Data/AttendanceLecturer';
-import { FeedbackDataMA } from '../../Data/FeedbackDataMA';
 
 function HomePage() {
   const popUpRef = useRef();
@@ -232,20 +228,16 @@ function HomePage() {
           <NoticeBar toggle={toggle} toggle2={toggle2} />
 
           {/* Students attendance */}
-          <Topic name={"ATTENDANCE (STUDENT)"} />
-          <ProgressBar data={AttendanceStudent} />
-
-          {/* Lecturer attendance */}
-          <Topic name={"ATTENDANCE (LECTURER)"} />
-          <ProgressBar data={AttendanceLecturer} />
+          {profession === "Student" && (<Topic name={"ATTENDANCE (STUDENT)"} />)}
+          {profession === "Student" && (<ProgressBar data={AttendanceStudent} />)}
 
           {/* Lecturer Feedback dashboard */}
-          <Topic name={"FEEDBACK (LECTURER)"} />
-          <FeedbackDashboard data={FeedbackDataLecturer} />
+          {profession === "Lecturer" && (<Topic name={"FEEDBACK"} />)}
+          {profession === "Lecturer" && (<FeedbackDashboard />)}
 
           {/* MA Feedback dashboard */}
-          <Topic name={"FEEDBACK (MA)"} />
-          <FeedbackDashboard data={FeedbackDataMA} />
+          {profession === "Management Assistant" && (<Topic name={"FEEDBACK"} />)}
+          {profession === "Management Assistant" && (<FeedbackDashboard />)}
 
           {/* Comment panel */}
           <Topic name={"COMMENTS"} />

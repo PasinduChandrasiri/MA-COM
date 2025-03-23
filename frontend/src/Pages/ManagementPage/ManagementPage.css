@@ -162,6 +162,31 @@
     opacity: 1;
 }
 
+#popup10 {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    padding: 30px 50px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+    z-index: 20;
+    border-radius: 10px;
+    margin-left: 39px;
+}
+
+#popup10.active {
+    visibility: visible;
+    opacity: 1;
+}
+
 .ManagementEditDetailsH2 {
     font-weight: 600;
     margin-bottom: 10px;

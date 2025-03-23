@@ -7,6 +7,7 @@ const CommentPanel = ({ toggle3, toggle4 }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [animation, setAnimation] = useState("");
     const [comments, setComment] = useState([]);
+    const [profession, setProfession] = useState(localStorage.getItem('profession'));
 
     useEffect(() => {
         const fetchData = async () => {
@@ -70,9 +71,10 @@ const CommentPanel = ({ toggle3, toggle4 }) => {
                         <div style={{ width: '10px' }} />
                         <button className="CommentBtn2" onClick={() => changeTestimonial("next")}>&#10095;</button>
                     </div>
+
                     <div className="commentBtnContainer">
                         <button className='commentAddBtn' onClick={toggle3}>Add Comment</button>
-                        <button className='commentAddBtn' onClick={toggle4}>Manage Comment</button>
+                        {profession === "Management Assistant" && (<button className='commentAddBtn' onClick={toggle4}>Manage Comment</button>)}
                     </div>
                 </div>
             ) : (

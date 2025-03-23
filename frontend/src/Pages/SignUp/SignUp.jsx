@@ -45,6 +45,21 @@ const SignUp = () => {
     const isOtpValid = otp.every((digit) => digit !== "");
     const inputRefs = [useRef(), useRef(), useRef(), useRef()];
     const [generatedOtp, setGeneratedOtp] = useState(null);
+    const [lecturerNames, setLecturerNames] = useState([]);
+
+    useEffect(() => {
+        const fetchData4 = async () => {
+            try {
+                const condition = "lecturer";
+                const res = await axios.post("http://localhost:8081/lecturers", { condition });
+                const lecturerNamesArray = res.data.map(item => item.lecturerName);
+                setLecturerNames(lecturerNamesArray);
+            } catch (error) {
+                console.error("Error fetching lecturer details:", error);
+            }
+        };
+        fetchData4();
+    }, []);
 
     //Dropdown menu details
     const profession = ["Student", "Lecturer"];
@@ -116,7 +131,7 @@ const SignUp = () => {
                 setEmailValidation("error")
             }
         }
-        else if(formData.email===""){
+        else if (formData.email === "") {
             setEmailValidation(false)
         }
         else {
@@ -182,13 +197,13 @@ const SignUp = () => {
         setFormData(updatedFormData);
         setIsOpen(false);
         console.log(formData);
-    }; 
+    };
 
     //Sign up function
     const handleCreateAccount = (e) => {
         e.preventDefault();
 
-        if (formData.firstName === "" || formData.secondName === "" || formData.profession === "" || formData.semester === "" || formData.email === "" || formData.password === "" || formData.confirmPassword === "" || emailValidation === false
+        if (formData.firstName === ""|| formData.profession === "" || formData.semester === "" || formData.email === "" || formData.password === "" || formData.confirmPassword === "" || emailValidation === false
         ) {
             //If there empty fields
             popUpRef.current.showToast("signUpInvalid");
@@ -288,40 +303,54 @@ const SignUp = () => {
                 {/* Personal details inputs section*/}
                 <div className="section_SU">
                     <div className="section01_SU">
-                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '-8px' }}>
-                            <div className="input_box_SU">
-                                <input
-                                    type="text"
-                                    id="firstName"
-                                    className="input-field_SU"
-                                    value={formData.firstName}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                                <label htmlFor="firstName" className="label_SU">First Name</label>
-                                <i class='bx bxs-user-detail icon'></i>
-                            </div>
-                            <div className="input_box_SU">
-                                <input
-                                    type="text"
-                                    id="secondName"
-                                    className="input-field_SU"
-                                    value={formData.secondName}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                                <label htmlFor="secondName" className="label_SU">Second Name</label>
-                                <i class='bx bxs-user-detail icon'></i>
-                            </div>
-                        </div>
-
-                        {/* Profession dropdown and semester dropdown */}
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        {/* Profession dropdown*/}
+                        <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
                             <DropdownMenu
                                 options={profession}
                                 onSelect={(option) => handleDropdownChange("profession", option)}
                                 preTitle={"Profession"}
                             />
+                        </div>
+
+                        {/* Name */}
+                        {formData.profession === "Lecturer" ?
+                            (<div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
+                                <DropdownMenu
+                                    options={lecturerNames}
+                                    onSelect={(option) => handleDropdownChange("firstName", option)}
+                                    preTitle={"Name"}
+                                />
+                            </div>) :
+                            (<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '-8px' }}>
+                                <div className="input_box_SU">
+                                    <input
+                                        type="text"
+                                        id="firstName"
+                                        className="input-field_SU"
+                                        value={formData.firstName}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                    <label htmlFor="firstName" className="label_SU">First Name</label>
+                                    <i class='bx bxs-user-detail icon'></i>
+                                </div>
+                                <div className="input_box_SU">
+                                    <input
+                                        type="text"
+                                        id="secondName"
+                                        className="input-field_SU"
+                                        value={formData.secondName}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                    <label htmlFor="secondName" className="label_SU">Second Name</label>
+                                    <i class='bx bxs-user-detail icon'></i>
+                                </div>
+                            </div>)
+                        }
+
+                        {/*semester dropdown */}
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <DropdownMenu
                                 options={formData.profession === "Student" ? semester : semesterLec}
                                 onSelect={(option) => handleDropdownChange("semester", option)}
