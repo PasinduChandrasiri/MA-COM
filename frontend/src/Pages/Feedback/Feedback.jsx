@@ -86,16 +86,16 @@ const Feedback = () => {
                 <form>
                     <table className='feedback-form-table-ma'>
                         <thead>
-                            <tr className='feedback-form-table-row-heading'>
-                                <th >Questions</th>
-                                <th>Action</th>
+                            <tr>
+                                <th className='feedback-form-table-row-heading-th'>Questions</th>
+                                <th className='feedback-form-table-row-heading-th'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {questions.map((q) => (
-                                <tr key={q.QID} className='feedback-form-table-row'>
-                                    <td className='feedback-form-table-data'>{q.Questions}</td>
-                                    <td className='feedback-form-table-data'>
+                                <tr key={q.QID}>
+                                    <td className='feedback-form-table-row-td'>{q.Questions}</td>
+                                    <td className='feedback-form-table-row-td'>
                                         <button onClick={() => handleEditClick(q)}>Edit</button>
                                         <button onClick={() => handleEditClick(q)}>Delete</button>
                                     </td>
@@ -111,16 +111,16 @@ const Feedback = () => {
                 <form>
                     <table className='feedback-form-table-ma'>
                         <thead>
-                            <tr className='feedback-form-table-row-heading'>
-                                <th>Questions</th>
-                                <th>Action</th>
+                            <tr className=''>
+                                <th className='feedback-form-table-row-heading-th'>Questions</th>
+                                <th className='feedback-form-table-row-heading-th'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {questions.map((q) => (
-                                <tr key={q.QID} className='feedback-form-table-row'>
-                                    <td className='feedback-form-table-data'>{q.Questions}</td>
-                                    <td className='feedback-form-table-data'>
+                                <tr key={q.QID} >
+                                    <td className='feedback-form-table-row-td'>{q.Questions}</td>
+                                    <td className='feedback-form-table-row-td'>
                                         <button onClick={() => handleEditClick(q)}>Edit</button>
                                         <button onClick={() => handleEditClick(q)}>Delete</button>
                                     </td>
@@ -223,16 +223,16 @@ const Feedback = () => {
                 <form>
                     <table className='feedback-form-table-lecturer'>
                         <thead>
-                            <tr className="feedback-form-table-row-heading">
-                                <th>Questions</th>
-                                <th>Average</th>
+                            <tr>
+                                <th className="feedback-form-table-row-heading-th">Questions</th>
+                                <th className="feedback-form-table-row-heading-th">Average</th>
                             </tr>
                         </thead>
                         <tbody>
                             {questions.map((q, index) => (
-                                <tr key={q.QID} className="feedback-form-table-row">
-                                    <td className="feedback-form-table-data">{q.Questions}</td>
-                                    <td className="feedback-form-table-data">
+                                <tr key={q.QID}>
+                                    <td className="feedback-form-table-row-td">{q.Questions}</td>
+                                    <td className="feedback-form-table-row-td">
                                         {averages && averages[`avg${index + 1}`] !== null && averages[`avg${index + 1}`] !== undefined ? (
                                             <ProgressBar average={averages[`avg${index + 1}`]} />
                                         ) : (
@@ -251,16 +251,16 @@ const Feedback = () => {
                 <form>
                     <table className='feedback-form-table-lecturer'>
                         <thead>
-                            <tr className="feedback-form-table-row-heading">
-                                <th>Questions</th>
-                                <th>Average</th>
+                            <tr>
+                                <th className="feedback-form-table-row-heading-th">Questions</th>
+                                <th className="feedback-form-table-row-heading-th">Average</th>
                             </tr>
                         </thead>
                         <tbody>
                             {questions.map((q, index) => (
-                                <tr key={q.QID} className="feedback-form-table-row">
-                                    <td className="feedback-form-table-data">{q.Questions}</td>
-                                    <td className="feedback-form-table-data">
+                                <tr key={q.QID}>
+                                    <td className="feedback-form-table-row-td">{q.Questions}</td>
+                                    <td className="feedback-form-table-row-td">
                                         {averages && averages[`avg${index + 1}`] !== null && averages[`avg${index + 1}`] !== undefined ? (
                                             <ProgressBar average={averages[`avg${index + 1}`]} />
                                         ) : (
@@ -351,15 +351,15 @@ const Feedback = () => {
                 <form onSubmit={(e) => handleSubmit(e, "Lecturer")}>
                     <table className='feedback-form-table-student'>
                         <thead>
-                            <tr className='feedback-form-table-row-heading'>
-                                <th>Questions</th>
-                                <th>Action</th>
+                            <tr>
+                                <th className='feedback-form-table-row-heading-th'>Questions</th>
+                                <th className='feedback-form-table-row-heading-th'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {questions.map((q, index) => (
-                                <tr key={q.QID} className='feedback-form-table-row'>
-                                    <td className='feedback-form-table-data'>{q.Questions}</td>
+                                <tr key={q.QID}>
+                                    <td className='feedback-form-table-row-td'>{q.Questions}</td>
                                     <td className='feedback-form-table-data-button'>
                                         {rates.map((rate) => (
                                             <label key={rate} className="feedback-checkbox">
@@ -388,15 +388,15 @@ const Feedback = () => {
                 <form onSubmit={(e) => handleSubmit(e, "Course")}>
                     <table className='feedback-form-table-student'>
                         <thead>
-                            <tr className='feedback-form-table-row-heading'>
-                                <th>Questions</th>
-                                <th>Action</th>
+                            <tr>
+                                <th className='feedback-form-table-row-heading-th'>Questions</th>
+                                <th className='feedback-form-table-row-heading-th'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {questions.map((q, index) => (
-                                <tr key={q.QID} className='feedback-form-table-row'>
-                                    <td className='feedback-form-table-data'>{q.Questions}</td>
+                                <tr key={q.QID}>
+                                    <td className='feedback-form-table-row-td'>{q.Questions}</td>
                                     <td className='feedback-form-table-data-button'>
                                         {rates.map((rate) => (
                                             <label key={rate} className="feedback-checkbox">
