@@ -46,9 +46,11 @@
 .toast.errorPasswordCompair i,
 .toast.NotAccount i,
 .toast.GoingWrong i,
+.toast.EmailFailed i,
 .toast.OTPsentFailed i {
     color: red;
 }
+
 
 .toast.invalid i,
 .toast.signUpInvalid i,
@@ -68,6 +70,7 @@
 .toast.errorPasswordCompair,
 .toast.NotAccount,
 .toast.GoingWrong,
+.toast.EmailFailed,
 .toast.OTPsentFailed {
     color: red;
 }
@@ -103,6 +106,7 @@
 .toast.errorPasswordCompair::after,
 .toast.NotAccount::after,
 .toast.GoingWrong::after,
+.toast.EmailFailed::after,
 .toast.OTPsentFailed::after {
     background: red;
 }

@@ -17,12 +17,14 @@ const Pop_up = forwardRef((props, ref) => {
         delete: '<i class="fa-solid fa-circle-check"></i> Deleted successfully',
         addComment: '<i class="fa-solid fa-circle-check"></i> Comment added successfully',
         OTPsent: '<i class="fa-solid fa-circle-check"></i> OTP sent to your email successfully ',
+        Emailsent: '<i class="fa-solid fa-circle-check"></i> Email sent successfully ',
         
         error: '<i class="fa-solid fa-circle-xmark"></i> Password is incorrect',
         errorPasswordCompair: '<i class="fa-solid fa-circle-xmark"></i> Password and confirm password are different',
         NotAccount: '<i class="fa-solid fa-circle-xmark"></i> Account is not available. Please sign up!',
         GoingWrong: '<i class="fa-solid fa-circle-xmark"></i> Something went wrong!',
         OTPsentFailed: '<i class="fa-solid fa-circle-xmark"></i> OTP sent failed',
+        EmailFailed: '<i class="fa-solid fa-circle-xmark"></i> Email sent failed',
         
         invalid: '<i class="fa-solid fa-circle-exclamation"></i> Invalid input, check again',
         AlreadyRecovered: '<i class="fa-solid fa-circle-exclamation"></i> Already submitted a request',

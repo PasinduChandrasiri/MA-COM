@@ -194,15 +194,15 @@ const SettingsPage = () => {
                     if (newPassword === confirmNewPassword) {
                         const otpValue = Math.floor(1000 + Math.random() * 9000).toString();
                         setGeneratedOtp(otpValue);
-                        const serviceId = "service_61e94nl";
-                        const templateId = "template_81fvmia";
+                        const serviceId = "deptwise_gmail";
+                        const templateId = "one_time_pswrd";
 
                         emailjs
                             .send(serviceId, templateId, {
-                                from_name: "MA COM",
+                                from_name: "DeptWise",
                                 message: otpValue,
                                 reply_to: email,
-                            }, "f7oi1kocb3pCzM_fG")
+                            }, "UJ9LFwc1LWo6bfrpw")
                             .then(() => {
                                 popUpRef.current.showToast("OTPsent");
                                 toggle6();
@@ -235,8 +235,10 @@ const SettingsPage = () => {
                     setCurrentPassword("");
                     setNewPassword("");
                     setConfirmNewPassword("");
+                    setOtp("");
                     setNewPasswordValidation(false);
                     toggle6();
+                    setTimeout(() => window.location.reload(), 2000);
                 })
                 .catch(err => {
                     popUpRef.current.showToast("GoingWrong");

@@ -6,7 +6,7 @@ import axios from "axios";
 const CommentPanel = ({ toggle3, toggle4 }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [animation, setAnimation] = useState("");
-    const [comments, setComment] = useState([]);
+    const [comments, setComments] = useState([]);
     const [profession, setProfession] = useState(localStorage.getItem('profession'));
 
     useEffect(() => {
