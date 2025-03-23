@@ -31,6 +31,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-chat', tooltip: 'Request', linkName: 'Feedback', href: '#' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '#' },
             { icon: 'bx bx-folder', tooltip: 'Report', linkName: 'Report Manager', href: '#' },
+            { icon: 'bx bx-message-dots', tooltip: 'Contact Us', linkName: 'Contact Us', href: '/ContactUs' },
             { icon: 'bx bx-shield-alt-2', tooltip: 'Management', linkName: 'Management', href: '/ManagementPage' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '/Settings' },
         ],
@@ -40,6 +41,7 @@ function SideBar({ userType }) {
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
             { icon: 'bx bx-chat', tooltip: 'Request', linkName: 'Feedback', href: '#' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '#' },
+            { icon: 'bx bx-message-dots', tooltip: 'Contact Us', linkName: 'Contact Us', href: '/ContactUs' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '/Settings' },
         ],
         Student: [
@@ -48,6 +50,7 @@ function SideBar({ userType }) {
             { icon: 'bx bxs-landmark', tooltip: 'Lecture Hall', linkName: 'Lecture Hall', href: '#' },
             { icon: 'bx bx-chat', tooltip: 'Request', linkName: 'Feedback', href: '#' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '#' },
+            { icon: 'bx bx-message-dots', tooltip: 'Contact Us', linkName: 'Contact Us', href: '/ContactUs' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '/Settings' },
         ],
     };
