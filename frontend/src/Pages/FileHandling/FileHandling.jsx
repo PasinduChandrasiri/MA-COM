@@ -32,7 +32,7 @@ const FileHandling = () => {
     }
   }, [profession]);
 
-  // -------------------- LECTURER FUNCTIONS --------------------
+  // -------------------- LECTURER FUNCTIONS ---------------------------------------------------------
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
@@ -70,7 +70,7 @@ const FileHandling = () => {
     }
   };
 
-  // -------------------- MA FUNCTIONS --------------------
+  // -------------------- MA FUNCTIONS ----------------------------------------------------------------
   const fetchAllFiles = async () => {
     try {
       const res = await axios.get("http://localhost:8081/ma_system/all-files");
@@ -108,9 +108,9 @@ const FileHandling = () => {
 
           {profession === "Lecturer" && (
             <div className="file-handling-inner lecturer">
-              <h3>File Upload</h3>
-              <div className="card-container">
-                <form onSubmit={handleUpload}>
+              <h3 className='file-inside-h3'>File Upload</h3>
+              <div className="card-container-file-handling">
+                <form onSubmit={handleUpload} className='file-upload-form'>
                   <div className="form-group">
                     <label>Choose File:</label>
                     <input type="file" onChange={handleFileChange} />
@@ -140,10 +140,10 @@ const FileHandling = () => {
                       <option value="external">External</option>
                     </select>
                   </div>
-                  <button type="submit">Upload File</button>
+                  <button type="submit" className='upload-button'>Upload File</button>
                 </form>
 
-                <h3>Your Uploaded Files</h3>
+                <h2 className='file-container-h2'>Your Uploaded Files</h2>
                 <table className="file-table">
                   <thead>
                     <tr>
@@ -172,8 +172,8 @@ const FileHandling = () => {
 
           {profession === "Management Assistant" && (
             <div className="file-handling-inner ma">
-              <h3>Manage Files</h3>
-              <div className="card-container">
+              <h3 className='file-inside-h3'>Manage Files</h3>
+              <div className="card-container-file-handling">
                 <table className="file-table">
                   <thead>
                     <tr>
@@ -194,7 +194,9 @@ const FileHandling = () => {
                         <td>{file.destination_type}</td>
                         <td>{file.status}</td>
                         <td>
+                          <div className='file-status-update'>
                           <select
+                            className='file-status-select'
                             value={selectedStatus[file.id] || file.status}
                             onChange={(e) => handleStatusChange(file.id, e.target.value)}
                           >
@@ -202,7 +204,8 @@ const FileHandling = () => {
                             <option value="approved">Approved</option>
                             <option value="rejected">Rejected</option>
                           </select>
-                          <button onClick={() => updateStatus(file.id)}>Update</button>
+                          <button className='file-update-button' onClick={() => updateStatus(file.id)}>Update</button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -211,14 +214,8 @@ const FileHandling = () => {
               </div>
             </div>
           )}
-
-          {(profession !== "Lecturer" && profession !== "Management Assistant") && (
-            <div className="file-handling-inner">
-              <p>You do not have permission to access the file handling page.</p>
-            </div>
-          )}
         </div>
-        <div className="bottomSpace" style={{ height: '60px' }}></div>
+        <div className="bottomSpace" style={{ height: '1px' }}></div>
       </div>
       <Footer />
     </>

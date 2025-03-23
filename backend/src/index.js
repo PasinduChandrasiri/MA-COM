@@ -393,7 +393,7 @@ app.put('/notice/:id', (req, res) => {
 // Get all subjects
 app.get('/api/subjects', (req, res) => {
     const sql = "SELECT subjectId as subjectId, subjectName as subjectName, lecturer as lecturer FROM subjects";
-    
+
     db.query(sql, (err, results) => {
         if (err) {
             console.error('Error fetching subjects:', err);
@@ -590,6 +590,8 @@ app.get('/lecturerdetails', (req, res) => {
     }
 });
 
+//-------------------------------------------------------------------------------------------------------------------------
+
 app.get('/feedbackquestions', (req, res) => {
     const { qType } = req.query;
 
@@ -621,6 +623,48 @@ app.get('/feedbackquestions', (req, res) => {
     }
 })
 
+// Update (edit) a question
+app.put('/feedbackquestions/:QID', (req, res) => {
+    const { QID } = req.params;
+    const { Questions } = req.body;
+    const sql = "UPDATE feedbackquestions SET Questions = ? WHERE QID = ?";
+    db.query(sql, [Questions, QID], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error updating question");
+        }
+        res.json({ message: "Question updated successfully" });
+    });
+});
+
+// Delete a question
+app.delete('/feedbackquestions/:QID', (req, res) => {
+    const { QID } = req.params;
+    const sql = "DELETE FROM feedbackquestions WHERE QID = ?";
+    db.query(sql, [QID], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error deleting question");
+        }
+        res.json({ message: "Question deleted successfully" });
+    });
+});
+
+// ADD a new question (including QGroup)
+app.post('/feedbackquestions', (req, res) => {
+    const { Questions, qType, QGroup } = req.body;
+    // Adjust column names as needed. Here, QID is assumed to be auto-increment.
+    const sql = "INSERT INTO feedbackquestions (Questions, qType, QGroup) VALUES (?, ?, ?)";
+    db.query(sql, [Questions, qType, QGroup], (err, data) => {
+      if (err) {
+        return res.status(500).json("Error adding question");
+      }
+      // Return the new question's data including the auto-generated QID
+      const newQuestion = { QID: data.insertId, Questions, qType, QGroup };
+      res.json(newQuestion);
+    });
+  });
+  
+
+//-----------------------------------------------------------------------------------------------------------------------
 
 //select queries of lecturer panel
 
@@ -680,80 +724,80 @@ const path = require('path');
 
 // Configure storage for uploaded files
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Ensure the 'uploads' folder exists
-  },
-  filename: (req, file, cb) => {
-    // Create a unique filename using the current timestamp and original extension
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Ensure the 'uploads' folder exists
+    },
+    filename: (req, file, cb) => {
+        // Create a unique filename using the current timestamp and original extension
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
 });
 const upload = multer({ storage });
 
 // Lecturer uploads file endpoint
 app.post('/ma_system/upload', upload.single('file'), (req, res) => {
-  const lecturerId = req.body.lecturerId;
-  const description = req.body.description;
-  const destination = req.body.destination;
-  const destinationType = req.body.destinationType; // 'internal' or 'external'
-  const filePath = req.file ? req.file.path : null;
+    const lecturerId = req.body.lecturerId;
+    const description = req.body.description;
+    const destination = req.body.destination;
+    const destinationType = req.body.destinationType; // 'internal' or 'external'
+    const filePath = req.file ? req.file.path : null;
 
-  if (!filePath) {
-    return res.status(400).json({ error: "No file uploaded." });
-  }
-  
-  const status = "pending"; // Initial status
-
-  const sql = "INSERT INTO files (lecturer_id, file_name, file_path, description, destination, destination_type, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
-  const values = [lecturerId, req.file.originalname, filePath, description, destination, destinationType, status];
-
-  db.query(sql, values, (err, data) => {
-    if (err) {
-      console.error("Error inserting file data:", err);
-      return res.status(500).json({ error: "Database error" });
+    if (!filePath) {
+        return res.status(400).json({ error: "No file uploaded." });
     }
-    res.json({ message: "File uploaded successfully", fileId: data.insertId });
-  });
+
+    const status = "pending"; // Initial status
+
+    const sql = "INSERT INTO files (lecturer_id, file_name, file_path, description, destination, destination_type, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    const values = [lecturerId, req.file.originalname, filePath, description, destination, destinationType, status];
+
+    db.query(sql, values, (err, data) => {
+        if (err) {
+            console.error("Error inserting file data:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.json({ message: "File uploaded successfully", fileId: data.insertId });
+    });
 });
 
 // Get files for a specific lecturer
 app.get('/ma_system/files', (req, res) => {
-  const lecturerId = req.query.lecturerId;
-  if (!lecturerId) {
-    return res.status(400).json({ error: "Missing lecturerId parameter" });
-  }
-  const sql = "SELECT * FROM files WHERE lecturer_id = ?";
-  db.query(sql, [lecturerId], (err, results) => {
-    if (err) {
-      console.error("Error fetching files:", err);
-      return res.status(500).json({ error: "Database error" });
+    const lecturerId = req.query.lecturerId;
+    if (!lecturerId) {
+        return res.status(400).json({ error: "Missing lecturerId parameter" });
     }
-    res.json(results);
-  });
+    const sql = "SELECT * FROM files WHERE lecturer_id = ?";
+    db.query(sql, [lecturerId], (err, results) => {
+        if (err) {
+            console.error("Error fetching files:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.json(results);
+    });
 });
 
 // Get all files (for the Managing Assistant)
 app.get('/ma_system/all-files', (req, res) => {
-  const sql = "SELECT * FROM files";
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.error("Error fetching all files:", err);
-      return res.status(500).json({ error: "Database error" });
-    }
-    res.json(results);
-  });
+    const sql = "SELECT * FROM files";
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error("Error fetching all files:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.json(results);
+    });
 });
 
 // Update file status (for MA)
 app.put('/ma_system/files/:id', (req, res) => {
-  const fileId = req.params.id;
-  const { status } = req.body;
-  const sql = "UPDATE files SET status = ? WHERE id = ?";
-  db.query(sql, [status, fileId], (err, results) => {
-    if (err) {
-      console.error("Error updating file status:", err);
-      return res.status(500).json({ error: "Database error" });
-    }
-    res.json({ message: "Status updated successfully" });
-  });
+    const fileId = req.params.id;
+    const { status } = req.body;
+    const sql = "UPDATE files SET status = ? WHERE id = ?";
+    db.query(sql, [status, fileId], (err, results) => {
+        if (err) {
+            console.error("Error updating file status:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.json({ message: "Status updated successfully" });
+    });
 });

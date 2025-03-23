@@ -6,6 +6,12 @@ import Footer from '../../Components/Footer/Footer';
 // import Pop_up from '../../Components/Pop_up/Pop_up';
 import Header from '../../Components/Header/Header';
 import axios from 'axios';
+import MA01 from "../../Images/Feedback/MA01.jpg"
+import MA02 from "../../Images/Feedback/MA02.jpg"
+import Lec01 from "../../Images/Feedback/Lec01.jpg"
+import Lec02 from "../../Images/Feedback/Lec02.jpg"
+import Stu01 from "../../Images/Feedback/Stu01.jpg"
+import Stu02 from "../../Images/Feedback/Stu02.jpg"
 
 const Feedback = () => {
 
@@ -36,6 +42,11 @@ const Feedback = () => {
     const [selectedOption, setSelectedOption] = useState("");
     const [averages, setAverages] = useState({});
 
+    const [newQuestionText, setNewQuestionText] = useState("");
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [newQuestionGroup, setNewQuestionGroup] = useState(""); // New state for QGroup
+
+
     //-------------------------------------------- COMMON -------------------------------------------
 
     const fetchQuestions = (selectedFeedbackType) => {
@@ -52,7 +63,7 @@ const Feedback = () => {
         setLoading(false);
     }, []);
 
-    // Scroll to top
+    // Scroll to top on mount
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -64,9 +75,10 @@ const Feedback = () => {
         setEditedText(question.Questions);
     };
 
+    // SAVE edited question to backend
     const handleSaveEdit = () => {
         axios
-            .put(`http://localhost:8081/api/questions/${editingQuestion.QID}`, {
+            .put(`http://localhost:8081/feedbackquestions/${editingQuestion.QID}`, {
                 Questions: editedText,
             })
             .then(() => {
@@ -80,57 +92,62 @@ const Feedback = () => {
             .catch((err) => console.error(err));
     };
 
+    // DELETE a question
+    const handleDelete = (question) => {
+        axios
+            .delete(`http://localhost:8081/feedbackquestions/${question.QID}`)
+            .then(() => {
+                setQuestions((prev) => prev.filter((q) => q.QID !== question.QID));
+            })
+            .catch((err) => console.error(err));
+    };
+
+    // ADD a new question (updated to include QGroup)
+    const handleAddQuestion = () => {
+        const newQuestion = {
+            Questions: newQuestionText,
+            qType: selectedFeedbackType, // "Lecturer" or "Course"
+            QGroup: newQuestionGroup     // New QGroup field
+        };
+
+        axios
+            .post("http://localhost:8081/feedbackquestions", newQuestion)
+            .then((res) => {
+                // Append the new question to the list
+                setQuestions((prev) => [...prev, res.data]);
+                // Reset add modal fields and close modal
+                setNewQuestionText("");
+                setNewQuestionGroup("");
+                setShowAddModal(false);
+            })
+            .catch((err) => console.error(err));
+    };
+
+    // Render table of feedback questions for managing assistant
     const renderFeedbackTableManagingAssistant = () => {
-        if (selectedFeedbackType === "Lecturer" && editingQuestion === "Lecturer") {
-            return (
-                <form>
-                    <table className='feedback-form-table-ma'>
-                        <thead>
-                            <tr>
-                                <th className='feedback-form-table-row-heading-th'>Questions</th>
-                                <th className='feedback-form-table-row-heading-th'>Action</th>
+        return (
+            <form>
+                <table className='feedback-form-table-ma'>
+                    <thead>
+                        <tr>
+                            <th className='feedback-form-table-row-heading-th'>Questions</th>
+                            <th className='feedback-form-table-row-heading-th'>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {questions.map((q) => (
+                            <tr key={q.QID}>
+                                <td className='feedback-form-table-row-td'>{q.Questions}</td>
+                                <td className='feedback-form-table-row-td'>
+                                    <button type='button' className="create-button-edit-delete" onClick={() => handleEditClick(q)}>Edit</button>
+                                    <button type='button' className="create-button-edit-delete" onClick={() => handleDelete(q)}>Delete</button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {questions.map((q) => (
-                                <tr key={q.QID}>
-                                    <td className='feedback-form-table-row-td'>{q.Questions}</td>
-                                    <td className='feedback-form-table-row-td'>
-                                        <button onClick={() => handleEditClick(q)}>Edit</button>
-                                        <button onClick={() => handleEditClick(q)}>Delete</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </form>
-            )
-        }
-        if (selectedFeedbackType === "Course") {
-            return (
-                <form>
-                    <table className='feedback-form-table-ma'>
-                        <thead>
-                            <tr className=''>
-                                <th className='feedback-form-table-row-heading-th'>Questions</th>
-                                <th className='feedback-form-table-row-heading-th'>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {questions.map((q) => (
-                                <tr key={q.QID} >
-                                    <td className='feedback-form-table-row-td'>{q.Questions}</td>
-                                    <td className='feedback-form-table-row-td'>
-                                        <button onClick={() => handleEditClick(q)}>Edit</button>
-                                        <button onClick={() => handleEditClick(q)}>Delete</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </form>
-            )
-        }
+                        ))}
+                    </tbody>
+                </table>
+            </form>
+        );
     };
 
 
@@ -279,11 +296,14 @@ const Feedback = () => {
     //------------------------------------------- STUDENT FEEDBACK ------------------------------------------
 
     const handleBack = () => {
-        setSelectedFeedbackType(null);
+        setSelectedFeedbackType("");
         setDropdownOptions("");
         setSelectedOption("");
         setQuestions([]);
         setResponses(Array(questions.length).fill(null));
+        setEditingQuestion(null);
+        setShowAddModal(false);
+        setNewQuestionText("");
     };
 
     const radioHandleSelection = (index, rate) => {
@@ -353,7 +373,7 @@ const Feedback = () => {
                         <thead>
                             <tr>
                                 <th className='feedback-form-table-row-heading-th'>Questions</th>
-                                <th className='feedback-form-table-row-heading-th'>Action</th>
+                                <th className='feedback-form-table-row-heading-th-student'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -379,7 +399,7 @@ const Feedback = () => {
                             ))}
                         </tbody>
                     </table>
-                    <button type='submit'>Submit Feedback</button>
+                    <button type='submit' className='submit-button-student'>Submit Feedback</button>
                 </form>
             )
         }
@@ -390,7 +410,7 @@ const Feedback = () => {
                         <thead>
                             <tr>
                                 <th className='feedback-form-table-row-heading-th'>Questions</th>
-                                <th className='feedback-form-table-row-heading-th'>Action</th>
+                                <th className='feedback-form-table-row-heading-th-student'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -416,7 +436,7 @@ const Feedback = () => {
                             ))}
                         </tbody>
                     </table>
-                    <button type='submit'>Submit Feedback</button>
+                    <button type='submit' className='submit-button-student'>Submit Feedback</button>
                 </form>
             )
         }
@@ -440,38 +460,104 @@ const Feedback = () => {
                             <div className="card-container">
                                 {!selectedFeedbackType ? (
                                     <div className="card-section">
-                                        <button className='feedback-inside-button' onClick={() => { setSelectedFeedbackType("Lecturer"); fetchQuestions("Lecturer"); setEditingQuestion("Lecturer"); }}>
-                                            Edit Course Feedback Questions
-                                        </button>
-                                        <button className='feedback-inside-button' onClick={() => { setSelectedFeedbackType("Course"); fetchQuestions("Course"); setEditingQuestion("Course"); }}>
-                                            Edit Lecturer Feedback Questions
-                                        </button>
+                                        <div className='card-components'>
+                                            <button
+                                                className="feedback-inside-button"
+                                                onClick={() => {
+                                                    setSelectedFeedbackType("Lecturer");
+                                                    fetchQuestions("Lecturer");
+                                                }}
+                                            >
+                                                <img
+                                                    src={MA01}
+                                                    alt="Lecturer Icon"
+                                                    className="button-icon"
+                                                />
+                                                <h2 className='card-components-h2'>Edit Lecturer Feedback Questions</h2>
+                                            </button>
+                                        </div>
+                                        <div className='card-components'>
+                                            <button
+                                                className="feedback-inside-button"
+                                                onClick={() => {
+                                                    setSelectedFeedbackType("Course");
+                                                    fetchQuestions("Course");
+                                                }}
+                                            >
+                                                <img
+                                                    src={MA02}
+                                                    alt="Course Icon"
+                                                    className="button-icon"
+                                                />
+                                                <h2 className='card-components-h2'>Edit Course Feedback Questions</h2>
+                                            </button>
+                                        </div>
                                     </div>
                                 ) : (
                                     <div className="dropdown-container">
-
+                                        {setSelectedFeedbackType === "Lecturer" ? (
+                                            <h3 className='dropdown-container-h3'>Edit Lecturer Feedback Questions</h3>
+                                        ) : (
+                                            <h3 className='dropdown-container-h3'>Edit Course Feedback Questions</h3>
+                                        )}
                                         <div className="create-button-container">
                                             <button
                                                 onClick={handleBack}
-                                                className="px-4 py-2 bg-red-500 text-white rounded ml-4"
+                                                className='create-button-back'
                                             >
                                                 Back
                                             </button>
-                                            <button className="create-button">Add new question</button>
+                                            <button className="create-button" onClick={() => setShowAddModal(true)}>Add new question</button>
                                         </div>
 
-                                        <div>
+                                        <div className='feedback-form-table-ma-container'>
                                             {renderFeedbackTableManagingAssistant()}
                                         </div>
 
-                                        {!editingQuestion && (
+                                        {/* EDIT MODAL: show when editingQuestion is set */}
+                                        {editingQuestion && (
                                             <div className="modal">
                                                 <h3 className='modal-h3'>Edit Question</h3>
-                                                <textarea className='modal-textarea' value={editedText} onChange={(e) => setEditedText(e.target.value)} />
+                                                <textarea
+                                                    className='modal-textarea'
+                                                    value={editedText}
+                                                    onChange={(e) => setEditedText(e.target.value)}
+                                                />
                                                 <button className='modal-button' onClick={handleSaveEdit}>Save</button>
                                                 <button className='modal-button' onClick={() => setEditingQuestion(null)}>Cancel</button>
                                             </div>
                                         )}
+
+                                        {/* ADD MODAL */}
+                                        {showAddModal && (
+                                            <div className="modal">
+                                                <h3 className='modal-h3'>Add New Question</h3>
+                                                <textarea
+                                                    className='modal-textarea'
+                                                    value={newQuestionText}
+                                                    onChange={(e) => setNewQuestionText(e.target.value)}
+                                                    placeholder="Enter your question here..."
+                                                />
+                                                <select
+                                                    // className='add-new-question-select'
+                                                    value={newQuestionGroup}
+                                                    onChange={(e) => setNewQuestionGroup(e.target.value)}
+                                                >
+                                                    <option value="">Select QGroup</option>
+                                                    <option value="General">General</option>
+                                                    <option value="Materials">Materials</option>
+                                                    <option value="Tutorials/ Examples">Tutorials/ Examples</option>
+                                                    <option value="Lab/ Fieldwork">Lab/ Fieldwork</option>
+                                                    <option value="About Myself">About Myself</option>
+                                                    <option value="Time Management">Time Management</option>
+                                                    <option value="Delivery Method">Delivery Method</option>
+                                                    <option value="Subject Command">Subject Command</option>
+                                                </select>
+                                                <button className='modal-button' onClick={handleAddQuestion}>Add Question</button>
+                                                <button className='modal-button' onClick={() => setShowAddModal(false)}>Cancel</button>
+                                            </div>
+                                        )}
+
 
                                     </div>
                                 )}
@@ -485,55 +571,91 @@ const Feedback = () => {
                             <div className="card-container">
                                 {!selectedFeedbackType ? (
                                     <div className="card-section">
-                                        <button className='feedback-inside-button' onClick={() => { setSelectedFeedbackType("Lecturer"); handleDropdownLecturer(); }}>
-                                            Averages of Lecturer Feedback
-                                        </button>
-                                        <button className='feedback-inside-button' onClick={() => { setSelectedFeedbackType("Course"); handleDropdownLecturer(); }}>
-                                            Averages of Course Feedback
-                                        </button>
+                                        <div className='card-components'>
+                                            <button
+                                                className="feedback-inside-button"
+                                                onClick={() => {
+                                                    setSelectedFeedbackType("Lecturer");
+                                                    fetchQuestions("Lecturer");
+                                                    handleDropdownLecturer();
+                                                }}
+                                            >
+                                                <img
+                                                    src={Lec01}
+                                                    alt="Lecturer Icon"
+                                                    className="button-icon"
+                                                />
+                                                <h2 className='card-components-h2'>Averages of Lecturer Feedback</h2>
+                                            </button>
+                                        </div>
+                                        <div className='card-components'>
+                                            <button
+                                                className="feedback-inside-button"
+                                                onClick={() => {
+                                                    setSelectedFeedbackType("Course");
+                                                    fetchQuestions("Course");
+                                                    handleDropdownLecturer();
+                                                }}
+                                            >
+                                                <img
+                                                    src={Lec02}
+                                                    alt="Course Icon"
+                                                    className="button-icon"
+                                                />
+                                                <h2 className='card-components-h2'>Averages of Course Feedback</h2>
+                                            </button>
+                                        </div>
                                     </div>
                                 ) : (
                                     <div className="dropdown-container">
-                                        <label className='dropdown-option'>Select Option : </label>
-                                        <br />
-                                        <select
-                                            value={selectedOption}  // Bind the value to state
-                                            onChange={(e) => {
-                                                const selectedValue = e.target.value;
-                                                setSelectedOption(selectedValue);
-                                                // Set the dropdown option based on feedback type
-                                                const feedbackType = selectedFeedbackType === "Lecturer" ? "Lecturer" : "Course";
-                                                setDropdownOptions(feedbackType);
-                                                fetchQuestions(feedbackType);
-                                                fetchAverages(feedbackType, selectedValue);
-                                            }}
+                                        {setSelectedFeedbackType === "Lecturer" ? (
+                                            <h3 className='dropdown-container-h3'>Averages of Lecturer Feedback</h3>
+                                        ) : (
+                                            <h3 className='dropdown-container-h3'>Averages of Course Feedback</h3>
+                                        )}
 
-                                        >
-                                            <option value="" disabled>Select {selectedFeedbackType}</option>
-                                            {selectedFeedbackType === "Lecturer"
-                                                ? lecturerDetails.map((item, idx) => (
-                                                    <option key={idx} value={item.lecturer_course}>
-                                                        {item.lecturer_course}
-                                                    </option>
+                                        <div className="all-container-lecturer">
+                                            <label className='dropdown-option'>Select Option : </label>
+                                            <select
+                                                // className='all-container-lecturer-select'
+                                                value={selectedOption}  // Bind the value to state
+                                                onChange={(e) => {
+                                                    const selectedValue = e.target.value;
+                                                    setSelectedOption(selectedValue);
+                                                    // Set the dropdown option based on feedback type
+                                                    const feedbackType = selectedFeedbackType === "Lecturer" ? "Lecturer" : "Course";
+                                                    setDropdownOptions(feedbackType);
+                                                    fetchQuestions(feedbackType);
+                                                    fetchAverages(feedbackType, selectedValue);
+                                                }}
 
-                                                ))
-                                                : courseDetails.map((item, idx) => (
-                                                    <option key={idx} value={item.course_name}>
-                                                        {item.course_name}
-                                                    </option>
+                                            >
+                                                <option value="" disabled>{selectedFeedbackType === "Lecturer" ? `Select your averages for relevant course` : 'Select course'}</option>
+                                                {selectedFeedbackType === "Lecturer"
+                                                    ? lecturerDetails.map((item, idx) => (
+                                                        <option key={idx} value={item.lecturer_course}>
+                                                            {item.lecturer_course}
+                                                        </option>
 
-                                                ))}
-                                        </select>
+                                                    ))
+                                                    : courseDetails.map((item, idx) => (
+                                                        <option key={idx} value={item.course_name}>
+                                                            {item.course_name}
+                                                        </option>
 
-                                        <button
-                                            onClick={handleBack}
-                                            className="px-4 py-2 bg-red-500 text-white rounded ml-4"
-                                        >
-                                            Back
-                                        </button>
+                                                    ))}
+                                            </select>
+
+                                            <button
+                                                onClick={handleBack}
+                                                className="create-button-back-lecturer"
+                                            >
+                                                Back
+                                            </button>
+                                        </div>
 
                                         {dropdownOptions ? (
-                                            <div>
+                                            <div className='feedback-form-table-ma-container'>
                                                 {renderFeedbackTableLecturer()}
                                             </div>) : null}
 
@@ -549,53 +671,88 @@ const Feedback = () => {
                             <div className="card-container">
                                 {!selectedFeedbackType ? (
                                     <div className="card-section">
-                                        <button className='feedback-inside-button' onClick={() => { setSelectedFeedbackType("Lecturer"); handleDropdownStudent(); }}>
-                                            Lecturer Feedback
-                                        </button>
-                                        <button className='feedback-inside-button' onClick={() => { setSelectedFeedbackType("Course"); handleDropdownStudent(); }}>
-                                            Course Feedback
-                                        </button>
+                                        <div className='card-components'>
+                                            <button
+                                                className="feedback-inside-button"
+                                                onClick={() => {
+                                                    setSelectedFeedbackType("Lecturer");
+                                                    fetchQuestions("Lecturer");
+                                                    handleDropdownStudent();
+                                                }}
+                                            >
+                                                <img
+                                                    src={Stu01}
+                                                    alt="Lecturer Icon"
+                                                    className="button-icon-student"
+                                                />
+                                                <h2 className='card-components-h2'>Lecturer Feedback</h2>
+                                            </button>
+                                        </div>
+                                        <div className='card-components'>
+                                            <button
+                                                className="feedback-inside-button"
+                                                onClick={() => {
+                                                    setSelectedFeedbackType("Course");
+                                                    fetchQuestions("Course");
+                                                    handleDropdownStudent();
+                                                }}
+                                            >
+                                                <img
+                                                    src={Stu02}
+                                                    alt="Course Icon"
+                                                    className="button-icon-student"
+                                                />
+                                                <h2 className='card-components-h2'>Course Feedback</h2>
+                                            </button>
+                                        </div>
                                     </div>
                                 ) : (
                                     <div className="dropdown-container">
-                                        <label className='dropdown-option'>Select Option : </label>
-                                        <br />
-                                        <select
-                                            value={selectedOption}  // Bind the value to state
-                                            onChange={(e) => {
-                                                const selectedValue = e.target.value;
-                                                setSelectedOption(selectedValue);
-                                                // Set the dropdown option based on feedback type
-                                                const feedbackType = selectedFeedbackType === "Lecturer" ? "Lecturer" : "Course";
-                                                setDropdownOptions(feedbackType);
-                                                fetchQuestions(feedbackType);
-                                            }}
-                                        >
-                                            <option value="" disabled>Select {selectedFeedbackType}</option>
-                                            {selectedFeedbackType === "Lecturer"
-                                                ? lecturerDetails.map((item, idx) => (
-                                                    <option key={idx} value={item.lecturer_name}>
-                                                        {item.lecturer_name}
-                                                    </option>
+                                        {setSelectedFeedbackType === "Lecturer" ? (
+                                            <h3 className='dropdown-container-h3'>Lecturer Feedback</h3>
+                                        ) : (
+                                            <h3 className='dropdown-container-h3'>Course Feedback</h3>
+                                        )}
 
-                                                ))
-                                                : courseDetails.map((item, idx) => (
-                                                    <option key={idx} value={item.course_name}>
-                                                        {item.course_name}
-                                                    </option>
+                                        <div className="all-container-lecturer">
+                                            <label className='dropdown-option'>Select Option : </label>
+                                            <select
+                                                value={selectedOption}  // Bind the value to state
+                                                onChange={(e) => {
+                                                    const selectedValue = e.target.value;
+                                                    setSelectedOption(selectedValue);
+                                                    // Set the dropdown option based on feedback type
+                                                    const feedbackType = selectedFeedbackType === "Lecturer" ? "Lecturer" : "Course";
+                                                    setDropdownOptions(feedbackType);
+                                                    fetchQuestions(feedbackType);
+                                                }}
+                                            >
+                                                <option value="" disabled>Select {selectedFeedbackType}</option>
+                                                {selectedFeedbackType === "Lecturer"
+                                                    ? lecturerDetails.map((item, idx) => (
+                                                        <option key={idx} value={item.lecturer_name}>
+                                                            {item.lecturer_name}
+                                                        </option>
 
-                                                ))}
-                                        </select>
+                                                    ))
+                                                    : courseDetails.map((item, idx) => (
+                                                        <option key={idx} value={item.course_name}>
+                                                            {item.course_name}
+                                                        </option>
 
-                                        <button
-                                            onClick={handleBack}
-                                            className="px-4 py-2 bg-red-500 text-white rounded ml-4"
-                                        >
-                                            Back
-                                        </button>
+                                                    ))}
+                                            </select>
+
+                                            <button
+                                                onClick={handleBack}
+                                                className="create-button-back-lecturer"
+                                            >
+                                                Back
+                                            </button>
+                                        </div>
 
                                         {dropdownOptions ? (
-                                            <div>
+                                            <div className='feedback-form-table-ma-container'>
                                                 {renderFeedbackTableStudent()}
                                             </div>) : null}
 
@@ -608,7 +765,7 @@ const Feedback = () => {
 
                 </div>
 
-                <div className="bottomSpace" style={{ height: '60px' }}></div>
+                <div className="bottomSpace" style={{ height: '1px' }}></div>
             </div>
 
             <Footer />

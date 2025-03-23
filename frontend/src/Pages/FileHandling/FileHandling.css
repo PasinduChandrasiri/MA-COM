@@ -2,34 +2,33 @@
 
 /* Main container */
 .file-handling-container {
-    padding-left: 40px;
+    padding-left: 70px;
     position: relative;
-    width: 100%;
+    width: 95.88%;
     background-color: #f0f2f5;
     min-height: 100vh;
+    background-color: #10182f;
 }
 
 /* Section container */
 .file-handling-section {
-    background-color: white;
+    z-index: 1;
+    background-image: url(../../Images/Feedback/note02.jpg);
+    background-size: cover;
+    background-position: center;
     border-radius: 10px;
     padding: 2rem;
     margin: 0 auto 2rem;
     width: 90%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* Inner container */
 .file-handling-inner {
     margin-bottom: 2rem;
+    min-height: 70vh;
 }
 
-.file-handling-inner h3 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #2c3e50;
-    font-size: 24px;
-}
 
 /* Button styles */
 .file-handling-button {
@@ -50,11 +49,40 @@
 }
 
 /* Card layout */
-.card-container {
+.card-container-file-handling {
+    background-image: url(../../Images/Feedback/note01.jpg);
+    /* opacity: 70%; */
+    background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-position:right;
+    z-index: 10;
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 0 auto 2rem;
+    width: 90%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+.file-upload-form {
+    width: 100%;
+    max-width: 700px;
+    margin-top: 0.8rem;
+    padding: 20px;
+    background-image: url(../../Images/Feedback/note05.jpg);
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.file-container-h2 {
+    margin-top: 3rem;
+    text-align: center;
+    margin-bottom: 0rem;
+    color: #49026f;
+    font-size: 30px;
+    font-family: sans-serif;
+  }
 
 .card-section {
     display: flex;
@@ -69,26 +97,35 @@
 }
 
 .form-group label {
-    color: black;
+    color: rgb(68, 8, 90);
     display: block;
     margin-bottom: 5px;
     font-weight: 600;
+    font-size: 18px;
+    border-radius: 2rem;
+    padding-left: 1rem;
+    font-family: sans-serif;
 }
 
 .form-group input[type="text"],
 .form-group input[type="file"],
 .form-group select,
 .form-group textarea {
-    color: black;
+    padding-left: 1rem;
+    color: rgb(0, 0, 0);
     width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #ccc;
+    padding-top: 5px; 
+    padding-bottom: 5px;
+    background-color: #c272fb;
+    border: 1px solid #000000; 
     border-radius: 4px;
     font-size: 16px;
     box-sizing: border-box;
+    font-family: sans-serif
 }
 
 .form-group textarea {
+    padding-left: 1rem;
     resize: vertical;
     min-height: 80px;
 }
@@ -101,26 +138,72 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.file-table th,
-.file-table td {
-    color: black;
-    border: 1px solid #ddd;
+.file-table th{
+    background-color: #4b0b70;
+    color: #ffffff;
     padding: 15px;
     text-align: left;
+    font-size: large;
 }
 
-.file-table th {
-    background-color: #3498db;
+.file-table td {
+    color: #000000;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+    font-family: sans-serif;
+}
+
+.file-status-update {
+    gap: 0.5rem;
+    display: flex;
+    justify-content: left;
+}
+
+.file-status-select {
+    padding: 7.5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin: 10px;
+    font-size: 16px;
+    font-family: sans-serif;
+    background-color: #30015e;
     color: white;
-    font-weight: 600;
 }
 
-.file-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+.file-update-button {
+    margin: 9px;
+    background-color: #30015e;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 0.1px;
+    padding-bottom: 0.1px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.file-table tr:hover {
-    background-color: #f1f1f1;
+.file-update-button:hover {
+    background-color: #9531bd;
+}
+
+.upload-button {
+    margin-top: 15px;
+    background-color: #30015e; 
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: serif;
+    font-size: 18px;
+}
+
+.upload-button:hover {
+    background-color: #9531bd;
 }
 
 /* Dropdown container */
@@ -150,6 +233,15 @@
 /* Utility classes */
 .bottomSpace {
     clear: both;
+}
+
+.file-inside-h3 {
+    margin-top: 2.5rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: #49026f;
+    font-size: 50px;
+    font-family: sans-serif;
 }
 
 /* Responsive design */

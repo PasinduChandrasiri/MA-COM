@@ -2,15 +2,18 @@
 
 /* Main container */
 .feedback-container {
-    padding-left: 40px;
+    padding-left: 70px;
     position: relative;
-    width: 100%;
-    background-color: #f0f2f5;
+    width: 95.88%;
+    background-color: #10182f;
     min-height: 100vh;
 }
 
 .feedback-section {
-    background-color: white;
+    z-index: 1;
+    background-image: url(../../Images/Feedback/note02.jpg);
+    background-size: cover;
+    background-position: center;
     border-radius: 10px;
     padding: 2rem;
     margin: 0 auto 2rem;
@@ -23,14 +26,17 @@
 }
 
 .feedback-inside-h3 {
+    margin-top: 2.5rem;
     text-align: center;
-    margin-bottom: 2rem;
-    color: #2c3e50;
-    font-size: 24px;
+    margin-bottom: 0rem;
+    color: #49026f;
+    font-size: 50px;
+    font-family: sans-serif;
 }
 
+
 /* Button styles */
-.feedback-inside-button {
+/* .feedback-inside-button {
     background-color: #3498db;
     color: white;
     border: none;
@@ -40,40 +46,143 @@
     margin: 10px;
     transition: all 0.3s ease;
     font-size: 16px;
+    height: 40px;
 }
 
 .feedback-inside-button:hover {
     background-color: #2980b9;
     transform: translateY(-2px);
-}
+} */
+
+/* -------------------------------------------------- */
 
 /* Card layout */
 .card-container {
+    margin-right: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: auto;
 }
 
+/* Style for the section inside the card */
 .card-section {
+    gap: 10px;
+    min-height: 63vh;
+  }
+
+  .card-components {
+    gap: 10px;
+    height: 50px;
+  }
+  
+  /* Button styling */
+  .feedback-inside-button {
+    margin-top: 50px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #30015e;
+    color: #fff;
+    border: none;
+    border-radius: 10%;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 400px;
+  }
+  
+  .feedback-inside-button:hover {
+    background-color: #8b1cdf;
+  }
+  
+
+  /* Icon styling */
+  .button-icon {
+    margin-top: 1.75rem;
+    scale: 0.75;
+    width: 60%;
+    height: 90%;
+    border-radius: 20%;
+  }
+
+.button-icon-student{
+    margin-top: 1.75rem;
+    scale: 0.75;
+    width: 70%;
+    height: 90%;
+    border-radius: 20%;
 }
 
-.dropdown-container select {
+  .card-components-h2 {
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    font-family:sans-serif;
+  }
+
+/* -------------------------------------------------- */
+
+.dropdown-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+    color: #2c3e50;
+    width: 100%;
+}
+
+/* .dropdown-container select {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
     margin: 10px 0;
     font-size: 16px;
-}
+    height: 40px;
+} */
 
-.dropdown-container select:focus {
+/* .dropdown-container select:focus {
     outline: none;
     border-color: #3498db;
     box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+} */
+
+.dropdown-container-h3 {
+    text-align: center;
+    margin-bottom: 0rem;
+    color: #49026f;
+    font-size: 30px;
+    font-family: sans-serif;
+}
+
+.dropdown-option {
+    width: 100%;
+    text-align: right;
+    margin-left: 0rem;
+    margin-right: 0rem;
+    margin-top: 1.3rem;
+    margin-bottom: 0rem;
+    color: #49026f;
+    font-size: 20px;
+    font-family: sans-serif;
+}
+
+.feedback-form-table-ma-container {
+    background-image: url(../../Images/Feedback/note01.jpg);
+    /* opacity: 70%; */
+    background-size: cover;
+    background-position:right;
+    z-index: 10;
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 0 auto 2rem;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* Table styles */
@@ -87,15 +196,27 @@
 }
 
 .feedback-form-table-row-heading-th {
-    background-color: #3498db;
-    color: white;
+    background-color: #4b0b70;
+    color: #ffffff;
     padding: 15px;
     text-align: left;
+    font-size: large;
+}
+
+.feedback-form-table-row-heading-th-student {
+    background-color: #4b0b70;
+    color: #ffffff;
+    padding-left: 50px;
+    text-align: left;
+    font-size: large;
+    /* margin-left: 3rem; */
 }
 
 .feedback-form-table-row-td {
+    color: #000000;
     padding: 15px;
     border-bottom: 1px solid #ddd;
+    font-size: 18px;
 }
 
 .feedback-form-table-data-button {
@@ -106,15 +227,19 @@
 
 /* Radio button styles */
 .feedback-checkbox {
+    color: #30015e;
+    margin-left: 2.5rem;
+    margin-top: 1rem;
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
 .feedback-checkbox input[type="radio"] {
+    gap: 0rem;
     width: 18px;
     height: 18px;
-    accent-color: #3498db;
+    accent-color: #bf0fcc;
 }
 
 /* Progress bar styles */
@@ -127,7 +252,7 @@
 
 .progress-bar-fill {
     height: 20px;
-    background-color: #3498db;
+    background-color: #961cb7;
     transition: width 0.3s ease;
     display: flex;
     align-items: center;
@@ -138,34 +263,45 @@
 
 /* Modal styles */
 .modal {
+    background-image: url(../../Images/Feedback/note05.jpg);
     position: fixed;
     top: 50%;
-    left: 50%;
+    left: 52.5%;
     transform: translate(-50%, -50%);
-    background-color: white;
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     z-index: 1000;
+    width: 50%;
+}
+
+.modal select {
+    padding-right: 2rem;
+    margin-right: 0rem;
+    background-color: #be7fee;
 }
 
 .modal-h3 {
     margin-bottom: 1rem;
-    color: #2c3e50;
+    color: #000000;
 }
 
 .modal-textarea {
+    color: #000000;
+    background-color: #be7fee;
     width: 100%;
     height: 150px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 1rem;
-    resize: vertical;
+    resize: vertical, horizontal;
+    font-size: 18px;
+    font-family: serif;
 }
 
 .modal-button {
-    background-color: #3498db;
+    background-color: #30015e;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -176,7 +312,7 @@
 }
 
 .modal-button:hover {
-    background-color: #2980b9;
+    background-color: #9531bd;
 }
 
 /* Utility classes */
@@ -185,7 +321,105 @@
 }
 
 .create-button {
-    background-color: #2ecc71;
+    margin-top: 15px;
+    background-color: #30015e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: serif;
+    font-size: 18px;
+}
+
+.create-button:hover {
+    background-color: #9531bd;
+}
+
+.submit-button-student {
+    margin-top: 15px;
+    background-color: #30015e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: serif;
+    font-size: 18px;
+}
+
+.submit-button-student:hover {
+    background-color: #9531bd;
+}
+
+.create-button-back {
+    margin-top: 15px;
+    background-color: #30015e; 
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: serif;
+    font-size: 18px;
+}
+
+.create-button-back:hover {
+    background-color: #9531bd;
+}
+
+.create-button-container {
+    margin-left: 950px;
+    gap: 20px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.all-container-lecturer {
+    margin-left: 0rem;
+    gap: 10px;
+    display: flex;
+    justify-content: left;
+    margin-bottom: 20px;
+    margin-right: 30rem;
+    width: 90%;
+}
+
+/* .all-container-lecturer-select {
+    width: 900px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    font-size: 16px;
+    height: 40px;
+} */
+
+.create-button-back-lecturer {
+    margin-top: 10px;
+    background-color: #30015e; 
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: serif;
+    font-size: 18px;
+    height: 40px;
+}
+
+.create-button-back-lecturer:hover {
+    background-color: #9531bd;
+}
+
+.create-button-edit-delete {
+    margin: 2px;
+    background-color: #30015e;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -194,15 +428,10 @@
     transition: background-color 0.3s ease;
 }
 
-.create-button:hover {
-    background-color: #27ae60;
+.create-button-edit-delete:hover {
+    background-color: #9531bd;
 }
 
-.create-button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
 
 /* Responsive design */
 @media (max-width: 768px) {
@@ -244,15 +473,8 @@
     }
 
     .feedback-form-table-row-td {
+        gap: 5px;
         padding: 10px;
         font-size: 14px;
     }
-}
-
-.dropdown-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 20px;
-    color: #2c3e50;
 }
