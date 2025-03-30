@@ -8,5 +8,6 @@ import AttendanceView from './AttendanceView/AttendanceView';
 import CashRequest from './CashRequest/CashRequest';
 import CashApprove from './CashApprove/CashApprove';
 import Feedback from "./Feedback/Feedback";
+import LandingPage from "./LandingPage/LandingPage";
 
-export { HomePage, ContactUs, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback };
+export { HomePage, ContactUs, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback, LandingPage };

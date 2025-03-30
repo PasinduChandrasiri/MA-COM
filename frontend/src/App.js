@@ -1,11 +1,12 @@
 import { Routes, Route } from 'react-router-dom';
-import { ContactUs, HomePage, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback } from './Pages';
+import { ContactUs, HomePage, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback, LandingPage } from './Pages';
 
 function App() {
 
   return (
     <Routes>
-      <Route path='/' element={<Login />} />
+      <Route path='/' element={<LandingPage />} />
+      <Route path='/Login' element={<Login />} />
       <Route path='/HomePage' element={<HomePage />} />
       <Route path='/ContactUs' element={<ContactUs />} />
       <Route path='/ForgotPassword' element={<ForgotPassword />} />
