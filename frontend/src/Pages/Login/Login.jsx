@@ -12,6 +12,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const popUpRef = useRef();
 
     //Remember me function
@@ -106,7 +107,7 @@ const Login = () => {
                 <div className="input_box">
                     <input
                         name="pass"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         id="pass"
                         className="input-field"
                         value={password}
@@ -114,6 +115,11 @@ const Login = () => {
                         required
                     />
                     <label htmlFor="pass" className="label">Password</label>
+                    <i
+                        className={`bx ${showPassword ? "bx-show" : "bx-hide"} icon`}
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{ cursor: "pointer", marginRight:'30px' }}
+                    ></i>
                     <i className="bx bx-lock-alt icon"></i>
                 </div>
 

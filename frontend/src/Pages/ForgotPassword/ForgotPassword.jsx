@@ -17,6 +17,8 @@ const ForgotPassword = () => {
     const [OTPpwd, setOTPpwd] = useState("");
     const [isBtnPressed, setIsBtnPressed] = useState(false);
     const [newPasswordValidation, setNewPasswordValidation] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
     const [generatedOtp, setGeneratedOtp] = useState(null);
 
     const handleEmailChange = (e) => {
@@ -173,7 +175,7 @@ const ForgotPassword = () => {
                     <>
                         <div className="input_box_FG" style={{ marginTop: '10px' }}>
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 id="password"
                                 className="input-field_FG"
                                 name="password"
@@ -181,17 +183,27 @@ const ForgotPassword = () => {
                                 onBlur={handleBlurNewPassword}
                                 required />
                             <label htmlFor="password" className="label_FG">New Password</label>
+                            <i
+                                className={`bx ${showPassword ? "bx-show" : "bx-hide"} icon`}
+                                onClick={() => setShowPassword(!showPassword)}
+                                style={{ cursor: "pointer", marginRight: '30px' }}
+                            ></i>
                             <i class='bx bx-lock-alt icon'></i>
                         </div>
                         <div className="input_box_FG" style={{ marginTop: '10px' }}>
                             <input
-                                type="password"
+                                type={showPassword2 ? "text" : "password"}
                                 id="confirm_password"
                                 className="input-field_FG"
                                 name="confirm_password"
                                 onChange={handleConfirmNewPasswordChange}
                                 required />
                             <label htmlFor="confirm_password" className="label_FG">Confirm Password</label>
+                            <i
+                                className={`bx ${showPassword2 ? "bx-show" : "bx-hide"} icon`}
+                                onClick={() => setShowPassword2(!showPassword2)}
+                                style={{ cursor: "pointer", marginRight: '30px' }}
+                            ></i>
                             <i class='bx bx-lock-alt icon'></i>
                         </div>
                     </>

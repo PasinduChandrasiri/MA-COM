@@ -51,6 +51,9 @@ const SettingsPage = () => {
     const [newPasswordValidation, setNewPasswordValidation] = useState(false);
     const [otp, setOtp] = useState();
     const [generatedOtp, setGeneratedOtp] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
+    const [showPassword3, setShowPassword3] = useState(false);
 
     //Modal setup
     const [isActive5, setIsActive5] = useState(false);
@@ -310,9 +313,46 @@ const SettingsPage = () => {
                     {/* Change Password section */}
                     <Topic name={"CHANGE PASSWORD (SETTINGS)"} />
                     <div className="settings-password-container">
-                        <input type="password" placeholder="Current password" style={{ marginTop: '50px' }} onChange={handleCurrentPasswordChange} />
-                        <input type="password" placeholder="New password" onChange={handleNewPasswordChange} onBlur={handleBlurNewPassword} />
-                        <input type="password" placeholder="Confirm new password" onChange={handleConfirmNewPasswordChange} />
+                        {/* Current Password */}
+                        <div className="password-input-wrapper">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Current password"
+                                onChange={handleCurrentPasswordChange}
+                            />
+                            <i
+                                className={`bx ${showPassword ? "bx-show" : "bx-hide"}`}
+                                onClick={() => setShowPassword(!showPassword)}
+                            />
+                        </div>
+
+                        {/* New Password */}
+                        <div className="password-input-wrapper">
+                            <input
+                                type={showPassword2 ? "text" : "password"}
+                                placeholder="New password"
+                                onChange={handleNewPasswordChange}
+                                onBlur={handleBlurNewPassword}
+                            />
+                            <i
+                                className={`bx ${showPassword2 ? "bx-show" : "bx-hide"}`}
+                                onClick={() => setShowPassword2(!showPassword2)}
+                            />
+                        </div>
+
+                        {/* Confirm New Password */}
+                        <div className="password-input-wrapper">
+                            <input
+                                type={showPassword3 ? "text" : "password"}
+                                placeholder="Confirm new password"
+                                onChange={handleConfirmNewPasswordChange}
+                            />
+                            <i
+                                className={`bx ${showPassword3 ? "bx-show" : "bx-hide"}`}
+                                onClick={() => setShowPassword3(!showPassword3)}
+                            />
+                        </div>
+
                         <button className="settings-edit-btn" onClick={handleCheckingValidity}>Submit</button>
                     </div>
 

@@ -4,6 +4,19 @@
     --black-color: #000000;
 }
 
+/* Add this to your CSS */
+input[type="password"]::-webkit-reveal-password {
+    display: none !important;
+}
+
+input[type="password"]::-ms-reveal {
+    display: none !important;
+}
+
+input[type="password"]::-moz-reveal-password {
+    display: none !important;
+}
+
 a {
     text-decoration: none;
     color: var(--second-color);

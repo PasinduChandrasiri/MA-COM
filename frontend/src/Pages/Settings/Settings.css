@@ -1,3 +1,16 @@
+/* Add this to your CSS */
+input[type="password"]::-webkit-reveal-password {
+    display: none !important;
+}
+
+input[type="password"]::-ms-reveal {
+    display: none !important;
+}
+
+input[type="password"]::-moz-reveal-password {
+    display: none !important;
+}
+
 .settingsMainContainer {
     margin-left: 78px;
     background-image: url("../../Images/Backgroud.png");
@@ -77,6 +90,27 @@
     gap: 10px;
     justify-content: center;
     padding: 0 20%;
+    margin-top: 50px;
+}
+
+.password-input-wrapper {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.password-input-wrapper i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+    font-size: 18px;
+}
+
+.password-input-wrapper input {
+    width: 100%;
+    padding-right: 35px;
 }
 
 .settings-password-container input {
@@ -91,6 +125,10 @@
 .settings-password-container input:focus {
     outline: none;
     border-color: #7a42f4;
+}
+
+.icon {
+    color: var(--black-color);
 }
 
 #popup5 {
@@ -193,4 +231,3 @@
 .editDetailsCloseBtn:hover {
     background: #35315c;
 }
-

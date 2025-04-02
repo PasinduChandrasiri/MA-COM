@@ -97,7 +97,7 @@ svg {
 }
 
 .arrows button {
-    background-color: #eee5;
+    background-color: rgba(238, 238, 238, 0.6);
     border: none;
     font-family: monospace;
     width: 40px;

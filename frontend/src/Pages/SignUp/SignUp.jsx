@@ -12,6 +12,9 @@ const SignUp = () => {
     const popUpRef = useRef();
     const subjectDropdownRef = useRef(null);
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
+
 
     const [formData, setFormData] = useState({
         condition: "",
@@ -203,7 +206,7 @@ const SignUp = () => {
     const handleCreateAccount = (e) => {
         e.preventDefault();
 
-        if (formData.firstName === ""|| formData.profession === "" || formData.semester === "" || formData.email === "" || formData.password === "" || formData.confirmPassword === "" || emailValidation === false
+        if (formData.firstName === "" || formData.profession === "" || formData.semester === "" || formData.email === "" || formData.password === "" || formData.confirmPassword === "" || emailValidation === false
         ) {
             //If there empty fields
             popUpRef.current.showToast("signUpInvalid");
@@ -234,7 +237,7 @@ const SignUp = () => {
                                 from_name: "DeptWise",
                                 message: otpValue,
                                 reply_to: formData.email,
-                            }, "UJ9LFwc1LWo6bfrpw") 
+                            }, "UJ9LFwc1LWo6bfrpw")
                             .then(() => {
                                 popUpRef.current.showToast("OTPsent");
                             })
@@ -409,7 +412,7 @@ const SignUp = () => {
 
                         <div className="input_box_SU">
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 id="password"
                                 className="input-field_SU"
                                 value={formData.password}
@@ -418,12 +421,17 @@ const SignUp = () => {
                                 required
                             />
                             <label htmlFor="password" className="label_SU">Password</label>
+                            <i
+                                className={`bx ${showPassword ? "bx-show" : "bx-hide"} icon`}
+                                onClick={() => setShowPassword(!showPassword)}
+                                style={{ cursor: "pointer", marginRight: '30px' }}
+                            ></i>
                             <i className="bx bx-lock-alt icon"></i>
                         </div>
 
                         <div className="input_box_SU">
                             <input
-                                type="password"
+                                type={showPassword2 ? "text" : "password"}
                                 id="confirmPassword"
                                 className="input-field_SU"
                                 value={formData.confirmPassword}
@@ -431,7 +439,11 @@ const SignUp = () => {
                                 required
                             />
                             <label htmlFor="confirmPassword" className="label_SU">Confirm Password</label>
-                            <i className="bx bx-lock-alt icon"></i>
+                            <i
+                                className={`bx ${showPassword2 ? "bx-show" : "bx-hide"} icon`}
+                                onClick={() => setShowPassword2(!showPassword2)}
+                                style={{ cursor: "pointer", marginRight: '30px' }}
+                            ></i><i className="bx bx-lock-alt icon"></i>
                         </div>
 
                         <div className="input_box_SU">

@@ -4,6 +4,19 @@
     --black-color: #000000;
 }
 
+/* Add this to your CSS */
+input[type="password"]::-webkit-reveal-password {
+    display: none !important;
+}
+
+input[type="password"]::-ms-reveal {
+    display: none !important;
+}
+
+input[type="password"]::-moz-reveal-password {
+    display: none !important;
+}
+
 a {
     text-decoration: none;
     color: var(--second-color);
@@ -173,13 +186,6 @@ a:hover {
     border-radius: 30px;
     color: var(--black-color);
     padding: 0 10px;
-}
-
-.icon {
-    position: absolute;
-    top: 18px;
-    right: 25px;
-    font-size: 20px;
 }
 
 .remember-forgot {
