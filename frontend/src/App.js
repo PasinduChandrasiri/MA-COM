@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { ContactUs, HomePage, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback, LandingPage } from './Pages';
+import { ContactUs, HomePage, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback, LandingPage, Settings, ManagementPage } from './Pages';
 
 function App() {
 

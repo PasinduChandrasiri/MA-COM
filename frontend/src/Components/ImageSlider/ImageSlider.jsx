@@ -38,7 +38,7 @@ function ImageSlider() {
                         <img src={item.img} alt={item.title} className="imagesSlider" />
                         <div className="content">
                             <p>Gallery</p>
-                            <h2>{item.title}</h2>
+                            <h2 className="ImageTitle">{item.title}</h2>
                             <p>{item.text}</p>
                         </div>
                     </div>

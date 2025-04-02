@@ -51,10 +51,11 @@ svg {
     letter-spacing: 10px;
 }
 
-.slider .list .item .content h2 {
+.slider .list .item .content .ImageTitle {
+    margin: 0;
     width: 100vw;
     font-size: 60px;
-    margin: 0;
+    color: white;
 }
 
 .slider .list .item.active {
@@ -71,7 +72,7 @@ svg {
 }
 
 .slider .list .item.active p:nth-child(1),
-.slider .list .item.active h2,
+.slider .list .item.active .ImageTitle,
 .slider .list .item.active p:nth-child(3) {
     transform: translateY(30px);
     filter: blur(20px);
@@ -79,7 +80,7 @@ svg {
     animation: showContent .5s .7s ease-in-out 1 forwards;
 }
 
-.slider .list .item.active h2 {
+.slider .list .item.active .ImageTitle {
     animation-delay: 1s;
 }
 
@@ -160,7 +161,7 @@ svg {
         justify-content: start;
     }
 
-    .slider .list .item .content h2 {
+    .slider .list .item .content .ImageTitle {
         font-size: 60px;
     }
 

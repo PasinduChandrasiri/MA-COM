@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect, useRef } from 'react';
 import SideBar from '../../Components/SideBar/SideBar';
 import DropDownSelector from '../../Components/CourseDropDownSelector/CourseDropDownSelector';
@@ -17,6 +18,8 @@ const AttendanceMarking = () => {
     const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
     const [subjectOptions, setSubjectOptions] = useState([]);
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
+    const [profession, setProfession] = useState(localStorage.getItem('profession'));
+
     const popUpRef = useRef();
 
     // Fetch subjects for dropdown
@@ -200,7 +203,7 @@ const AttendanceMarking = () => {
 
     return (
         <>
-            <SideBar />
+            <SideBar userType={profession?.replace(/\s+/g, '')} />
             <div className="attendance-container">
                 <Header />
                 <div className="attendance-content">

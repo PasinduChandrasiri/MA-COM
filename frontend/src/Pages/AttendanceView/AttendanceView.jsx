@@ -14,6 +14,7 @@ const AttendanceView = () => {
     const [subjectOptions, setSubjectOptions] = useState([]);
     const [attendancePeriod, setAttendancePeriod] = useState(null);
     const [hasAttendanceData, setHasAttendanceData] = useState(false);
+    const [profession, setProfession] = useState(localStorage.getItem('profession'));
 
     useEffect(() => {
         const fetchSubjects = async () => {
@@ -122,7 +123,7 @@ const AttendanceView = () => {
 
     return (
         <>
-            <SideBar />
+            <SideBar userType={profession?.replace(/\s+/g, '')} />
             <div className="attendanceview-container">
                 <Header />
                 <div className="attendanceview-content">
