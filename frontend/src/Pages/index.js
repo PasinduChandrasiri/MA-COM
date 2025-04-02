@@ -9,5 +9,7 @@ import CashRequest from './CashRequest/CashRequest';
 import CashApprove from './CashApprove/CashApprove';
 import Feedback from "./Feedback/Feedback";
 import LandingPage from "./LandingPage/LandingPage";
+import Settings from "./Settings/Settings";
+import ManagementPage from './ManagementPage/ManagementPage'
 
-export { HomePage, ContactUs, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback, LandingPage };
+export { HomePage, ContactUs, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback, LandingPage,Settings,ManagementPage };

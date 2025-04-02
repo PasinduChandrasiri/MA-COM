@@ -20,7 +20,7 @@ body::-webkit-scrollbar {
     display: flex;
     width: 100%;
     justify-content: center;
-    margin-top: 5%;
+    margin-top: 13%;
 }
 
 .cardProfile {
@@ -106,7 +106,7 @@ h4,
     color: white;
 }
 
-.container {
+.homeMainContainer {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -116,7 +116,7 @@ h4,
     z-index: 19;
 }
 
-.container.blur {
+.homeMainContainer.blur {
     filter: blur(20px);
     pointer-events: none;
     user-select: none;

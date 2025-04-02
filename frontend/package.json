@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "ajv": "^8.17.1",
     "ajv-keywords": "^5.1.0",
@@ -11,6 +12,9 @@
     "cra-template": "1.2.0",
     "framer-motion": "^12.0.6",
     "frontend": "file:",
+    "js-cookie": "^3.0.5",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "motion": "^12.0.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

@@ -16,6 +16,8 @@ function App() {
       <Route path='/CashRequest' element={<CashRequest />} />
       <Route path='/CashApprove' element={<CashApprove />} />
       <Route path='/Feedback' element={<Feedback />} />
+      <Route path='/Settings' element={<Settings />} />
+      <Route path='/ManagementPage' element={<ManagementPage />} />
     </Routes>
   );
 }
