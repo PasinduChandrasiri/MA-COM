@@ -5,6 +5,8 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
+
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -92,20 +94,20 @@ app.post('/ma_system/comments', (req, res) => {
 
 // Select queries
 app.post("/ma_system/lecturerfeedbackrate", (req, res) => {
-    const { semester, studentID, selectedData, feedback } = req.body;
+    const { semester, studentID, newCourseName, newNames, selectedData, feedback } = req.body;
     console.log("Received Data:", req.body);
 
     // Expect exactly 12 feedback items
-    if (!semester || !studentID || !selectedData || !feedback || feedback.length !== 12) {
+    if (!semester || !studentID || !newCourseName || !newNames || !selectedData || !feedback || feedback.length !== 12) {
         return res.status(400).json({ error: "Invalid input data" });
     }
 
     const sql = `
       INSERT INTO lecturerfeedbackrate 
-        (semester, studentID, lecturer_name, lq1_rate, lq2_rate, lq3_rate, lq4_rate, lq5_rate, lq6_rate, lq7_rate, lq8_rate, lq9_rate, lq10_rate, lq11_rate, lq12_rate)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (semester, studentID, course_name, lecturer_name, lecture_course_name, lq1_rate, lq2_rate, lq3_rate, lq4_rate, lq5_rate, lq6_rate, lq7_rate, lq8_rate, lq9_rate, lq10_rate, lq11_rate, lq12_rate)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    const values = [semester, studentID, selectedData, ...feedback.map((item) => item.rating)];
+    const values = [semester, studentID, newCourseName, newNames, selectedData, ...feedback.map((item) => item.rating)];
 
     db.query(sql, values, (err) => {
         if (err) {
@@ -131,7 +133,7 @@ app.post("/ma_system/lecturerfeedbackrate", (req, res) => {
         FROM lecturerfeedbackrate
         WHERE lecturer_name = ?
       `;
-        db.query(avgQuery, [selectedData], (err, avgResults) => {
+        db.query(avgQuery, [newNames], (err, avgResults) => {
             if (err) {
                 console.error("Error calculating lecturer averages:", err);
             } else {
@@ -158,7 +160,7 @@ app.post("/ma_system/lecturerfeedbackrate", (req, res) => {
           `;
                 const upsertValues = [
                     semester,
-                    selectedData,
+                    newNames,
                     avgRow.avg1,
                     avgRow.avg2,
                     avgRow.avg3,
@@ -523,7 +525,7 @@ app.post('/api/attendance', (req, res) => {
   Endpoint: GET /api/lecturerDetails?semester=...
   Returns lecturer values and course values for the given semester.
 */
-app.get('/lecturerdetails', (req, res) => {
+app.get('/subjects', (req, res) => {
     const { condition, semester, name } = req.query;
 
     if (condition === "For student dropdown") {
@@ -531,8 +533,8 @@ app.get('/lecturerdetails', (req, res) => {
             return res.status(400).json({ error: "Semester is required" });
         }
 
-        const lecturerQuery = "SELECT lecturer_name FROM lecturerdetails WHERE semester = ?";
-        const courseQuery = "SELECT course_name FROM lecturerdetails WHERE semester = ?";
+        const lecturerQuery = "SELECT CONCAT(lecturer, ' - ', subjectName) AS lecturer_course FROM subjects WHERE semester = ?";
+        const courseQuery = "SELECT subjectName FROM subjects WHERE semester = ?";
 
         // Execute the lecturer query
         db.query(lecturerQuery, [semester], (err, lecturerResults) => {
@@ -562,8 +564,8 @@ app.get('/lecturerdetails', (req, res) => {
             return res.status(400).json({ error: "Lecturer name is required" });
         }
 
-        const lecturerQuery = "SELECT CONCAT(lecturer_name, ' - ', course_name) AS lecturer_course FROM lecturerdetails WHERE lecturer_name = ?";
-        const courseQuery = "SELECT course_name FROM lecturerdetails WHERE lecturer_name = ?";
+        const lecturerQuery = "SELECT CONCAT(lecturer, ' - ', subjectName) AS lecturer_course FROM subjects WHERE lecturer = ?";
+        const courseQuery = "SELECT subjectName FROM subjects WHERE lecturer = ?";
 
         // Execute the lecturer query
         db.query(lecturerQuery, [name], (err, lecturerResults) => {
@@ -580,6 +582,7 @@ app.get('/lecturerdetails', (req, res) => {
                 }
 
                 // Send both results in one JSON response
+                console.log("Lecturer Results:", lecturerResults);
 
                 return res.json({
                     lecturers: lecturerResults,
@@ -716,11 +719,16 @@ app.get("/coursefeedbackrate_avg", (req, res) => {
 
 
 
-//---------------------------------------------------------------------------------
-
-// --------------------- FILE HANDLING ENDPOINTS ---------------------
+// --------------------- FILE HANDLING ENDPOINTS ----------------------------------
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+
+// Ensure the 'uploads' folder exists
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
 
 // Configure storage for uploaded files
 const storage = multer.diskStorage({
@@ -801,3 +809,37 @@ app.put('/ma_system/files/:id', (req, res) => {
         res.json({ message: "Status updated successfully" });
     });
 });
+
+// Delete file endpoint (for both Lecturer and MA)
+app.delete('/ma_system/files/:id', (req, res) => {
+    const fileId = req.params.id;
+    // First, get the file path from the database
+    const sqlSelect = "SELECT file_path FROM files WHERE id = ?";
+    db.query(sqlSelect, [fileId], (err, results) => {
+        if (err) {
+            console.error("Error fetching file for deletion:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ error: "File not found" });
+        }
+        const filePath = results[0].file_path;
+        // Delete the record from the database
+        const sqlDelete = "DELETE FROM files WHERE id = ?";
+        db.query(sqlDelete, [fileId], (err, deleteResults) => {
+            if (err) {
+                console.error("Error deleting file from database:", err);
+                return res.status(500).json({ error: "Database error" });
+            }
+            // Optionally delete the file from disk
+            fs.unlink(filePath, (fsErr) => {
+                if (fsErr) {
+                    console.error("Error deleting file from disk:", fsErr);
+                    // We continue even if file deletion fails
+                }
+                res.json({ message: "File deleted successfully" });
+            });
+        });
+    });
+});
+

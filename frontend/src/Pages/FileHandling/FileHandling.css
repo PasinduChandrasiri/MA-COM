@@ -29,7 +29,6 @@
     min-height: 70vh;
 }
 
-
 /* Button styles */
 .file-handling-button {
     background-color: #3498db;
@@ -51,7 +50,6 @@
 /* Card layout */
 .card-container-file-handling {
     background-image: url(../../Images/Feedback/note01.jpg);
-    /* opacity: 70%; */
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -71,6 +69,7 @@
     margin-top: 0.8rem;
     padding: 20px;
     background-image: url(../../Images/Feedback/note05.jpg);
+    background-size: cover;
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -79,10 +78,10 @@
     margin-top: 3rem;
     text-align: center;
     margin-bottom: 0rem;
-    color: #49026f;
+    color: #1a237e; /* Dark blue */
     font-size: 30px;
     font-family: sans-serif;
-  }
+}
 
 .card-section {
     display: flex;
@@ -97,7 +96,7 @@
 }
 
 .form-group label {
-    color: rgb(68, 8, 90);
+    color: #0d3b66; /* Dark blue */
     display: block;
     margin-bottom: 5px;
     font-weight: 600;
@@ -112,11 +111,11 @@
 .form-group select,
 .form-group textarea {
     padding-left: 1rem;
-    color: rgb(0, 0, 0);
+    color: #000000;
     width: 100%;
     padding-top: 5px; 
     padding-bottom: 5px;
-    background-color: #c272fb;
+    background-color: #a0c4ff; /* Light blue */
     border: 1px solid #000000; 
     border-radius: 4px;
     font-size: 16px;
@@ -139,7 +138,7 @@
 }
 
 .file-table th{
-    background-color: #4b0b70;
+    background-color: #1e3a8a; /* Dark blue */
     color: #ffffff;
     padding: 15px;
     text-align: left;
@@ -167,13 +166,13 @@
     margin: 10px;
     font-size: 16px;
     font-family: sans-serif;
-    background-color: #30015e;
+    background-color: #1e3a8a; /* Dark blue */
     color: white;
 }
 
 .file-update-button {
     margin: 9px;
-    background-color: #30015e;
+    background-color: #1e3a8a; /* Dark blue */
     color: white;
     padding-left: 15px;
     padding-right: 15px;
@@ -186,12 +185,49 @@
 }
 
 .file-update-button:hover {
-    background-color: #9531bd;
+    background-color: #3b82f6; /* Medium blue */
+}
+
+.file-download-button {
+    margin: 9px;
+    background-color: #137d1a; /* Dark blue */
+    color: #ffffff;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 0.1px;
+    padding-bottom: 0.1px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.file-download-button:hover {
+    background-color: #34a057; /* Medium blue */
+    color: rgb(0, 0, 0);
+}
+
+.file-delete-button {
+    margin: 9px;
+    background-color: #1e3a8a; /* Dark blue */
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.file-delete-button:hover {
+    background-color: #3b82f6; /* Medium blue */
 }
 
 .upload-button {
     margin-top: 15px;
-    background-color: #30015e; 
+    background-color: #1e3a8a; /* Dark blue */
     color: white;
     padding: 10px 20px;
     border: none;
@@ -203,7 +239,7 @@
 }
 
 .upload-button:hover {
-    background-color: #9531bd;
+    background-color: #3b82f6; /* Medium blue */
 }
 
 /* Dropdown container */
@@ -239,7 +275,7 @@
     margin-top: 2.5rem;
     text-align: center;
     margin-bottom: 2.5rem;
-    color: #49026f;
+    color: #1a237e; /* Dark blue */
     font-size: 50px;
     font-family: sans-serif;
 }

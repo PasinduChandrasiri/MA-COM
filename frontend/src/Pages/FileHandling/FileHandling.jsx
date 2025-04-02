@@ -53,6 +53,7 @@ const FileHandling = () => {
       });
       alert("File uploaded successfully");
       fetchLecturerFiles();
+      console.log(res.data);
     } catch (error) {
       console.error(error);
       alert("Failed to upload file.");
@@ -67,6 +68,18 @@ const FileHandling = () => {
       setUploadedFiles(res.data);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleDeleteFile = async (fileId) => {
+    if (!window.confirm("Are you sure you want to delete this file?")) return;
+    try {
+      await axios.delete(`http://localhost:8081/ma_system/files/${fileId}`);
+      alert("File deleted successfully");
+      fetchLecturerFiles();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete file.");
     }
   };
 
@@ -96,6 +109,18 @@ const FileHandling = () => {
     }
   };
 
+  const handleDeleteFileMA = async (fileId) => {
+    if (!window.confirm("Are you sure you want to delete this file?")) return;
+    try {
+      await axios.delete(`http://localhost:8081/ma_system/files/${fileId}`);
+      alert("File deleted successfully");
+      fetchAllFiles();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete file.");
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
 
   return (
@@ -105,7 +130,6 @@ const FileHandling = () => {
         <Header />
         <div style={{ height: '70px' }} />
         <div className="file-handling-section">
-
           {profession === "Lecturer" && (
             <div className="file-handling-inner lecturer">
               <h3 className='file-inside-h3'>File Upload</h3>
@@ -152,6 +176,7 @@ const FileHandling = () => {
                       <th>Destination</th>
                       <th>Type</th>
                       <th>Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -162,6 +187,14 @@ const FileHandling = () => {
                         <td>{file.destination}</td>
                         <td>{file.destination_type}</td>
                         <td>{file.status}</td>
+                        <td>
+                          <button
+                            className="file-delete-button"
+                            onClick={() => handleDeleteFile(file.id)}
+                          >
+                            Delete
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -182,7 +215,7 @@ const FileHandling = () => {
                       <th>Destination</th>
                       <th>Type</th>
                       <th>Current Status</th>
-                      <th>Update Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -195,16 +228,33 @@ const FileHandling = () => {
                         <td>{file.status}</td>
                         <td>
                           <div className='file-status-update'>
-                          <select
-                            className='file-status-select'
-                            value={selectedStatus[file.id] || file.status}
-                            onChange={(e) => handleStatusChange(file.id, e.target.value)}
-                          >
-                            <option value="pending">Pending</option>
-                            <option value="approved">Approved</option>
-                            <option value="rejected">Rejected</option>
-                          </select>
-                          <button className='file-update-button' onClick={() => updateStatus(file.id)}>Update</button>
+                            <select
+                              className='file-status-select'
+                              value={selectedStatus[file.id] || file.status}
+                              onChange={(e) => handleStatusChange(file.id, e.target.value)}
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="approved">Approved</option>
+                              <option value="rejected">Rejected</option>
+                            </select>
+                            <button
+                              className='file-update-button'
+                              onClick={() => updateStatus(file.id)}
+                            >
+                              Update
+                            </button>
+                            <button
+                              className='file-update-button'
+                              onClick={() => handleDeleteFileMA(file.id)}
+                            >
+                              Delete
+                            </button>
+                            <button
+                              className='file-download-button'
+                              onClick={() => window.open(`http://localhost:8081/${file.file_path}`, '_blank')}
+                            >
+                              Download
+                            </button>
                           </div>
                         </td>
                       </tr>

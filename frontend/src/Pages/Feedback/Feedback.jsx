@@ -25,7 +25,6 @@ const Feedback = () => {
     const [loading, setLoading] = useState(true);
 
     /* For editing qyestions */
-    const [isOpen, setIsOpen] = useState(false); // Toggle form state
     const [questions, setQuestions] = useState([]);
     const [editingQuestion, setEditingQuestion] = useState(null);
     const [editedText, setEditedText] = useState("");
@@ -47,7 +46,24 @@ const Feedback = () => {
     const [newQuestionGroup, setNewQuestionGroup] = useState(""); // New state for QGroup
 
 
+    const [selectedCourse, setSelectedCourse] = useState("");
+    const [names, setNames] = useState("");
+
     //-------------------------------------------- COMMON -------------------------------------------
+
+    // useEffect(() => {
+    //     if (lecturerDetails.length > 0) {
+    //         // Split each "lecturer_course" and extract the course name
+    //         const extractedCourses = lecturerDetails.map(item => {
+    //             const parts = item.lecturer_course.split(' - ');
+    //             return parts[1]; // Course name is after the " - "
+    //         });
+
+    //         // Remove duplicates using Set and update state
+    //         const uniqueCourses = [...new Set(extractedCourses)];
+    //         setCourseNames(uniqueCourses);
+    //     }
+    // }, [lecturerDetails]); // Trigger when lecturerDetails changes
 
     const fetchQuestions = (selectedFeedbackType) => {
         axios.get('http://localhost:8081/feedbackquestions', {
@@ -216,14 +232,16 @@ const Feedback = () => {
 
     //get lecturere details and course details for the dropdown in lecturer panel
     const handleDropdownLecturer = () => {
-        axios.get('http://localhost:8081/lecturerdetails', {
-            params: { name, condition: "For lecturer dropdown" }
+        axios.get('http://localhost:8081/subjects', {
+            params: { name: name, condition: "For lecturer dropdown" }
         })
             .then((res) => {
                 // Check if the response contains lecturer details
                 if (res.data.lecturers) {
                     setLecturerDetails(res.data.lecturers);
                 }
+
+                console.log("lecturerDetails", res.data.lecturers);
 
                 // Check if the response contains course details
                 if (res.data.courses) {
@@ -329,6 +347,8 @@ const Feedback = () => {
             .post(url, {
                 semester,
                 studentID,
+                newCourseName: selectedCourse,
+                newNames: names,
                 selectedData: selectedOption,
                 feedback: responses.map((rate, index) => ({
                     rating: rate,
@@ -348,7 +368,7 @@ const Feedback = () => {
 
     //dropdown for selecting lecturer and course
     const handleDropdownStudent = () => {
-        axios.get('http://localhost:8081/lecturerdetails', {
+        axios.get('http://localhost:8081/subjects', {
             params: { semester: semester, condition: "For student dropdown" }
         })
             .then((res) => {
@@ -495,7 +515,7 @@ const Feedback = () => {
                                     </div>
                                 ) : (
                                     <div className="dropdown-container">
-                                        {setSelectedFeedbackType === "Lecturer" ? (
+                                        {selectedFeedbackType === "Lecturer" ? (
                                             <h3 className='dropdown-container-h3'>Edit Lecturer Feedback Questions</h3>
                                         ) : (
                                             <h3 className='dropdown-container-h3'>Edit Course Feedback Questions</h3>
@@ -608,7 +628,7 @@ const Feedback = () => {
                                     </div>
                                 ) : (
                                     <div className="dropdown-container">
-                                        {setSelectedFeedbackType === "Lecturer" ? (
+                                        {selectedFeedbackType === "Lecturer" ? (
                                             <h3 className='dropdown-container-h3'>Averages of Lecturer Feedback</h3>
                                         ) : (
                                             <h3 className='dropdown-container-h3'>Averages of Course Feedback</h3>
@@ -639,8 +659,8 @@ const Feedback = () => {
 
                                                     ))
                                                     : courseDetails.map((item, idx) => (
-                                                        <option key={idx} value={item.course_name}>
-                                                            {item.course_name}
+                                                        <option key={idx} value={item.subjectName}>
+                                                            {item.subjectName}
                                                         </option>
 
                                                     ))}
@@ -708,7 +728,7 @@ const Feedback = () => {
                                     </div>
                                 ) : (
                                     <div className="dropdown-container">
-                                        {setSelectedFeedbackType === "Lecturer" ? (
+                                        {selectedFeedbackType === "Lecturer" ? (
                                             <h3 className='dropdown-container-h3'>Lecturer Feedback</h3>
                                         ) : (
                                             <h3 className='dropdown-container-h3'>Course Feedback</h3>
@@ -724,20 +744,24 @@ const Feedback = () => {
                                                     // Set the dropdown option based on feedback type
                                                     const feedbackType = selectedFeedbackType === "Lecturer" ? "Lecturer" : "Course";
                                                     setDropdownOptions(feedbackType);
+                                                    const courseName = selectedValue.split(' - ')[1];
+                                                    setSelectedCourse(courseName);
+                                                    const relatedName = selectedValue.split(' - ')[0];
+                                                    setNames(relatedName);
                                                     fetchQuestions(feedbackType);
                                                 }}
                                             >
                                                 <option value="" disabled>Select {selectedFeedbackType}</option>
                                                 {selectedFeedbackType === "Lecturer"
                                                     ? lecturerDetails.map((item, idx) => (
-                                                        <option key={idx} value={item.lecturer_name}>
-                                                            {item.lecturer_name}
+                                                        <option key={idx} value={item.lecturer_course}>
+                                                            {item.lecturer_course}
                                                         </option>
 
                                                     ))
                                                     : courseDetails.map((item, idx) => (
-                                                        <option key={idx} value={item.course_name}>
-                                                            {item.course_name}
+                                                        <option key={idx} value={item.subjectName}>
+                                                            {item.subjectName}
                                                         </option>
 
                                                     ))}
