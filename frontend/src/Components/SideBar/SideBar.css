@@ -11,7 +11,7 @@
     height: 100%;
     width: 78px;
     background: #11101d;
-    /* backdrop-filter: blur(1000px); */
+    /*backdrop-filter: blur(50px);*/
     padding: 6px 14px;
     z-index: 101;
     transition: all 0.5s ease;
