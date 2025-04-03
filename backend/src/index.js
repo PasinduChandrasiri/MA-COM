@@ -29,20 +29,31 @@ app.listen(8081, () => {
 
 // Insert queries
 app.post('/ma_system/user', (req, res) => {
-    const sql = "INSERT INTO user(`f_Name`,`l_Name`,`profession`,`semester`,`email`,`password`,`about`,`pic`) VALUES (?)";
+    const sql = "INSERT INTO user(`f_Name`,`l_Name`,`profession`,`semester`,`regNo`,`email`,`password`,`about`,`pic`,`subject1`,`subject2`,`subject3`,`subject4`,`subject5`,`subject6`,`subject7`,`subject8`,`subject9`,`subject10`) VALUES (?)";
     const values = [
         req.body.firstName,
         req.body.secondName,
         req.body.profession,
         req.body.semester,
+        req.body.regNo,
         req.body.email,
         req.body.password,
-        "No more details",
+        "Add about you",
         "",
+        req.body.subject1,
+        req.body.subject2,
+        req.body.subject3,
+        req.body.subject4,
+        req.body.subject5,
+        req.body.subject6,
+        req.body.subject7,
+        req.body.subject8,
+        req.body.subject9,
+        req.body.subject10,
     ]
     db.query(sql, [values], (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json(data);
     })
@@ -56,7 +67,7 @@ app.post('/ma_system/forgotpassword', (req, res) => {
     ]
     db.query(sql, [values], (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json(data);
     })
@@ -70,7 +81,7 @@ app.post('/ma_system/notice', (req, res) => {
     ]
     db.query(sql, [values], (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json(data);
     })
@@ -85,7 +96,55 @@ app.post('/ma_system/comments', (req, res) => {
     ]
     db.query(sql, [values], (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
+        }
+        return res.json(data);
+    })
+})
+
+app.post('/ma_system/nonacademicdetails', (req, res) => {
+    const sql = "INSERT INTO nonacademicdetails(`registerNumber`,`name`,`attendance`,`dailyCharge`,`month`) VALUES (?)";
+    const values = [
+        req.body.regNo,
+        req.body.name,
+        req.body.attendance,
+        req.body.dailyCharge,
+        req.body.month,
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json(data);
+    })
+})
+
+app.post('/ma_system/subjects', (req, res) => {
+    const sql = "INSERT INTO subjects(`semester`,`subjectId`,`subjectName`,`lecturer`) VALUES (?)";
+    const values = [
+        req.body.semester,
+        req.body.subjectId,
+        req.body.subjectName,
+        req.body.lecturer,
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json(data);
+    })
+})
+
+app.post('/ma_system/lecturers', (req, res) => {
+    const sql = "INSERT INTO lecturers(`lecturerId`,`lecturerName`,`department`) VALUES (?)";
+    const values = [
+        req.body.lecturerId,
+        req.body.lecturerName,
+        req.body.department,
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
         }
         return res.json(data);
     })
@@ -304,25 +363,6 @@ app.post('/user', (req, res) => {
     }
 })
 
-app.post('/forgotPassword', (req, res) => {
-    const { condition, email } = req.body;
-
-    if (condition === "check") {
-        const sql = "SELECT * FROM forgotPassword WHERE `email`=?";
-        db.query(sql, [email], (err, data) => {
-            if (err) {
-                return res.status(500).json("Error");
-            }
-            if (data.length > 0) {
-                return res.json(data);
-            } else {
-                return res.json("unavailable");
-            }
-        });
-    }
-});
-
-
 app.post('/notice', (req, res) => {
     const { condition } = req.body;
 
@@ -353,14 +393,162 @@ app.post('/comments', (req, res) => {
     }
 })
 
-// Delete queries
+app.post('/subjects', (req, res) => {
+    const { condition, semester, lecturer } = req.body;
+
+    if (condition === "subject") {
+        const sql = "SELECT * FROM subjects WHERE `semester`=?";
+        db.query(sql, [semester], (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+    else if (condition === "all") {
+        const sql = "SELECT * FROM subjects";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+    else if (condition === "feedbackLecturer") {
+        const sql = "SELECT * FROM subjects WHERE `lecturer`=?";
+        db.query(sql, [lecturer], (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/lecturers', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM lecturers";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+    else if (condition === "lecturer") {
+        const sql = "SELECT lecturerName FROM lecturers";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/nonacademicdetails', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM nonacademicdetails";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/coursefeedbackrate', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM coursefeedbackrate";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/lecturerfeedbackrate', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM lecturerfeedbackrate";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+app.post('/batchdetails', (req, res) => {
+    const { condition } = req.body;
+
+    if (condition === "all") {
+        const sql = "SELECT * FROM batchdetails";
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            if (data.length > 0) {
+                return res.json(data);
+            } else {
+                return res.json("unavailable");
+            }
+        })
+    }
+})
+
+
+//Delete queries
 app.delete('/notice/:id', (req, res) => {
     const id = req.params.id;
 
     const sql = "DELETE FROM notice WHERE id = ?";
     db.query(sql, id, (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json("Updates")
     })
@@ -372,11 +560,48 @@ app.delete('/comments/:id', (req, res) => {
     const sql = "DELETE FROM comments WHERE id = ?";
     db.query(sql, id, (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json("Updates")
     })
 });
+
+app.delete('/nonacademicdetails/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = "DELETE FROM nonacademicdetails WHERE id = ?";
+    db.query(sql, id, (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
+});
+
+app.delete('/subjects/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = "DELETE FROM subjects WHERE id = ?";
+    db.query(sql, id, (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
+});
+
+app.delete('/lecturers/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = "DELETE FROM lecturers WHERE id = ?";
+    db.query(sql, id, (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    }) 
+});
+
 
 // Update queries
 app.put('/notice/:id', (req, res) => {
@@ -386,23 +611,87 @@ app.put('/notice/:id', (req, res) => {
     const sql = "UPDATE notice SET `title` = ?, `content` = ? WHERE `id` = ?";
     db.query(sql, [title, content, id], (err, data) => {
         if (err) {
-            return res.json("Error");
+            return res.status(500).json("Error");
         }
         return res.json("Updates")
     })
-});
+})
 
-// Get all subjects
-app.get('/api/subjects', (req, res) => {
-    const sql = "SELECT subjectId as subjectId, subjectName as subjectName, lecturer as lecturer FROM subjects";
+app.put('/user/:id', (req, res) => {
+    const userId = req.params.id;
+    const { password, condition, name, semester, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8, subject9, subject10, about, pic } = req.body;
 
-    db.query(sql, (err, results) => {
+    if (condition === "pwdRecovery") {
+        const sql = "UPDATE user SET `password` = ? WHERE `id` = ?";
+        db.query(sql, [password, userId], (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            return res.json("Updates")
+        })
+    }
+
+    else if (condition === "editDetails") {
+        const sql = "UPDATE user SET `f_Name` = ?,`l_Name` = ?,`semester` = ?,`subject1` = ?,`subject2` = ?,`subject3` = ?,`subject4` = ?,`subject5` = ?,`subject6` = ?,`subject7` = ?,`subject8` = ?,`subject9` = ?,`subject10` = ?,`about` = ?,`pic` = ? WHERE `id` = ?";
+        db.query(sql, [name, "", semester, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8, subject9, subject10, about, pic, userId], (err, data) => {
+            if (err) {
+                return res.status(500).json("Error");
+            }
+            return res.json("Updates")
+        })
+    }
+})
+
+app.put('/nonacademicdetails/:id', (req, res) => {
+    const id = req.params.id;
+    const { regNo, name, attendance, dailyCharge, month } = req.body;
+
+    const sql = "UPDATE nonacademicdetails SET `registerNumber` = ?,`name` = ?,`attendance` = ?,`dailyCharge` = ?,`month` = ? WHERE `id` = ?";
+    db.query(sql, [regNo, name, attendance, dailyCharge, month, id], (err, data) => {
         if (err) {
-            console.error('Error fetching subjects:', err);
-            return res.status(500).json({ message: "Error fetching subjects" });
+            return res.status(500).json("Error");
         }
-        res.json(results);
-    });
+        return res.json("Updates")
+    })
+})
+
+app.put('/subjects/:id', (req, res) => {
+    const id = req.params.id;
+    const { semester, subjectId, subjectName, lecturer } = req.body;
+
+    const sql = "UPDATE subjects SET `semester` = ?,`subjectId` = ?,`subjectName` = ?,`lecturer` = ? WHERE `id` = ?";
+    db.query(sql, [semester, subjectId, subjectName, lecturer, id], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
+})
+
+app.put('/lecturers/:id', (req, res) => {
+    const id = req.params.id;
+    const { lecturerId, lecturerName, department } = req.body;
+
+    const sql = "UPDATE lecturers SET `lecturerId` = ?,`lecturerName` = ?,`department` = ? WHERE `id` = ?";
+    db.query(sql, [lecturerId, lecturerName, department, id], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
+})
+
+app.put('/batchdetails/:id', (req, res) => {
+    const id = req.params.id;
+    const { batchName, batchSemester } = req.body;
+
+    const sql = "UPDATE batchdetails SET `batch` = ?,`semester` = ? WHERE `id` = ?";
+    db.query(sql, [batchName, batchSemester, id], (err, data) => {
+        if (err) {
+            return res.status(500).json("Error");
+        }
+        return res.json("Updates")
+    })
 });
 
 // Get specific subject details and enrolled students
@@ -520,6 +809,175 @@ app.post('/api/attendance', (req, res) => {
     });
 });
 
+// Fetch subjects for dropdown
+app.get('/api/subjects', (req, res) => {
+
+    const sql = "SELECT subjectId, subjectName, lecturer FROM subjects";
+    
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching subjects:', err);
+            return res.status(500).json({ message: "Error fetching subjects" });
+        }
+        res.json(results);
+    });
+});
+
+// Fetch attendance data for a selected subject
+app.get('/api/attendance/:subjectId', (req, res) => {
+    const { subjectId } = req.params;
+
+    const sql = `
+        SELECT 
+            a.regNo, 
+            u.f_Name, 
+            u.l_Name,
+            COUNT(*) as totalClasses,
+            SUM(CASE WHEN a.attendance = 'present' THEN 1 ELSE 0 END) as presentClasses,
+            ROUND((SUM(CASE WHEN a.attendance = 'present' THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2) AS attendancePercentage
+        FROM 
+            attendance a
+        JOIN 
+            user u ON a.regNo = u.regNo
+        WHERE 
+            a.subjectId = ?
+        GROUP BY 
+            a.regNo, u.f_Name, u.l_Name
+    `;
+
+    db.query(sql, [subjectId], (err, results) => {
+        if (err) {
+            console.error('Error fetching attendance:', err);
+            return res.status(500).json({ message: "Error fetching attendance" });
+        }
+        
+        // Return empty array if no attendance records found
+        if (results.length === 0) {
+            console.log(`No attendance records found for subject: ${subjectId}`);
+        }
+        
+        res.json(results);
+    });
+});
+
+
+// Fetch attendance period (first and last date) for a subject
+app.get('/api/attendance-period/:subjectId', (req, res) => {
+    const { subjectId } = req.params;
+    const sql = "SELECT MIN(date) AS firstDate, MAX(date) AS lastDate FROM attendance WHERE subjectId = ?";
+    
+    db.query(sql, [subjectId], (err, result) => {
+        if (err) {
+            console.error('Error fetching attendance period:', err);
+            return res.status(500).json({ message: "Error fetching attendance period" });
+        }
+        if (result.length > 0) {
+            res.json({
+                firstDate: result[0].firstDate,
+                lastDate: result[0].lastDate
+            });
+        } else {
+            res.json({ firstDate: null, lastDate: null });
+        }
+    });
+});
+
+// Submit a cash request
+app.post('/api/cash-requests', (req, res) => {
+    const { userId, type, topic, description } = req.body;
+    console.log('Received request body:', req.body); // Debugging log
+
+    const sql = "INSERT INTO cash_requests (userId, type, topic, description, status) VALUES (?, ?, ?, ?, 'Pending')";
+    db.query(sql, [userId, type, topic, description], (err, result) => {
+        if (err) {
+            console.error('Error submitting cash request:', err);
+            return res.status(500).json({ message: "Error submitting cash request" });
+        }
+
+        console.log('Inserted request ID:', result.insertId); // Debugging log
+
+        // Fetch the newly created request using the inserted ID
+        const newRequestId = result.insertId;
+        const fetchSql = "SELECT * FROM cash_requests WHERE id = ?";
+        db.query(fetchSql, [newRequestId], (err, newRequest) => {
+            if (err) {
+                console.error('Error fetching new cash request:', err);
+                return res.status(500).json({ message: "Error fetching new cash request" });
+            }
+            console.log('Fetched new request:', newRequest[0]); // Debugging log
+            res.json(newRequest[0]); // Return the newly created request
+        });
+    });
+});
+
+// Get cash requests by status for a user
+app.get('/api/cash-requests', (req, res) => {
+    const sql = "SELECT * FROM cash_requests";
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Database Query Error:', err);
+            return res.status(500).json({ message: "Database query error", error: err });
+        }
+
+        if (!results || results.length === 0) {
+            console.warn('⚠ No cash requests found in the database.');
+            return res.json([]); // Return an empty array if no records found
+        }
+
+        console.log('✅ Cash Requests Fetched Successfully:', results);
+        res.json(results);
+    });
+});
+
+// Get all pending cash requests for Management Assistant
+app.get('/api/cash-requests/pending', (req, res) => {
+    const sql = "SELECT cr.*, u.f_Name, u.l_Name FROM cash_requests cr JOIN user u ON cr.userId = u.id WHERE cr.status = 'Pending'";
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching pending cash requests:', err);
+            return res.status(500).json({ message: "Error fetching pending cash requests" });
+        }
+        res.json(results);
+    });
+});
+
+// Approve or decline a cash request
+app.put('/api/cash-requests/:id', (req, res) => {
+    const { id } = req.params;
+    const { status, funds, responseDescription } = req.body;
+
+    console.log(`Updating request ID: ${id} with status: ${status}`); // Debugging log
+
+    const sql = "UPDATE cash_requests SET status = ?, funds = ?, responseDescription = ? WHERE id = ?";
+    db.query(sql, [status, funds, responseDescription, id], (err, result) => {
+        if (err) {
+            console.error('Error updating cash request:', err);
+            return res.status(500).json({ message: "Error updating cash request" });
+        }
+        console.log('Cash request updated successfully:', result); // Debugging log
+        res.json({ message: "Cash request updated successfully" });
+    });
+});
+
+// Get user by ID
+app.get('/api/user/:id', (req, res) => {
+    const userId = req.params.id;
+    
+    const sql = "SELECT id, f_Name, l_Name, profession FROM user WHERE id = ?";
+    db.query(sql, [userId], (err, results) => {
+        if (err) {
+            console.error('Error fetching user:', err);
+            return res.status(500).json({ message: "Error fetching user details" });
+        }
+        
+        if (results.length === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        
+        res.json(results[0]);
+    });
+});
 //select queries for student panel in feedback
 /* 
   Endpoint: GET /api/lecturerDetails?semester=...

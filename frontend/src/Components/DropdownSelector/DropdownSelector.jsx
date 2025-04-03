@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./DropdownSelector.css";
 
-const DropdownSelector = ({ options, onSelect }) => {
+const DropdownSelector = ({ options, onSelect,preTitle }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState("");
     const dropdownRef = useRef(null);
 
     useEffect(() => {
         if (!selectedOption && options && options.length > 0) {
-            setSelectedOption(options[0]);
+            setSelectedOption(preTitle);
         }
     }, [options, selectedOption]);
     

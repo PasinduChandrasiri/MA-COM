@@ -3,17 +3,20 @@
     flex-direction: column;
     min-height: 100vh;
     background: #f4f4f4;
+    margin-left: 78px;
 }
 
 .attendance-content {
     flex: 1;
-    margin-left: 80px;
+    margin-left: 51px;
+    margin-top: 15px;
     padding: 20px;
     width: 90%;
     padding-bottom: 440px;
 }
 
 h2 {
+    margin-top: 50px;
     text-align: center;
     color: #11101d;
 }
@@ -21,7 +24,7 @@ h2 {
 .course-info {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
+    margin-bottom: -20px;
     background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0)), url('../../Images/Attendance/attendance_marking_bg.webp');
     background-size: cover;
     background-repeat: no-repeat;
@@ -67,6 +70,8 @@ h2 {
 }
 
 .table-controls {
+    margin-top: 30px;
+    margin-left: 30px;
     display: flex;
     justify-content: flex-end;
     width: 100%;
