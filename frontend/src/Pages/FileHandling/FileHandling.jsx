@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import "./FileHandling.css"; // Create CSS similar to your Feedback.css for styling.
+/* eslint-disable react/jsx-pascal-case */
+import React, { useState, useEffect, useRef } from 'react';
+import "./FileHandling.css";
 import SideBar from '../../Components/SideBar/SideBar';
 import Header from '../../Components/Header/Header';
 import Footer from '../../Components/Footer/Footer';
 import axios from 'axios';
+import Pop_up from "../../Components/Pop_up/Pop_up";
 
 const FileHandling = () => {
   // Retrieve user information from localStorage
@@ -20,6 +22,7 @@ const FileHandling = () => {
   // Managing Assistant (MA) file management state
   const [files, setFiles] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState({});
+  const popUpRef = useRef();
 
   // Run on component mount
   useEffect(() => {
@@ -39,7 +42,8 @@ const FileHandling = () => {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (!selectedFile) return alert("Please select a file.");
+    if (!selectedFile)
+      return popUpRef.current.showToast("selectFile");
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("lecturerId", userId);
@@ -51,12 +55,12 @@ const FileHandling = () => {
       const res = await axios.post("http://localhost:8081/ma_system/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
-      alert("File uploaded successfully");
+      popUpRef.current.showToast("upload");
       fetchLecturerFiles();
       console.log(res.data);
     } catch (error) {
       console.error(error);
-      alert("Failed to upload file.");
+      popUpRef.current.showToast("GoingWrong");
     }
   };
 
@@ -75,11 +79,11 @@ const FileHandling = () => {
     if (!window.confirm("Are you sure you want to delete this file?")) return;
     try {
       await axios.delete(`http://localhost:8081/ma_system/files/${fileId}`);
-      alert("File deleted successfully");
+      popUpRef.current.showToast("delete");
       fetchLecturerFiles();
     } catch (error) {
       console.error(error);
-      alert("Failed to delete file.");
+      popUpRef.current.showToast("GoingWrong");
     }
   };
 
@@ -101,11 +105,11 @@ const FileHandling = () => {
     try {
       const status = selectedStatus[fileId] || "pending";
       await axios.put(`http://localhost:8081/ma_system/files/${fileId}`, { status });
-      alert("Status updated");
+      popUpRef.current.showToast("status");
       fetchAllFiles();
     } catch (error) {
       console.error(error);
-      alert("Failed to update status");
+      popUpRef.current.showToast("GoingWrong");
     }
   };
 
@@ -113,11 +117,11 @@ const FileHandling = () => {
     if (!window.confirm("Are you sure you want to delete this file?")) return;
     try {
       await axios.delete(`http://localhost:8081/ma_system/files/${fileId}`);
-      alert("File deleted successfully");
+      popUpRef.current.showToast("delete");
       fetchAllFiles();
     } catch (error) {
       console.error(error);
-      alert("Failed to delete file.");
+      popUpRef.current.showToast("GoingWrong");
     }
   };
 
@@ -266,8 +270,11 @@ const FileHandling = () => {
           )}
         </div>
         <div className="bottomSpace" style={{ height: '1px' }}></div>
+        <Footer />
+
+        {/* Conditionally render PopUp */}
+        <Pop_up ref={popUpRef} />
       </div>
-      <Footer />
     </>
   );
 };

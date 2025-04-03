@@ -252,7 +252,7 @@ const ForgotPassword = () => {
                 </div>
                 <div className="register_FG">
                     <span>
-                        <Link to='/'> Login</Link>
+                        <Link to='/Login'> Login</Link>
                     </span>
                 </div>
             </div>

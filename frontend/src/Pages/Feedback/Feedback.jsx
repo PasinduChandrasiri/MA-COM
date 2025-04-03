@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import "./Feedback.css";
 import SideBar from '../../Components/SideBar/SideBar';
 import Footer from '../../Components/Footer/Footer';
-// import Pop_up from '../../Components/Pop_up/Pop_up';
+import Pop_up from '../../Components/Pop_up/Pop_up';
 import Header from '../../Components/Header/Header';
 import axios from 'axios';
 import MA01 from "../../Images/Feedback/MA01.jpg"
@@ -409,7 +409,7 @@ const Feedback = () => {
                                                     value={rate}
                                                     checked={responses[index] === rate}
                                                     onChange={() => radioHandleSelection(index, rate)}
-                                                    className="mr-1"
+                                                    className="feedbackDot"
                                                 />
                                                 {rate}
                                             </label>
@@ -751,7 +751,7 @@ const Feedback = () => {
                                                     fetchQuestions(feedbackType);
                                                 }}
                                             >
-                                                <option value="" disabled>Select {selectedFeedbackType}</option>
+                                                <option value="" disabled >Select {selectedFeedbackType}</option>
                                                 {selectedFeedbackType === "Lecturer"
                                                     ? lecturerDetails.map((item, idx) => (
                                                         <option key={idx} value={item.lecturer_course}>
@@ -790,9 +790,8 @@ const Feedback = () => {
                 </div>
 
                 <div className="bottomSpace" style={{ height: '1px' }}></div>
+                <Footer />
             </div>
-
-            <Footer />
         </>
     );
 }

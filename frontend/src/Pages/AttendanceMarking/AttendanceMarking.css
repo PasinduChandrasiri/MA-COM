@@ -1,4 +1,4 @@
-/* .attendance-container {
+.attendance-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -15,7 +15,7 @@
     padding-bottom: 440px;
 }
 
-h2 {
+.AttendanceH2 {
     margin-top: 50px;
     text-align: center;
     color: #11101d;
@@ -209,4 +209,4 @@ input:checked+.checkmark:after {
 
 .footer {
     margin-top: auto;
-} */
+}

@@ -1,8 +1,6 @@
-/* Feedback.css */
-
 /* Main container */
 .feedback-container {
-    padding-left: 70px;
+    margin-left: 78px;
     position: relative;
     width: 95.88%;
     background-color: #10182f;
@@ -18,7 +16,7 @@
     padding: 2rem;
     margin: 0 auto 2rem;
     width: 90%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     min-height: calc(100vh - 147px);
 }
 
@@ -30,7 +28,8 @@
     margin-top: 2.5rem;
     text-align: center;
     margin-bottom: 0rem;
-    color: #1a237e; /* Dark blue */
+    color: #1a237e;
+    /* Dark blue */
     font-size: 50px;
     font-family: sans-serif;
 }
@@ -61,7 +60,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #1e3a8a; /* Navy blue */
+    background-color: #1e3a8a;
+    /* Navy blue */
     color: #fff;
     border: none;
     border-radius: 10%;
@@ -73,7 +73,8 @@
 }
 
 .feedback-inside-button:hover {
-    background-color: #3b82f6; /* Bright blue */
+    background-color: #3b82f6;
+    /* Bright blue */
 }
 
 /* Icon styling */
@@ -85,7 +86,7 @@
     border-radius: 20%;
 }
 
-.button-icon-student{
+.button-icon-student {
     margin-top: 1.75rem;
     scale: 0.75;
     width: 70%;
@@ -98,12 +99,15 @@
     text-align: center;
     margin-bottom: 1.5rem;
     color: #ffffff;
-    font-family:sans-serif;
+    font-family: sans-serif;
 }
 
 /* -------------------------------------------------- */
+.all-container-lecturer-select {
+    height: 50px;
+}
 
-.dropdown-container{
+.dropdown-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -115,7 +119,8 @@
 .dropdown-container-h3 {
     text-align: center;
     margin-bottom: 0rem;
-    color: #1a237e; /* Dark blue */
+    color: #1a237e;
+    /* Dark blue */
     font-size: 30px;
     font-family: sans-serif;
 }
@@ -127,7 +132,8 @@
     margin-right: 0rem;
     margin-top: 1.3rem;
     margin-bottom: 0rem;
-    color: #1a237e; /* Dark blue */
+    color: #1a237e;
+    /* Dark blue */
     font-size: 20px;
     font-family: sans-serif;
 }
@@ -135,13 +141,13 @@
 .feedback-form-table-ma-container {
     background-image: url(../../Images/Feedback/note01.jpg);
     background-size: cover;
-    background-position:right;
+    background-position: right;
     z-index: 10;
     border-radius: 10px;
     padding: 2rem;
     margin: 0 auto 2rem;
     width: 100%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Table styles */
@@ -151,11 +157,12 @@
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .feedback-form-table-row-heading-th {
-    background-color: #1e3a8a; /* Navy blue */
+    background-color: #1e3a8a;
+    /* Navy blue */
     color: #ffffff;
     padding: 15px;
     text-align: left;
@@ -163,7 +170,8 @@
 }
 
 .feedback-form-table-row-heading-th-student {
-    background-color: #1e3a8a; /* Navy blue */
+    background-color: #1e3a8a;
+    /* Navy blue */
     color: #ffffff;
     padding-left: 50px;
     text-align: left;
@@ -179,14 +187,12 @@
 
 .feedback-form-table-data-button {
     display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
+    gap: 5px;
 }
 
 /* Radio button styles */
 .feedback-checkbox {
-    color: #1e3a8a; /* Navy blue */
-    margin-left: 2.5rem;
+    color: #1e3a8a;
     margin-top: 1rem;
     display: flex;
     align-items: center;
@@ -197,7 +203,8 @@
     gap: 0rem;
     width: 18px;
     height: 18px;
-    accent-color: #3b82f6; /* Bright blue */
+    accent-color: #3b82f6;
+    /* Bright blue */
 }
 
 /* Progress bar styles */
@@ -210,7 +217,8 @@
 
 .progress-bar-fill {
     height: 20px;
-    background-color: #2563eb; /* Medium blue */
+    background-color: #2563eb;
+    /* Medium blue */
     transition: width 0.3s ease;
     display: flex;
     align-items: center;
@@ -228,7 +236,7 @@
     transform: translate(-50%, -50%);
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     width: 50%;
 }
@@ -236,7 +244,8 @@
 .modal select {
     padding-right: 2rem;
     margin-right: 0rem;
-    background-color: #a0c4ff; /* Light blue */
+    background-color: #a0c4ff;
+    /* Light blue */
 }
 
 .modal-h3 {
@@ -246,7 +255,8 @@
 
 .modal-textarea {
     color: #000000;
-    background-color: #a0c4ff; /* Light blue */
+    background-color: #a0c4ff;
+    /* Light blue */
     width: 100%;
     height: 150px;
     padding: 10px;
@@ -259,7 +269,8 @@
 }
 
 .modal-button {
-    background-color: #1e3a8a; /* Navy blue */
+    background-color: #1e3a8a;
+    /* Navy blue */
     color: white;
     border: none;
     padding: 10px 20px;
@@ -270,7 +281,8 @@
 }
 
 .modal-button:hover {
-    background-color: #3b82f6; /* Bright blue */
+    background-color: #3b82f6;
+    /* Bright blue */
 }
 
 /* Utility classes */
@@ -280,7 +292,8 @@
 
 .create-button {
     margin-top: 15px;
-    background-color: #1e3a8a; /* Navy blue */
+    background-color: #1e3a8a;
+    /* Navy blue */
     color: white;
     padding: 10px 20px;
     border: none;
@@ -292,12 +305,14 @@
 }
 
 .create-button:hover {
-    background-color: #3b82f6; /* Bright blue */
+    background-color: #3b82f6;
+    /* Bright blue */
 }
 
 .submit-button-student {
     margin-top: 15px;
-    background-color: #1e3a8a; /* Navy blue */
+    background-color: #1e3a8a;
+    /* Navy blue */
     color: white;
     padding: 10px 20px;
     border: none;
@@ -309,12 +324,14 @@
 }
 
 .submit-button-student:hover {
-    background-color: #3b82f6; /* Bright blue */
+    background-color: #3b82f6;
+    /* Bright blue */
 }
 
 .create-button-back {
     margin-top: 15px;
-    background-color: #1e3a8a; /* Navy blue */
+    background-color: #1e3a8a;
+    /* Navy blue */
     color: white;
     padding: 10px 20px;
     border: none;
@@ -326,7 +343,8 @@
 }
 
 .create-button-back:hover {
-    background-color: #3b82f6; /* Bright blue */
+    background-color: #3b82f6;
+    /* Bright blue */
 }
 
 .create-button-container {
@@ -349,7 +367,8 @@
 
 .create-button-back-lecturer {
     margin-top: 10px;
-    background-color: #1e3a8a; /* Navy blue */
+    background-color: #1e3a8a;
+    /* Navy blue */
     color: white;
     padding: 10px 20px;
     border: none;
@@ -362,12 +381,14 @@
 }
 
 .create-button-back-lecturer:hover {
-    background-color: #3b82f6; /* Bright blue */
+    background-color: #3b82f6;
+    /* Bright blue */
 }
 
 .create-button-edit-delete {
     margin: 2px;
-    background-color: #1e3a8a; /* Navy blue */
+    background-color: #1e3a8a;
+    /* Navy blue */
     color: white;
     padding: 10px 20px;
     border: none;
@@ -377,7 +398,8 @@
 }
 
 .create-button-edit-delete:hover {
-    background-color: #3b82f6; /* Bright blue */
+    background-color: #3b82f6;
+    /* Bright blue */
 }
 
 /* Responsive design */
@@ -400,11 +422,6 @@
     .feedback-inside-button {
         width: 100%;
         margin: 5px 0;
-    }
-
-    .feedback-form-table-data-button {
-        flex-direction: column;
-        gap: 5px;
     }
 
     .modal {

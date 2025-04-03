@@ -119,7 +119,7 @@ const AttendanceView = () => {
         XLSX.writeFile(workbook, `Attendance_${subjectInfo?.name || 'Unknown'}.xlsx`);
     };
 
-    if (loading) return <h2>Loading...</h2>;
+    if (loading) return <h2 className='AttendanceH2'>Loading...</h2>;
 
     return (
         <>
@@ -127,7 +127,7 @@ const AttendanceView = () => {
             <div className="attendanceview-container">
                 <Header />
                 <div className="attendanceview-content">
-                    <h2>Attendance View</h2>
+                    <h2 className='AttendanceH2'>Attendance View</h2>
                     <div className="courseview-info">
                         <DropDownSelector title="Subject" options={subjectOptions} value={selectedSubject} onChange={setSelectedSubject} />
                         {subjectInfo && (

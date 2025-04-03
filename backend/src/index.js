@@ -162,9 +162,9 @@ app.post("/ma_system/lecturerfeedbackrate", (req, res) => {
     }
 
     const sql = `
-      INSERT INTO lecturerfeedbackrate 
+    INSERT INTO lecturerfeedbackrate 
         (semester, studentID, course_name, lecturer_name, lecture_course_name, lq1_rate, lq2_rate, lq3_rate, lq4_rate, lq5_rate, lq6_rate, lq7_rate, lq8_rate, lq9_rate, lq10_rate, lq11_rate, lq12_rate)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const values = [semester, studentID, newCourseName, newNames, selectedData, ...feedback.map((item) => item.rating)];
 
@@ -599,7 +599,7 @@ app.delete('/lecturers/:id', (req, res) => {
             return res.status(500).json("Error");
         }
         return res.json("Updates")
-    }) 
+    })
 });
 
 
@@ -813,7 +813,7 @@ app.post('/api/attendance', (req, res) => {
 app.get('/api/subjects', (req, res) => {
 
     const sql = "SELECT subjectId, subjectName, lecturer FROM subjects";
-    
+
     db.query(sql, (err, results) => {
         if (err) {
             console.error('Error fetching subjects:', err);
@@ -850,12 +850,12 @@ app.get('/api/attendance/:subjectId', (req, res) => {
             console.error('Error fetching attendance:', err);
             return res.status(500).json({ message: "Error fetching attendance" });
         }
-        
+
         // Return empty array if no attendance records found
         if (results.length === 0) {
             console.log(`No attendance records found for subject: ${subjectId}`);
         }
-        
+
         res.json(results);
     });
 });
@@ -865,7 +865,7 @@ app.get('/api/attendance/:subjectId', (req, res) => {
 app.get('/api/attendance-period/:subjectId', (req, res) => {
     const { subjectId } = req.params;
     const sql = "SELECT MIN(date) AS firstDate, MAX(date) AS lastDate FROM attendance WHERE subjectId = ?";
-    
+
     db.query(sql, [subjectId], (err, result) => {
         if (err) {
             console.error('Error fetching attendance period:', err);
@@ -963,18 +963,18 @@ app.put('/api/cash-requests/:id', (req, res) => {
 // Get user by ID
 app.get('/api/user/:id', (req, res) => {
     const userId = req.params.id;
-    
+
     const sql = "SELECT id, f_Name, l_Name, profession FROM user WHERE id = ?";
     db.query(sql, [userId], (err, results) => {
         if (err) {
             console.error('Error fetching user:', err);
             return res.status(500).json({ message: "Error fetching user details" });
         }
-        
+
         if (results.length === 0) {
             return res.status(404).json({ message: "User not found" });
         }
-        
+
         res.json(results[0]);
     });
 });
@@ -1115,15 +1115,15 @@ app.post('/feedbackquestions', (req, res) => {
     // Adjust column names as needed. Here, QID is assumed to be auto-increment.
     const sql = "INSERT INTO feedbackquestions (Questions, qType, QGroup) VALUES (?, ?, ?)";
     db.query(sql, [Questions, qType, QGroup], (err, data) => {
-      if (err) {
-        return res.status(500).json("Error adding question");
-      }
-      // Return the new question's data including the auto-generated QID
-      const newQuestion = { QID: data.insertId, Questions, qType, QGroup };
-      res.json(newQuestion);
+        if (err) {
+            return res.status(500).json("Error adding question");
+        }
+        // Return the new question's data including the auto-generated QID
+        const newQuestion = { QID: data.insertId, Questions, qType, QGroup };
+        res.json(newQuestion);
     });
-  });
-  
+});
+
 
 //-----------------------------------------------------------------------------------------------------------------------
 

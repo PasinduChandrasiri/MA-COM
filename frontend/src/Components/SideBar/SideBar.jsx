@@ -18,7 +18,7 @@ function SideBar({ userType }) {
         localStorage.clear();
         popUpRef.current.showToast("exit");
         setTimeout(() => {
-            navigate("/");
+            navigate("/Login");
         }, 3000);
     };
 
@@ -26,28 +26,26 @@ function SideBar({ userType }) {
     const menuItems = {
         ManagementAssistant: [
             { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '/HomePage' },
-            { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '#' },
+            { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '/Settings' },
             { icon: 'bx bx-chat', tooltip: 'Feedback', linkName: 'Feedback', href: '/Feedback' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '/AttendanceMarking' },
-            { icon: 'bx bx-folder', tooltip: 'Report', linkName: 'Report Manager', href: '#' },
-            { icon: 'bx bx-cog', tooltip: 'File Handling', linkName: 'File Handling', href: '/FileHandling' },
-            { icon: 'bx bx-message-dots', tooltip: 'Contact Us', linkName: 'Contact Us', href: '/ContactUs' },
+            { icon: 'bx bx-file', tooltip: 'File Handling', linkName: 'File Handling', href: '/FileHandling' },
             { icon: 'bx bx-shield-alt-2', tooltip: 'Management', linkName: 'Management', href: '/ManagementPage' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '/Settings' },
         ],
         Lecturer: [
             { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '/HomePage' },
-            { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '#' },
+            { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '/Settings' },
             { icon: 'bx bx-chat', tooltip: 'Feedback', linkName: 'Feedback', href: '/Feedback' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: 'AttendanceMarking' },
-            { icon: 'bx bx-cog', tooltip: 'File Handling', linkName: 'File Handling', href: '/FileHandling' },
+            { icon: 'bx bx-file', tooltip: 'File Handling', linkName: 'File Handling', href: '/FileHandling' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '/AttendanceView' },
             { icon: 'bx bx-message-dots', tooltip: 'Contact Us', linkName: 'Contact Us', href: '/ContactUs' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '/Settings' },
         ],
         Student: [
             { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '/HomePage' },
-            { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '#' },
+            { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '/Settings' },
             { icon: 'bx bx-chat', tooltip: 'Feedback', linkName: 'Feedback', href: '/Feedback' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '/AttendanceMarking' },
             { icon: 'bx bx-message-dots', tooltip: 'Contact Us', linkName: 'Contact Us', href: '/ContactUs' },

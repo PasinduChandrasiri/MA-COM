@@ -2,9 +2,9 @@
 
 /* Main container */
 .file-handling-container {
-    padding-left: 70px;
+    margin-left: 78px;
     position: relative;
-    width: 95.88%;
+    width: calc(100% - 78px);
     background-color: #f0f2f5;
     min-height: 100vh;
     background-color: #10182f;

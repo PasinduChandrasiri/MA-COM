@@ -182,7 +182,7 @@ const AttendanceMarking = () => {
             <div className="attendance-container">
                 <SideBar />
                 <div className="attendance-content">
-                    <h2>Loading...</h2>
+                    <h2 className='AttendanceH2'>Loading...</h2>
                     <p>Please wait while we fetch the data...</p>
                 </div>
             </div>
@@ -194,7 +194,7 @@ const AttendanceMarking = () => {
             <div className="attendance-container">
                 <SideBar />
                 <div className="attendance-content">
-                    <h2>Error</h2>
+                    <h2 className='AttendanceH2'>Error</h2>
                     <p>{error}</p>
                 </div>
             </div>
@@ -207,7 +207,7 @@ const AttendanceMarking = () => {
             <div className="attendance-container">
                 <Header />
                 <div className="attendance-content">
-                    <h2>Attendance Marking Sheet</h2>
+                    <h2 className='AttendanceH2'>Attendance Marking Sheet</h2>
                     <div className="course-info">
                         <div className="info-row">
                             <DropDownSelector

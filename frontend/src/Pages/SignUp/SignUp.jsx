@@ -457,7 +457,7 @@ const SignUp = () => {
 
                         <div className="register_SU">
                             <span>
-                                Already have an account? <Link to='/'>Login</Link>
+                                Already have an account? <Link to='/Login'>Login</Link>
                             </span>
                         </div>
                     </div>
