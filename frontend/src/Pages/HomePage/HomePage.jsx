@@ -16,8 +16,10 @@ import axios from 'axios';
 
 // Example data from database
 import { AttendanceStudent } from '../../Data/AttendanceStudent';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
+  const navigate = useNavigate();
   const popUpRef = useRef();
   const [records, setRecords] = useState([]);
   const [records2, setRecords2] = useState([]);
@@ -218,7 +220,7 @@ function HomePage() {
                 <p className='profilePara'>Profession: {profession}</p>
                 <p className='profilePara'>Registration Number: {regNo}</p>
                 <p className='profilePara'>{about}</p>
-                <button className='profileVisitBtn'>Visit Profile</button>
+                <button className='profileVisitBtn' onClick={() => navigate("/Settings")}>Visit Profile</button>
               </div>
             </div>
           </div>

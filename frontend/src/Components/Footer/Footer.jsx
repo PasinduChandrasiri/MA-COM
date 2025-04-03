@@ -25,7 +25,11 @@ function Footer() {
                         <li className="link_name">Quick access</li>
                         <li><a href="/HomePage">Home</a></li>
                         <li><a href="/ContactUs">Contact us</a></li>
-                        <li><a href="#">Attendance</a></li>
+                        {profession === "Student" ? (
+                            <li><a href="/AttendanceView">Attendance</a></li>
+                        ) : (
+                            <li><a href="/AttendanceMarking">Attendance</a></li>
+                        )}
                         <li><a href="/Feedback">Feedback</a></li>
                     </ul>
                     <ul className="box">

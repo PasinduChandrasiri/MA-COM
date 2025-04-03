@@ -25,12 +25,32 @@ const AttendanceView = () => {
                     throw new Error('Failed to fetch subjects');
                 }
                 const data = await response.json();
+                const localStorageSubjects = [
+                    localStorage.getItem('subject1'),
+                    localStorage.getItem('subject2'),
+                    localStorage.getItem('subject3'),
+                    localStorage.getItem('subject4'),
+                    localStorage.getItem('subject5'),
+                    localStorage.getItem('subject6'),
+                    localStorage.getItem('subject7'),
+                    localStorage.getItem('subject8'),
+                    localStorage.getItem('subject9'),
+                    localStorage.getItem('subject10')
+                ].filter(Boolean);
 
-                const formattedSubjects = data.map(subject => ({
-                    id: subject.subjectId,
-                    name: subject.subjectName,
-                    lecturer: subject.lecturer
-                }));
+
+                const localStorageSubjectIds = localStorageSubjects.map(subjectStr => {
+                    const matches = subjectStr.match(/\(([A-Z0-9]+)\)/);
+                    return matches ? matches[1] : null;
+                }).filter(Boolean);
+
+                const formattedSubjects = data
+                    .filter(subject => localStorageSubjectIds.includes(subject.subjectId))
+                    .map(subject => ({
+                        id: subject.subjectId,
+                        name: subject.subjectName,
+                        lecturer: subject.lecturer
+                    }));
 
                 setSubjectOptions(formattedSubjects);
             } catch (err) {

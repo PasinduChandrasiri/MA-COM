@@ -47,7 +47,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-grid-alt', tooltip: 'Dashboard', linkName: 'Dashboard', href: '/HomePage' },
             { icon: 'bx bx-user', tooltip: 'My Account', linkName: 'My Account', href: '/Settings' },
             { icon: 'bx bx-chat', tooltip: 'Feedback', linkName: 'Feedback', href: '/Feedback' },
-            { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '/AttendanceMarking' },
+            { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '/AttendanceView' },
             { icon: 'bx bx-message-dots', tooltip: 'Contact Us', linkName: 'Contact Us', href: '/ContactUs' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '/Settings' },
         ],

@@ -812,7 +812,7 @@ app.post('/api/attendance', (req, res) => {
 // Fetch subjects for dropdown
 app.get('/api/subjects', (req, res) => {
 
-    const sql = "SELECT subjectId, subjectName, lecturer FROM subjects";
+    const sql = "SELECT subjectId, subjectName, lecturer,semester FROM subjects";
 
     db.query(sql, (err, results) => {
         if (err) {
