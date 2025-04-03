@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { ContactUs, HomePage, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback, LandingPage, Settings, ManagementPage } from './Pages';
+import { ContactUs, HomePage, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback, LandingPage, Settings, ManagementPage,FileHandling } from './Pages';
 
 function App() {
 
@@ -16,6 +16,7 @@ function App() {
       <Route path='/CashRequest' element={<CashRequest />} />
       <Route path='/CashApprove' element={<CashApprove />} />
       <Route path='/Feedback' element={<Feedback />} />
+      <Route path='/FileHandling' element={<FileHandling />} />
       <Route path='/Settings' element={<Settings />} />
       <Route path='/ManagementPage' element={<ManagementPage />} />
     </Routes>

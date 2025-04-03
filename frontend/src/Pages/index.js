@@ -11,5 +11,6 @@ import Feedback from "./Feedback/Feedback";
 import LandingPage from "./LandingPage/LandingPage";
 import Settings from "./Settings/Settings";
 import ManagementPage from './ManagementPage/ManagementPage'
+import FileHandling from "./FileHandling/FileHandling";
 
-export { HomePage, ContactUs, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback, LandingPage,Settings,ManagementPage };
+export { HomePage, ContactUs, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback, LandingPage,Settings,ManagementPage,FileHandling };
