@@ -25,6 +25,7 @@ const AttendanceView = () => {
                     throw new Error('Failed to fetch subjects');
                 }
                 const data = await response.json();
+
                 const localStorageSubjects = [
                     localStorage.getItem('subject1'),
                     localStorage.getItem('subject2'),
@@ -72,6 +73,7 @@ const AttendanceView = () => {
             .then(res => res.json())
             .then(data => {
                 setStudents(data);
+                console.log(students.attendancePercentage);
                 setHasAttendanceData(data && data.length > 0);
             })
             .catch(err => {

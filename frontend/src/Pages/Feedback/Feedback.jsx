@@ -21,10 +21,10 @@ const Feedback = () => {
     const studentID = localStorage.getItem("id");
     const semester = localStorage.getItem("semester");
 
-    const [profession, setProfession] = useState("");
+    const [profession, setProfession] = useState(localStorage.getItem('profession'));
     const [loading, setLoading] = useState(true);
 
-    /* For editing qyestions */
+    // For editing qyestions
     const [questions, setQuestions] = useState([]);
     const [editingQuestion, setEditingQuestion] = useState(null);
     const [editedText, setEditedText] = useState("");
@@ -34,8 +34,6 @@ const Feedback = () => {
     const [courseDetails, setCourseDetails] = useState([]);  //for the dropdown in the student feedback submission
 
     const [responses, setResponses] = useState(Array(questions.length).fill(null));
-
-    //-------------------NEW---------------------
     const [selectedFeedbackType, setSelectedFeedbackType] = useState("");
     const [dropdownOptions, setDropdownOptions] = useState("");
     const [selectedOption, setSelectedOption] = useState("");
@@ -51,20 +49,6 @@ const Feedback = () => {
 
     //-------------------------------------------- COMMON -------------------------------------------
 
-    // useEffect(() => {
-    //     if (lecturerDetails.length > 0) {
-    //         // Split each "lecturer_course" and extract the course name
-    //         const extractedCourses = lecturerDetails.map(item => {
-    //             const parts = item.lecturer_course.split(' - ');
-    //             return parts[1]; // Course name is after the " - "
-    //         });
-
-    //         // Remove duplicates using Set and update state
-    //         const uniqueCourses = [...new Set(extractedCourses)];
-    //         setCourseNames(uniqueCourses);
-    //     }
-    // }, [lecturerDetails]); // Trigger when lecturerDetails changes
-
     const fetchQuestions = (selectedFeedbackType) => {
         axios.get('http://localhost:8081/feedbackquestions', {
             params: { qType: selectedFeedbackType }
@@ -77,6 +61,8 @@ const Feedback = () => {
         const userProfession = localStorage.getItem("profession") || "";
         setProfession(userProfession.trim());
         setLoading(false);
+        fetchData();
+        fetchData2();
     }, []);
 
     // Scroll to top on mount
@@ -166,6 +152,28 @@ const Feedback = () => {
         );
     };
 
+    const [lecturer, setLecturer] = useState([]);
+    const [subject, setSubject] = useState([]);
+    const fetchData = async () => {
+        try {
+            const condition = "all";
+            const res = await axios.post("http://localhost:8081/lecturers", { condition });
+            setLecturer(res.data);
+        } catch (error) {
+            console.error("Error fetching lecturer details:", error);
+        }
+    };
+
+    const fetchData2 = async () => {
+        try {
+            const condition = "all";
+            const res = await axios.post("http://localhost:8081/subjects", { condition });
+            setSubject(res.data);
+        } catch (error) {
+            console.error("Error fetching subject details:", error);
+        }
+    };
+
 
     //----------------------------------------- LECTURER FEEDBACK -----------------------------------------
 
@@ -230,7 +238,7 @@ const Feedback = () => {
         }
     };
 
-    //get lecturere details and course details for the dropdown in lecturer panel
+    //get lecturer details and course details for the dropdown in lecturer panel
     const handleDropdownLecturer = () => {
         axios.get('http://localhost:8081/subjects', {
             params: { name: name, condition: "For lecturer dropdown" }
@@ -240,9 +248,6 @@ const Feedback = () => {
                 if (res.data.lecturers) {
                     setLecturerDetails(res.data.lecturers);
                 }
-
-                console.log("lecturerDetails", res.data.lecturers);
-
                 // Check if the response contains course details
                 if (res.data.courses) {
                     setCourseDetails(res.data.courses);
@@ -252,7 +257,6 @@ const Feedback = () => {
     };
 
     const renderFeedbackTableLecturer = () => {
-
         if (selectedFeedbackType === "Lecturer" && dropdownOptions === "Lecturer") {
             return (
                 <form>
@@ -312,7 +316,6 @@ const Feedback = () => {
     }
 
     //------------------------------------------- STUDENT FEEDBACK ------------------------------------------
-
     const handleBack = () => {
         setSelectedFeedbackType("");
         setDropdownOptions("");
@@ -372,15 +375,36 @@ const Feedback = () => {
             params: { semester: semester, condition: "For student dropdown" }
         })
             .then((res) => {
-                // Check if the response contains lecturer details
-                if (res.data.lecturers) {
-                    setLecturerDetails(res.data.lecturers);
-                }
+                const localStorageSubjects = [
+                    localStorage.getItem('subject1'),
+                    localStorage.getItem('subject2'),
+                    localStorage.getItem('subject3'),
+                    localStorage.getItem('subject4'),
+                    localStorage.getItem('subject5'),
+                    localStorage.getItem('subject6'),
+                    localStorage.getItem('subject7'),
+                    localStorage.getItem('subject8'),
+                    localStorage.getItem('subject9'),
+                    localStorage.getItem('subject10')
+                ].filter(Boolean);
 
-                // Check if the response contains course details
-                if (res.data.courses) {
-                    setCourseDetails(res.data.courses);
-                }
+                const localStorageSubjectNames = localStorageSubjects.map(subject => {
+                    return subject.split(' (')[0];
+                });
+
+                // Filter courses
+                const filteredCourses = res.data.courses.filter(course =>
+                    localStorageSubjectNames.includes(course.subjectName)
+                );
+
+                // Filter lecturers
+                const filteredLecturers = res.data.lecturers.filter(lecturer =>
+                    localStorageSubjectNames.some(subject =>
+                        lecturer.lecturer_course.includes(subject)
+                    )
+                );
+                setLecturerDetails(filteredLecturers);
+                setCourseDetails(filteredCourses);
             })
             .catch((err) => console.error(err));
     };
@@ -476,23 +500,24 @@ const Feedback = () => {
 
                     {profession === "Management Assistant" && (
                         <div className='feedback-inside student'>
-                            <h3 className='feedback-inside-h3'>MA Feedback</h3>
+                            {/* Conditional heading */}
+                            {!["Lecturer", "Course"].includes(selectedFeedbackType) && (
+                                <h3 className='feedback-inside-h3'>Feedback Question Management</h3>
+                            )}
+
                             <div className="card-container">
                                 {!selectedFeedbackType ? (
+                                    // Initial card selection view
                                     <div className="card-section">
                                         <div className='card-components'>
                                             <button
                                                 className="feedback-inside-button"
                                                 onClick={() => {
-                                                    setSelectedFeedbackType("Lecturer");
+                                                    setSelectedFeedbackType("LecturerQuestion");
                                                     fetchQuestions("Lecturer");
                                                 }}
                                             >
-                                                <img
-                                                    src={MA01}
-                                                    alt="Lecturer Icon"
-                                                    className="button-icon"
-                                                />
+                                                <img src={MA01} alt="Lecturer Icon" className="button-icon" />
                                                 <h2 className='card-components-h2'>Edit Lecturer Feedback Questions</h2>
                                             </button>
                                         </div>
@@ -500,41 +525,38 @@ const Feedback = () => {
                                             <button
                                                 className="feedback-inside-button"
                                                 onClick={() => {
-                                                    setSelectedFeedbackType("Course");
+                                                    setSelectedFeedbackType("CourseQuestion");
                                                     fetchQuestions("Course");
                                                 }}
                                             >
-                                                <img
-                                                    src={MA02}
-                                                    alt="Course Icon"
-                                                    className="button-icon"
-                                                />
+                                                <img src={MA02} alt="Course Icon" className="button-icon" />
                                                 <h2 className='card-components-h2'>Edit Course Feedback Questions</h2>
                                             </button>
                                         </div>
                                     </div>
-                                ) : (
+                                ) : !["Lecturer", "Course"].includes(selectedFeedbackType) ? (
+                                    // Question management view
                                     <div className="dropdown-container">
-                                        {selectedFeedbackType === "Lecturer" ? (
-                                            <h3 className='dropdown-container-h3'>Edit Lecturer Feedback Questions</h3>
-                                        ) : (
-                                            <h3 className='dropdown-container-h3'>Edit Course Feedback Questions</h3>
-                                        )}
+                                        <h3 className='dropdown-container-h3'>
+                                            {selectedFeedbackType === "LecturerQuestion"
+                                                ? "Edit Lecturer Feedback Questions"
+                                                : "Edit Course Feedback Questions"}
+                                        </h3>
+
                                         <div className="create-button-container">
-                                            <button
-                                                onClick={handleBack}
-                                                className='create-button-back'
-                                            >
+                                            <button onClick={handleBack} className='create-button-back'>
                                                 Back
                                             </button>
-                                            <button className="create-button" onClick={() => setShowAddModal(true)}>Add new question</button>
+                                            <button className="create-button" onClick={() => setShowAddModal(true)}>
+                                                Add new question
+                                            </button>
                                         </div>
 
                                         <div className='feedback-form-table-ma-container'>
                                             {renderFeedbackTableManagingAssistant()}
                                         </div>
 
-                                        {/* EDIT MODAL: show when editingQuestion is set */}
+                                        {/* Edit Question Modal */}
                                         {editingQuestion && (
                                             <div className="modal">
                                                 <h3 className='modal-h3'>Edit Question</h3>
@@ -543,12 +565,16 @@ const Feedback = () => {
                                                     value={editedText}
                                                     onChange={(e) => setEditedText(e.target.value)}
                                                 />
-                                                <button className='modal-button' onClick={handleSaveEdit}>Save</button>
-                                                <button className='modal-button' onClick={() => setEditingQuestion(null)}>Cancel</button>
+                                                <div className="modal-button-group">
+                                                    <button className='modal-button' onClick={handleSaveEdit}>Save</button>
+                                                    <button className='modal-button' onClick={() => setEditingQuestion(null)}>
+                                                        Cancel
+                                                    </button>
+                                                </div>
                                             </div>
                                         )}
 
-                                        {/* ADD MODAL */}
+                                        {/* Add Question Modal */}
                                         {showAddModal && (
                                             <div className="modal">
                                                 <h3 className='modal-h3'>Add New Question</h3>
@@ -559,35 +585,40 @@ const Feedback = () => {
                                                     placeholder="Enter your question here..."
                                                 />
                                                 <select
-                                                    // className='add-new-question-select'
                                                     value={newQuestionGroup}
                                                     onChange={(e) => setNewQuestionGroup(e.target.value)}
                                                 >
                                                     <option value="">Select QGroup</option>
                                                     <option value="General">General</option>
                                                     <option value="Materials">Materials</option>
-                                                    <option value="Tutorials/ Examples">Tutorials/ Examples</option>
-                                                    <option value="Lab/ Fieldwork">Lab/ Fieldwork</option>
+                                                    <option value="Tutorials/Examples">Tutorials/Examples</option>
+                                                    <option value="Lab/Fieldwork">Lab/Fieldwork</option>
                                                     <option value="About Myself">About Myself</option>
                                                     <option value="Time Management">Time Management</option>
                                                     <option value="Delivery Method">Delivery Method</option>
                                                     <option value="Subject Command">Subject Command</option>
                                                 </select>
-                                                <button className='modal-button' onClick={handleAddQuestion}>Add Question</button>
-                                                <button className='modal-button' onClick={() => setShowAddModal(false)}>Cancel</button>
+                                                <div className="modal-button-group">
+                                                    <button className='modal-button' onClick={handleAddQuestion}>
+                                                        Add Question
+                                                    </button>
+                                                    <button className='modal-button' onClick={() => setShowAddModal(false)}>
+                                                        Cancel
+                                                    </button>
+                                                </div>
                                             </div>
                                         )}
-
-
                                     </div>
-                                )}
+                                ) : null}
                             </div>
                         </div>
                     )}
 
-                    {profession === "Lecturer" && (
+                    {(profession === "Management Assistant" || profession === "Lecturer") && (
                         <div className='feedback-inside student'>
-                            <h3 className='feedback-inside-h3'>Lecturer Feedback</h3>
+                            {selectedFeedbackType !== "LecturerQuestion" && selectedFeedbackType !== "CourseQuestion" ? (
+                                <h3 className='feedback-inside-h3'>Feedback Average</h3>
+                            ) : null}
                             <div className="card-container">
                                 {!selectedFeedbackType ? (
                                     <div className="card-section">
@@ -626,7 +657,7 @@ const Feedback = () => {
                                             </button>
                                         </div>
                                     </div>
-                                ) : (
+                                ) : selectedFeedbackType !== "LecturerQuestion" && selectedFeedbackType !== "CourseQuestion" ? (
                                     <div className="dropdown-container">
                                         {selectedFeedbackType === "Lecturer" ? (
                                             <h3 className='dropdown-container-h3'>Averages of Lecturer Feedback</h3>
@@ -637,7 +668,6 @@ const Feedback = () => {
                                         <div className="all-container-lecturer">
                                             <label className='dropdown-option'>Select Option : </label>
                                             <select
-                                                // className='all-container-lecturer-select'
                                                 value={selectedOption}  // Bind the value to state
                                                 onChange={(e) => {
                                                     const selectedValue = e.target.value;
@@ -651,19 +681,31 @@ const Feedback = () => {
 
                                             >
                                                 <option value="" disabled>{selectedFeedbackType === "Lecturer" ? `Select your averages for relevant course` : 'Select course'}</option>
-                                                {selectedFeedbackType === "Lecturer"
-                                                    ? lecturerDetails.map((item, idx) => (
-                                                        <option key={idx} value={item.lecturer_course}>
-                                                            {item.lecturer_course}
-                                                        </option>
-
-                                                    ))
-                                                    : courseDetails.map((item, idx) => (
-                                                        <option key={idx} value={item.subjectName}>
-                                                            {item.subjectName}
-                                                        </option>
-
-                                                    ))}
+                                                {profession === "Lecturer" ? (
+                                                    selectedFeedbackType === "Lecturer"
+                                                        ? lecturerDetails.map((item, idx) => (
+                                                            <option key={idx} value={item.lecturer_course}>
+                                                                {item.lecturer_course}
+                                                            </option>
+                                                        ))
+                                                        : courseDetails.map((item, idx) => (
+                                                            <option key={idx} value={item.subjectName}>
+                                                                {item.subjectName}
+                                                            </option>
+                                                        ))
+                                                ) : (
+                                                    selectedFeedbackType === "Lecturer"
+                                                        ? lecturer.map((item, idx) => (
+                                                            <option key={idx} value={item.lecturer_course}>
+                                                                {item.lecturerName}
+                                                            </option>
+                                                        ))
+                                                        : subject.map((item, idx) => (
+                                                            <option key={idx} value={item.subjectName}>
+                                                                {item.subjectName}
+                                                            </option>
+                                                        ))
+                                                )}
                                             </select>
 
                                             <button
@@ -674,13 +716,13 @@ const Feedback = () => {
                                             </button>
                                         </div>
 
-                                        {dropdownOptions ? (
+                                        {dropdownOptions && (
                                             <div className='feedback-form-table-ma-container'>
                                                 {renderFeedbackTableLecturer()}
-                                            </div>) : null}
-
+                                            </div>
+                                        )}
                                     </div>
-                                )}
+                                ) : null}
                             </div>
                         </div>
                     )}
@@ -787,11 +829,11 @@ const Feedback = () => {
                     )}
 
 
-                </div>
+                </div >
 
                 <div className="bottomSpace" style={{ height: '1px' }}></div>
                 <Footer />
-            </div>
+            </div >
         </>
     );
 }

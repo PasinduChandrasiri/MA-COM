@@ -31,6 +31,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '/AttendanceMarking' },
             { icon: 'bx bx-file', tooltip: 'File Handling', linkName: 'File Handling', href: '/FileHandling' },
             { icon: 'bx bx-shield-alt-2', tooltip: 'Management', linkName: 'Management', href: '/ManagementPage' },
+            { icon: 'bx bx-money-withdraw', tooltip: 'Cash Approve', linkName: 'Cash Approve', href: '/CashApprove' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '/Settings' },
         ],
         Lecturer: [
@@ -39,7 +40,7 @@ function SideBar({ userType }) {
             { icon: 'bx bx-chat', tooltip: 'Feedback', linkName: 'Feedback', href: '/Feedback' },
             { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: 'AttendanceMarking' },
             { icon: 'bx bx-file', tooltip: 'File Handling', linkName: 'File Handling', href: '/FileHandling' },
-            { icon: 'bx bx-pie-chart-alt-2', tooltip: 'Attendance', linkName: 'Attendance', href: '/AttendanceView' },
+            { icon: 'bx bx-money-withdraw', tooltip: 'Cash Request', linkName: 'Cash Request', href: '/CashRequest' },
             { icon: 'bx bx-message-dots', tooltip: 'Contact Us', linkName: 'Contact Us', href: '/ContactUs' },
             { icon: 'bx bx-cog', tooltip: 'Settings', linkName: 'Settings', href: '/Settings' },
         ],

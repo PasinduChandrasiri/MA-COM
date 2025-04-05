@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect, useRef } from 'react';
 import { FaSearch, FaInbox, FaCheckCircle, FaTimesCircle, FaPlus, FaChevronLeft } from 'react-icons/fa';
 import SideBar from '../../Components/SideBar/SideBar';
@@ -20,6 +21,7 @@ const CashRequest = () => {
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [profession, setProfession] = useState(localStorage.getItem('profession'));
 
     const userId = 18; // Replace this with dynamic userId from authentication context
 
@@ -136,9 +138,10 @@ const CashRequest = () => {
 
     return (
         <>
-            <SideBar />
+            <SideBar userType={profession?.replace(/\s+/g, '')} />
             <div className="cashrequest-container">
                 <Header />
+                <div style={{ height: '70px' }} />  {/* make distance between header and first component */}
                 <Pop_up ref={popUpRef} />
                 <div className="cashrequest-main">
                     {!selectedRequest ? (

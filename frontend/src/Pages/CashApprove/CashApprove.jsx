@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect, useRef } from 'react';
 import SideBar from '../../Components/SideBar/SideBar';
 import Pop_up from '../../Components/Pop_up/Pop_up';
@@ -21,6 +22,7 @@ const CashApprove = () => {
     const [userName, setUserName] = useState('');
     const [userProfession, setUserProfession] = useState('');
     const popupRef = useRef();
+    const [profession, setProfession] = useState(localStorage.getItem('profession'));
 
     // Helper function to show toast messages using the ref
     const showToast = (message) => {
@@ -280,10 +282,11 @@ const CashApprove = () => {
 
     return (
         <>
-            <SideBar />
+            <SideBar userType={profession?.replace(/\s+/g, '')} />
             <Pop_up ref={popupRef} />
             <div className="cashapprove-container">
                 <Header />
+                <div style={{ height: '70px' }} />  {/* make distance between header and first component */}
                 <div className="cashapprove-main">
                     {/* Gmail-like left sidebar navigation */}
                     <div className="cashapprove-sidebar">
