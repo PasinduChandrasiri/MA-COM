@@ -211,7 +211,6 @@ const AttendanceMarking = () => {
                     <div className="course-info">
                         <div className="info-row">
                             <DropDownSelector
-                                title="Subject"
                                 options={subjectOptions}
                                 value={selectedSubject}
                                 onChange={setSelectedSubject}

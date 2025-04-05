@@ -17,10 +17,16 @@ const FeedbackDashboard = () => {
                 lecturer: name
             })
                 .then(res => {
-                    setSubjects(res.data);
+                    if (Array.isArray(res.data)) {
+                        setSubjects(res.data);
+                    } else {
+                        setSubjects([]);
+                        console.error("Unexpected response format for subjects:", res.data);
+                    }
                 })
                 .catch(err => {
                     console.log(err);
+                    setSubjects([]);
                 });
         };
 
@@ -102,51 +108,48 @@ const FeedbackDashboard = () => {
 
     return (
         <div className="feedback-card-container">
-            {profession === "Lecturer" ?
-                (
-                    subjects.map((item, index) => {
-                        return (
-                            <div
-                                className='feedback-card'
-                                key={index}
-                            >
-                                <div className="feedback-segment">
-                                    <span className="feedback-count">{countCoursesByName(item.subjectName)}</span>
-                                    <span className="feedback-label">Course Feedback</span>
-                                </div>
-                                <div className="feedback-segment">
-                                    <span className="feedback-count">{countLecturerByName(item.subjectName, name)}</span>
-                                    <span className="feedback-label">Lecturer Feedback</span>
-                                </div>
-                                <div className="feedback-title">
-                                    <p className="feedback-course-title">{item.subjectName}</p>
-                                    <p className="feedback-course-code">{item.subjectId}</p>
-                                </div>
-                            </div>
-                        );
-                    })
-                ) :
-                (
-                    batch.map((item, index) => (
+            {profession === "Lecturer" ? (
+                Array.isArray(subjects) && subjects.map((item, index) => {
+                    return (
                         <div
                             className='feedback-card'
                             key={index}
                         >
                             <div className="feedback-segment">
-                                <span className="feedback-count">{countBatchCoursesBySemester(item.semester)}</span>
+                                <span className="feedback-count">{countCoursesByName(item.subjectName)}</span>
                                 <span className="feedback-label">Course Feedback</span>
                             </div>
                             <div className="feedback-segment">
-                                <span className="feedback-count">{countBatchLecturersBySemester(item.semester)}</span>
+                                <span className="feedback-count">{countLecturerByName(item.subjectName, name)}</span>
                                 <span className="feedback-label">Lecturer Feedback</span>
                             </div>
                             <div className="feedback-title">
-                                <p className="feedback-course-title">{item.batch}</p>
+                                <p className="feedback-course-title">{item.subjectName}</p>
+                                <p className="feedback-course-code">{item.subjectId}</p>
                             </div>
                         </div>
-                    ))
-                )
-            }
+                    );
+                })
+            ) : (
+                batch.map((item, index) => (
+                    <div
+                        className='feedback-card'
+                        key={index}
+                    >
+                        <div className="feedback-segment">
+                            <span className="feedback-count">{countBatchCoursesBySemester(item.semester)}</span>
+                            <span className="feedback-label">Course Feedback</span>
+                        </div>
+                        <div className="feedback-segment">
+                            <span className="feedback-count">{countBatchLecturersBySemester(item.semester)}</span>
+                            <span className="feedback-label">Lecturer Feedback</span>
+                        </div>
+                        <div className="feedback-title">
+                            <p className="feedback-course-title">{item.batch}</p>
+                        </div>
+                    </div>
+                ))
+            )}
         </div>
     );
 };

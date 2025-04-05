@@ -26,32 +26,46 @@ const AttendanceView = () => {
                 }
                 const data = await response.json();
 
-                const localStorageSubjects = [
-                    localStorage.getItem('subject1'),
-                    localStorage.getItem('subject2'),
-                    localStorage.getItem('subject3'),
-                    localStorage.getItem('subject4'),
-                    localStorage.getItem('subject5'),
-                    localStorage.getItem('subject6'),
-                    localStorage.getItem('subject7'),
-                    localStorage.getItem('subject8'),
-                    localStorage.getItem('subject9'),
-                    localStorage.getItem('subject10')
-                ].filter(Boolean);
+                let formattedSubjects = [];
 
+                if (profession === 'Student') {
+                    // Filter subjects based on the student's selected subjects in localStorage
+                    const localStorageSubjects = [
+                        localStorage.getItem('subject1'),
+                        localStorage.getItem('subject2'),
+                        localStorage.getItem('subject3'),
+                        localStorage.getItem('subject4'),
+                        localStorage.getItem('subject5'),
+                        localStorage.getItem('subject6'),
+                        localStorage.getItem('subject7'),
+                        localStorage.getItem('subject8'),
+                        localStorage.getItem('subject9'),
+                        localStorage.getItem('subject10')
+                    ].filter(Boolean);
 
-                const localStorageSubjectIds = localStorageSubjects.map(subjectStr => {
-                    const matches = subjectStr.match(/\(([A-Z0-9]+)\)/);
-                    return matches ? matches[1] : null;
-                }).filter(Boolean);
+                    const localStorageSubjectIds = localStorageSubjects.map(subjectStr => {
+                        const matches = subjectStr.match(/\(([A-Z0-9]+)\)/);
+                        return matches ? matches[1] : null;
+                    }).filter(Boolean);
 
-                const formattedSubjects = data
-                    .filter(subject => localStorageSubjectIds.includes(subject.subjectId))
-                    .map(subject => ({
+                    formattedSubjects = data.filter(subject =>
+                        localStorageSubjectIds.includes(subject.subjectId)
+                    ).map(subject => ({
                         id: subject.subjectId,
                         name: subject.subjectName,
                         lecturer: subject.lecturer
                     }));
+                } else if (profession === 'Lecturer') {
+                    // Filter subjects based on the lecturer's name
+                    const lecturerName = localStorage.getItem('name');
+                    formattedSubjects = data.filter(subject =>
+                        subject.lecturer === lecturerName
+                    ).map(subject => ({
+                        id: subject.subjectId,
+                        name: subject.subjectName,
+                        lecturer: subject.lecturer
+                    }));
+                }
 
                 setSubjectOptions(formattedSubjects);
             } catch (err) {
@@ -60,8 +74,9 @@ const AttendanceView = () => {
                 setLoading(false);
             }
         };
+
         fetchSubjects();
-    }, []);
+    }, [profession]);
 
     useEffect(() => {
         if (!selectedSubject) return;
@@ -151,7 +166,7 @@ const AttendanceView = () => {
                 <div className="attendanceview-content">
                     <h2 className='AttendanceH2'>Attendance View</h2>
                     <div className="courseview-info">
-                        <DropDownSelector title="Subject" options={subjectOptions} value={selectedSubject} onChange={setSelectedSubject} />
+                        <DropDownSelector options={subjectOptions} value={selectedSubject} onChange={setSelectedSubject} />
                         {subjectInfo && (
                             <>
                                 <p><strong>Lecturer:</strong> <span className="lecturer-name">{subjectInfo.lecturer}</span></p>
