@@ -16,12 +16,14 @@ const FeedbackDashboard = () => {
                 condition: "feedbackLecturer",
                 lecturer: name
             })
-                .then(res => {
-                    setSubjects(res.data);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+            .then(res => {
+                // Ensure data is array
+                setSubjects(Array.isArray(res.data) ? res.data : []);
+              })
+              .catch(err => {
+                console.log(err);
+                setSubjects([]); // Reset to empty array on error
+              });
         };
 
         const fetch2 = () => {
@@ -29,12 +31,14 @@ const FeedbackDashboard = () => {
                 condition: "all",
                 lecturer: name
             })
-                .then(res => {
-                    setSubjectsFeedback(res.data);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+            .then(res => {
+                // Ensure data is array
+                setSubjectsFeedback(Array.isArray(res.data) ? res.data : []);
+              })
+              .catch(err => {
+                console.log(err);
+                setSubjectsFeedback([]); // Reset to empty array on error
+              });
         };
 
         const fetch3 = () => {
@@ -42,10 +46,11 @@ const FeedbackDashboard = () => {
                 condition: "all",
             })
                 .then(res => {
-                    setLectureFeedback(res.data);
+                    setLectureFeedback(Array.isArray(res.data) ? res.data : []);
                 })
                 .catch(err => {
                     console.log(err);
+                    setLectureFeedback([]);
                 });
         };
 
@@ -54,10 +59,11 @@ const FeedbackDashboard = () => {
                 condition: "all",
             })
                 .then(res => {
-                    setBatch(res.data);
+                    setBatch(Array.isArray(res.data) ? res.data : []);
                 })
                 .catch(err => {
                     console.log(err);
+                    setBatch([]);
                 });
         };
 
@@ -99,7 +105,7 @@ const FeedbackDashboard = () => {
         ).length;
         return count;
     };
-
+    
     return (
         <div className="feedback-card-container">
             {profession === "Lecturer" ?

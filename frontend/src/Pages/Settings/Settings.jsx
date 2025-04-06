@@ -289,9 +289,11 @@ const SettingsPage = () => {
                             <p><strong>Name :</strong> {name}</p>
                             <p><strong>E-mail :</strong> {email}</p>
                             <p><strong>Profession :</strong> {profession}</p>
-                            <p><strong>Registration number :</strong> {regNo}</p>
-                            <p><strong>Semester :</strong> {semester}</p>
-                            <p><strong>Subject:</strong></p>
+                            
+                            {profession === "Student" &&   <p><strong>Semester :</strong> {semester}</p>}
+                            {profession === "Student" &&  <p><strong>Registration number :</strong> {regNo}</p>}
+                     
+                            <p><strong>Subjects:</strong></p>
                             <ul>
                                 {subject1 !== "" && <li>{subject1}</li>}
                                 {subject2 !== "" && <li>{subject2}</li>}

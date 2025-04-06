@@ -216,9 +216,9 @@ function HomePage() {
               <div className="cardProfileLower">
                 <h3>{name}</h3>
                 <h4>{email}</h4>
-                <p className='profilePara'>Semester: {semester}</p>
+                {profession === "Student" && <p className='profilePara'>Semester:{semester}</p> }
                 <p className='profilePara'>Profession: {profession}</p>
-                <p className='profilePara'>Registration Number: {regNo}</p>
+                {profession === "Student" &&  <p className='profilePara'>Registration Number: {regNo}</p>}
                 <p className='profilePara'>{about}</p>
                 <button className='profileVisitBtn' onClick={() => navigate("/Settings")}>Visit Profile</button>
               </div>
