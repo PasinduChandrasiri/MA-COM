@@ -189,7 +189,7 @@ app.post("/ma_system/lecturerfeedbackrate", (req, res) => {
           AVG(lq10_rate) AS avg10,
           AVG(lq11_rate) AS avg11,
           AVG(lq12_rate) AS avg12
-        FROM lecturerfeedbackrate
+        FROM lecturerfeedbackrate 
         WHERE lecturer_name = ?
       `;
         db.query(avgQuery, [newNames], (err, avgResults) => {
