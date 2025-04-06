@@ -257,62 +257,127 @@ const Feedback = () => {
     };
 
     const renderFeedbackTableLecturer = () => {
-        if (selectedFeedbackType === "Lecturer" && dropdownOptions === "Lecturer") {
+        if ((selectedFeedbackType === "Lecturer" && dropdownOptions === "Lecturer") ||
+            (selectedFeedbackType === "Course" && dropdownOptions === "Course")) {
+
+            // First, organize the data by QGroup
+            const groupedData = questions.reduce((acc, q, index) => {
+                const average = averages && averages[`avg${index + 1}`] !== null &&
+                    averages[`avg${index + 1}`] !== undefined ?
+                    averages[`avg${index + 1}`] : "N/A";
+
+                if (!acc[q.QGroup]) {
+                    acc[q.QGroup] = [];
+                }
+
+                acc[q.QGroup].push({
+                    question: q.Questions,
+                    average: average
+                });
+
+                return acc;
+            }, {});
+
+            // Then create an array suitable for rendering
+            const tableData = [];
+            Object.entries(groupedData).forEach(([qGroup, items]) => {
+                // Add the first row with QGroup spanning all columns
+                tableData.push({
+                    isGroupHeader: true,
+                    qGroup: qGroup,
+                    question: null,
+                    average: null
+                });
+
+                // Add all questions for this group
+                items.forEach(item => {
+                    tableData.push({
+                        isGroupHeader: false,
+                        qGroup: null,
+                        question: item.question,
+                        average: item.average
+                    });
+                });
+            });
+
+            // Function to handle download
+            const handleDownload = () => {
+                // Create CSV content
+                let csvContent = "Questions Group,Questions,Average\n";
+
+                tableData.forEach(row => {
+                    if (row.isGroupHeader) {
+                        csvContent += `"${row.qGroup}",,\n`;
+                    } else {
+                        const avgValue = row.average === "N/A" ? "N/A" : ((row.average + 2) / 4) * 100;;
+                        csvContent += `,"${row.question}",${avgValue} %\n`;
+                    }
+                });
+
+                // Create download link
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.setAttribute('href', url);
+                link.setAttribute('download', `${selectedOption}_${selectedFeedbackType}_feedback_report.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+
             return (
-                <form>
-                    <table className='feedback-form-table-lecturer'>
-                        <thead>
-                            <tr>
-                                <th className="feedback-form-table-row-heading-th">Questions</th>
-                                <th className="feedback-form-table-row-heading-th">Average</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {questions.map((q, index) => (
-                                <tr key={q.QID}>
-                                    <td className="feedback-form-table-row-td">{q.Questions}</td>
-                                    <td className="feedback-form-table-row-td">
-                                        {averages && averages[`avg${index + 1}`] !== null && averages[`avg${index + 1}`] !== undefined ? (
-                                            <ProgressBar average={averages[`avg${index + 1}`]} />
-                                        ) : (
-                                            "N/A"
-                                        )}
-                                    </td>
+                <>
+                    <form>
+                        <table className='feedback-form-table-lecturer'>
+                            <thead>
+                                <tr>
+                                    <th className="feedback-form-table-row-heading-th">Questions Group</th>
+                                    <th className="feedback-form-table-row-heading-th">Questions</th>
+                                    <th className="feedback-form-table-row-heading-th">Average</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </form>
+                            </thead>
+                            <tbody>
+                                {tableData.map((row, index) => (
+                                    <tr key={index}>
+                                        {row.isGroupHeader ? (
+                                            <td className="feedback-form-table-row-td group-header" colSpan="3">
+                                                {row.qGroup}
+                                            </td>
+                                        ) : (
+                                            <>
+                                                <td className="feedback-form-table-row-td"></td>
+                                                <td className="feedback-form-table-row-td">{row.question}</td>
+                                                <td className="feedback-form-table-row-td">
+                                                    {row.average === "N/A" ? "N/A" : <ProgressBar average={row.average} />}
+                                                </td>
+                                            </>
+                                        )}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </form>
+                    <div style={{ textAlign: 'right', marginBottom: '10px' }}>
+                        <button
+                            onClick={handleDownload}
+                            style={{
+                                padding: '8px 16px',
+                                backgroundColor: '#4CAF50',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Download Report
+                        </button>
+                    </div>
+                </>
             )
         }
-        if (selectedFeedbackType === "Course" && dropdownOptions === "Course") {
-            return (
-                <form>
-                    <table className='feedback-form-table-lecturer'>
-                        <thead>
-                            <tr>
-                                <th className="feedback-form-table-row-heading-th">Questions</th>
-                                <th className="feedback-form-table-row-heading-th">Average</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {questions.map((q, index) => (
-                                <tr key={q.QID}>
-                                    <td className="feedback-form-table-row-td">{q.Questions}</td>
-                                    <td className="feedback-form-table-row-td">
-                                        {averages && averages[`avg${index + 1}`] !== null && averages[`avg${index + 1}`] !== undefined ? (
-                                            <ProgressBar average={averages[`avg${index + 1}`]} />
-                                        ) : (
-                                            "N/A"
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </form>
-            )
-        }
+
+        return null;
     }
 
     //------------------------------------------- STUDENT FEEDBACK ------------------------------------------
@@ -411,81 +476,70 @@ const Feedback = () => {
     };
 
     const renderFeedbackTableStudent = () => {
-        if (selectedFeedbackType === "Lecturer" && dropdownOptions === "Lecturer") {
-            return (
-                <form onSubmit={(e) => handleSubmit(e, "Lecturer")}>
-                    <table className='feedback-form-table-student'>
-                        <thead>
-                            <tr>
-                                <th className='feedback-form-table-row-heading-th'>Questions</th>
-                                <th className='feedback-form-table-row-heading-th-student'>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {questions.map((q, index) => (
-                                <tr key={q.QID}>
-                                    <td className='feedback-form-table-row-td'>{q.Questions}</td>
-                                    <td className='feedback-form-table-data-button'>
-                                        {rates.map((rate) => (
-                                            <label key={rate} className="feedback-checkbox">
-                                                <input
-                                                    type="radio"
-                                                    name={`question-${index}`}
-                                                    value={rate}
-                                                    checked={responses[index] === rate}
-                                                    onChange={() => radioHandleSelection(index, rate)}
-                                                    className="feedbackDot"
-                                                />
-                                                {rate}
-                                            </label>
-                                        ))}
+        const feedbackType = selectedFeedbackType;
+
+        if (feedbackType !== dropdownOptions || !["Lecturer", "Course"].includes(feedbackType)) {
+            return null;
+        }
+
+        // Group questions by their QGroup
+        const groupedQuestions = questions.reduce((acc, question) => {
+            if (!acc[question.QGroup]) {
+                acc[question.QGroup] = [];
+            }
+            acc[question.QGroup].push(question);
+            return acc;
+        }, {});
+
+        return (
+            <form onSubmit={(e) => handleSubmit(e, feedbackType)}>
+                <table className='feedback-form-table-student'>
+                    <thead>
+                        <tr>
+                            <th className="feedback-form-table-row-heading-th">Questions Group</th>
+                            <th className='feedback-form-table-row-heading-th'>Questions</th>
+                            <th className='feedback-form-table-row-heading-th-student'>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Object.entries(groupedQuestions).map(([groupName, groupQuestions]) => (
+                            <React.Fragment key={groupName}>
+                                <tr>
+                                    <td className="feedback-form-table-row-td group-header" colSpan="3">
+                                        {groupName}
                                     </td>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <button type='submit' className='submit-button-student'>Submit Feedback</button>
-                </form>
-            )
-        }
-        if (selectedFeedbackType === "Course" && dropdownOptions === "Course") {
-            return (
-                <form onSubmit={(e) => handleSubmit(e, "Course")}>
-                    <table className='feedback-form-table-student'>
-                        <thead>
-                            <tr>
-                                <th className='feedback-form-table-row-heading-th'>Questions</th>
-                                <th className='feedback-form-table-row-heading-th-student'>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {questions.map((q, index) => (
-                                <tr key={q.QID}>
-                                    <td className='feedback-form-table-row-td'>{q.Questions}</td>
-                                    <td className='feedback-form-table-data-button'>
-                                        {rates.map((rate) => (
-                                            <label key={rate} className="feedback-checkbox">
-                                                <input
-                                                    type="radio"
-                                                    name={`question-${index}`}
-                                                    value={rate}
-                                                    checked={responses[index] === rate}
-                                                    onChange={() => radioHandleSelection(index, rate)}
-                                                    className="mr-1"
-                                                />
-                                                {rate}
-                                            </label>
-                                        ))}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <button type='submit' className='submit-button-student'>Submit Feedback</button>
-                </form>
-            )
-        }
-    }
+                                {groupQuestions.map((q, index) => (
+                                    <tr key={q.QID}>
+                                        <td className='feedback-form-table-row-td'></td>
+                                        <td className='feedback-form-table-row-td'>{q.Questions}</td>
+                                        <td className='feedback-form-table-data-button'>
+                                            {rates.map((rate) => (
+                                                <label key={rate} className="feedback-checkbox">
+                                                    <input
+                                                        type="radio"
+                                                        name={`question-${index}`}
+                                                        value={rate}
+                                                        checked={responses[index] === rate}
+                                                        onChange={() => radioHandleSelection(index, rate)}
+                                                        className={feedbackType === "Lecturer" ? "feedbackDot" : "mr-1"}
+                                                    />
+                                                    {rate}
+                                                </label>
+                                            ))}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </React.Fragment>
+                        ))}
+                    </tbody>
+                </table>
+                <button type='submit' className='submit-button-student'>
+                    Submit Feedback
+                </button>
+            </form>
+        );
+    };
 
     //--------------------------------------------------------------------------------------------------------
 
@@ -516,6 +570,7 @@ const Feedback = () => {
                                                 onClick={() => {
                                                     setSelectedFeedbackType("LecturerQuestion");
                                                     fetchQuestions("Lecturer");
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
                                                 <img src={MA01} alt="Lecturer Icon" className="button-icon" />
@@ -528,6 +583,7 @@ const Feedback = () => {
                                                 onClick={() => {
                                                     setSelectedFeedbackType("CourseQuestion");
                                                     fetchQuestions("Course");
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
                                                 <img src={MA02} alt="Course Icon" className="button-icon" />
@@ -630,6 +686,7 @@ const Feedback = () => {
                                                     setSelectedFeedbackType("Lecturer");
                                                     fetchQuestions("Lecturer");
                                                     handleDropdownLecturer();
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
                                                 <img
@@ -647,6 +704,7 @@ const Feedback = () => {
                                                     setSelectedFeedbackType("Course");
                                                     fetchQuestions("Course");
                                                     handleDropdownLecturer();
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
                                                 <img
@@ -683,7 +741,7 @@ const Feedback = () => {
                                             >
                                                 <option value="" disabled>{selectedFeedbackType === "Lecturer" ? `Select your averages for relevant course` : 'Select course'}</option>
                                                 {profession === "Lecturer" ? (
-                                                    selectedFeedbackType === "Lecturer"
+                                                    selectedFeedbackType === "Course"
                                                         ? lecturerDetails.map((item, idx) => (
                                                             <option key={idx} value={item.lecturer_course}>
                                                                 {item.lecturer_course}
@@ -741,6 +799,7 @@ const Feedback = () => {
                                                     setSelectedFeedbackType("Lecturer");
                                                     fetchQuestions("Lecturer");
                                                     handleDropdownStudent();
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
                                                 <img
@@ -758,6 +817,7 @@ const Feedback = () => {
                                                     setSelectedFeedbackType("Course");
                                                     fetchQuestions("Course");
                                                     handleDropdownStudent();
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
                                                 <img

@@ -169,8 +169,9 @@ const AttendanceMarking = () => {
             if (!response.ok) {
                 throw new Error(result.message || 'Failed to submit attendance');
             }
-
+            setTimeout(() => window.location.reload(), 2000);
             popUpRef.current.showToast('submit');
+            window.scrollTo(0, 0);
         } catch (error) {
             console.error('Error submitting attendance:', error);
             popUpRef.current.showToast('GoingWrong');

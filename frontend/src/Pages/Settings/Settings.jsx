@@ -67,6 +67,10 @@ const SettingsPage = () => {
     };
     const semesterList = ["4th Semester", "5th Semester", "5th Extended Semester", "6th Semester", "7th Semester", "8th Semester"];
 
+    // Scroll to top on mount
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     //Database 
     const handleSubjectDropdownFocus = () => {
@@ -289,10 +293,10 @@ const SettingsPage = () => {
                             <p><strong>Name :</strong> {name}</p>
                             <p><strong>E-mail :</strong> {email}</p>
                             <p><strong>Profession :</strong> {profession}</p>
-                            
-                            {profession === "Student" &&   <p><strong>Semester :</strong> {semester}</p>}
-                            {profession === "Student" &&  <p><strong>Registration number :</strong> {regNo}</p>}
-                     
+
+                            {profession === "Student" && <p><strong>Semester :</strong> {semester}</p>}
+                            {profession === "Student" && <p><strong>Registration number :</strong> {regNo}</p>}
+
                             <p><strong>Subjects:</strong></p>
                             <ul>
                                 {subject1 !== "" && <li>{subject1}</li>}
