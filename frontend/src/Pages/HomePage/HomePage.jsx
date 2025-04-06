@@ -1,8 +1,6 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { useEffect, useRef, useState } from 'react'
 import "./HomePage.css"
-//import { Link } from 'react-router-dom';
-//import { Link } from 'react-router-dom';
 import SideBar from '../../Components/SideBar/SideBar';
 import Footer from '../../Components/Footer/Footer';
 import Pop_up from '../../Components/Pop_up/Pop_up';
@@ -15,14 +13,10 @@ import FeedbackDashboard from '../../Components/FeedbackDashboard/FeedbackDashbo
 import CommentPanel from '../../Components/CommentPanel/CommentPanel';
 import defaultImage from "../../Images/default_User.png";
 import axios from 'axios';
-
-// Example data from datacase
-import { FeedbackDataLecturer } from '../../Data/FeedbackDataLecturer';
-import { AttendanceStudent } from '../../Data/AttendanceStudent';
-import { AttendanceLecturer } from '../../Data/AttendanceLecturer';
-import { FeedbackDataMA } from '../../Data/FeedbackDataMA';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
+  const navigate = useNavigate();
   const popUpRef = useRef();
   const [records, setRecords] = useState([]);
   const [records2, setRecords2] = useState([]);
@@ -50,11 +44,12 @@ function HomePage() {
     }
   };
 
-  //Getting data from 
+  //Getting data from localStorage
   const [name, setName] = useState(localStorage.getItem('name'));
   const [email, setEmail] = useState(localStorage.getItem('email'));
   const [semester, setSemester] = useState(localStorage.getItem('semester'));
   const [profession, setProfession] = useState(localStorage.getItem('profession'));
+  const [regNo, setRegNo] = useState(localStorage.getItem('regNo'));
   const [about, setAbout] = useState(localStorage.getItem('about'));
   const [pic, setPic] = useState("");
 
@@ -106,13 +101,13 @@ function HomePage() {
     axios.delete(`http://localhost:8081/notice/` + id)
       .then(res => {
         setRecords((prevRecords) => prevRecords.filter((item) => item.id !== id));
-        setTimeout(() => window.location.reload(), 1000);
         toggle2();
+        setTimeout(() => window.location.reload(), 1000);
         popUpRef.current.showToast("delete");
       })
       .catch(err => {
-        console.error("Error deleting notice:", err);
         toggle2();
+        console.error("Error deleting notice:", err);
         popUpRef.current.showToast("GoingWrong");
       })
   };
@@ -127,13 +122,13 @@ function HomePage() {
           prevRecords.map((item) =>
             item.id === id ? { ...item, title: updatedTitle, content: updatedDescription } : item
           ));
-        setTimeout(() => window.location.reload(), 1000);
         toggle2();
+        setTimeout(() => window.location.reload(), 1000);
         popUpRef.current.showToast("update");
       })
       .catch(err => {
-        console.error("Error updating notice:", err);
         toggle2();
+        console.error("Error updating notice:", err);
         popUpRef.current.showToast("GoingWrong");
       })
   };
@@ -163,13 +158,13 @@ function HomePage() {
     axios.delete(`http://localhost:8081/comments/` + id)
       .then(res => {
         setRecords2((prevRecords2) => prevRecords2.filter((item) => item.id !== id));
-        setTimeout(() => window.location.reload(), 1000);
         toggle4();
+        setTimeout(() => window.location.reload(), 1000);
         popUpRef.current.showToast("delete");
       })
       .catch(err => {
-        console.error("Error deleting notice:", err);
         toggle4();
+        console.error("Error deleting notice:", err);
         popUpRef.current.showToast("GoingWrong");
       })
   };
@@ -200,7 +195,7 @@ function HomePage() {
         <Header />
         <div style={{ height: '70px' }} />  {/* make distance between header and first component */}
 
-        <div className={`container ${isActive || isActive2 || isActive3 || isActive4 ? "blur" : ""}`} id="blur">
+        <div className={`homeMainContainer ${isActive || isActive2 || isActive3 || isActive4 ? "blur" : ""}`} id="blur">
           <ImageSlider />
 
           {/* Profile card */}
@@ -218,10 +213,11 @@ function HomePage() {
               <div className="cardProfileLower">
                 <h3>{name}</h3>
                 <h4>{email}</h4>
-                <p className='profilePara'>Semester: {semester}</p>
+                {profession === "Student" && <p className='profilePara'>Semester:{semester}</p>}
                 <p className='profilePara'>Profession: {profession}</p>
+                {profession === "Student" && <p className='profilePara'>Registration Number: {regNo}</p>}
                 <p className='profilePara'>{about}</p>
-                <button className='profileVisitBtn'>Visit Profile</button>
+                <button className='profileVisitBtn' onClick={() => navigate("/Settings")}>Visit Profile</button>
               </div>
             </div>
           </div>
@@ -231,20 +227,16 @@ function HomePage() {
           <NoticeBar toggle={toggle} toggle2={toggle2} />
 
           {/* Students attendance */}
-          <Topic name={"ATTENDANCE (STUDENT)"} />
-          <ProgressBar data={AttendanceStudent} />
-
-          {/* Lecturer attendance */}
-          <Topic name={"ATTENDANCE (LECTURER)"} />
-          <ProgressBar data={AttendanceLecturer} />
+          {profession === "Student" && (<Topic name={"ATTENDANCE (STUDENT)"} />)}
+          {profession === "Student" && (<ProgressBar />)}
 
           {/* Lecturer Feedback dashboard */}
-          <Topic name={"FEEDBACK (LECTURER)"} />
-          <FeedbackDashboard data={FeedbackDataLecturer} />
+          {profession === "Lecturer" && (<Topic name={"FEEDBACK"} />)}
+          {profession === "Lecturer" && (<FeedbackDashboard />)}
 
           {/* MA Feedback dashboard */}
-          <Topic name={"FEEDBACK (MA)"} />
-          <FeedbackDashboard data={FeedbackDataMA} />
+          {profession === "Management Assistant" && (<Topic name={"FEEDBACK"} />)}
+          {profession === "Management Assistant" && (<FeedbackDashboard />)}
 
           {/* Comment panel */}
           <Topic name={"COMMENTS"} />

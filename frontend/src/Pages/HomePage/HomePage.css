@@ -4,30 +4,24 @@ body::-webkit-scrollbar {
 
 .homeContainer {
     margin-left: 78px;
-    /*padding-right: 78px;*/
     background-image: url("../../Images/Backgroud.png");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /* z-index: -1;
-    mask-image: url("../../Images/open.gif");
-    mask-size: cover;
-    mask-position: center; */
 }
 
 .cardProfileContainer {
     display: flex;
     width: 100%;
     justify-content: center;
-    margin-top: 5%;
+    margin-top: 13%;
 }
 
 .cardProfile {
     display: flex;
     flex-direction: row;
     width: 600px;
-    /* background: white; */
     backdrop-filter: blur(15px);
     border-radius: 10px;
     box-shadow: 0px 2px 15px rgb(63, 63, 63);
@@ -106,7 +100,7 @@ h4,
     color: white;
 }
 
-.container {
+.homeMainContainer {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -116,7 +110,7 @@ h4,
     z-index: 19;
 }
 
-.container.blur {
+.homeMainContainer.blur {
     filter: blur(20px);
     pointer-events: none;
     user-select: none;

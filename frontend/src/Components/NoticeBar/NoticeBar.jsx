@@ -5,6 +5,7 @@ import axios from 'axios';
 const NoticeBar = ({ toggle, toggle2 }) => {
     const [active, setActive] = useState();
     const [records, setRecords] = useState([]);
+    const [profession, setProfession] = useState(localStorage.getItem('profession'));
 
     useEffect(() => {
         const fetchData = async () => {
@@ -114,10 +115,13 @@ const NoticeBar = ({ toggle, toggle2 }) => {
                     &lt;
                 </button>
             </div>
-            <div className="btnContainer">
-                <button className='noticeAddBtn' onClick={toggle}>Add Notice</button>
-                <button className='noticeAddBtn' onClick={toggle2} >Manage Notice</button>
-            </div>
+
+            {profession === "Management Assistant" && (
+                <div className="btnContainer">
+                    <button className='noticeAddBtn' onClick={toggle}>Add Notice</button>
+                    <button className='noticeAddBtn' onClick={toggle2} >Manage Notice</button>
+                </div>
+            )}
         </>
     );
 };
