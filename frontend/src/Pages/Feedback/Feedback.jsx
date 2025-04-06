@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-pascal-case */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import "./Feedback.css";
 import SideBar from '../../Components/SideBar/SideBar';
 import Footer from '../../Components/Footer/Footer';
@@ -14,7 +14,7 @@ import Stu01 from "../../Images/Feedback/Stu01.jpg"
 import Stu02 from "../../Images/Feedback/Stu02.jpg"
 
 const Feedback = () => {
-
+    const popUpRef = useRef();
     const rates = [-2, -1, 0, 1, 2];
 
     const name = localStorage.getItem("name");
@@ -338,7 +338,7 @@ const Feedback = () => {
 
 
         if (!semester || !studentID || responses.includes(null)) {
-            alert("Please fill all fields and answer all questions before submitting.");
+            popUpRef.current.showToast("signUpInvalid");
             return;
         }
 
@@ -359,13 +359,14 @@ const Feedback = () => {
             })
             .then((res) => {
                 console.log("Submitted Data:", responses);
-                alert("Feedback submitted successfully!");
+                popUpRef.current.showToast("submit");
+
                 window.location.reload();
                 window.onload = () => window.scrollTo(0, 0);
             })
             .catch((err) => {
                 console.error("Error submitting feedback:", err);
-                alert("Failed to submit feedback.");
+                popUpRef.current.showToast("GoingWrong");
             });
     };
 
@@ -833,6 +834,8 @@ const Feedback = () => {
 
                 <div className="bottomSpace" style={{ height: '1px' }}></div>
                 <Footer />
+                {/* Conditionally render PopUp */}
+                <Pop_up ref={popUpRef} />
             </div >
         </>
     );

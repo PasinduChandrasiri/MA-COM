@@ -163,7 +163,7 @@ app.post("/ma_system/lecturerfeedbackrate", (req, res) => {
 
     const sql = `
     INSERT INTO lecturerfeedbackrate 
-        (semester, studentID, course_name, lecturer_name, lecture_course_name, lq1_rate, lq2_rate, lq3_rate, lq4_rate, lq5_rate, lq6_rate, lq7_rate, lq8_rate, lq9_rate, lq10_rate, lq11_rate, lq12_rate)
+        (semester, studentID, subjectName, lecturer_name, lecture_course_name, lq1_rate, lq2_rate, lq3_rate, lq4_rate, lq5_rate, lq6_rate, lq7_rate, lq8_rate, lq9_rate, lq10_rate, lq11_rate, lq12_rate)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const values = [semester, studentID, newCourseName, newNames, selectedData, ...feedback.map((item) => item.rating)];
