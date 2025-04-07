@@ -52,26 +52,28 @@
 
 .comment-buttons .CommentBtn1,
 .comment-buttons .CommentBtn2 {
-    background-color: rgba(176, 175, 175, 0.333);
     border: none;
     font-family: monospace;
     width: 40px;
     height: 40px;
     border-radius: 5px;
     font-size: x-large;
-    color: #17114a;
+    color: white;
     transition: all 1s ease;
     cursor: pointer;
 }
 
-.comment-buttons .CommentBtn1:hover {
+.comment-buttons .CommentBtn1 {
     background-image: linear-gradient(to left, #35315c, #000000);
-    color: white;
 }
 
-.comment-buttons .CommentBtn2:hover {
+.comment-buttons .CommentBtn2 {
     background-image: linear-gradient(to left, #000000, #35315c);
-    color: white;
+}
+
+.comment-buttons .CommentBtn2:hover,
+.comment-buttons .CommentBtn2:hover {
+    background-color: rgba(176, 175, 175, 0.333);
 }
 
 .comment-dots {
@@ -123,8 +125,9 @@
 
 .commentAddBtn {
     margin: 0rem 1rem;
-    color: #000000;
+    color: white;
     font: bold;
+    background-image: linear-gradient(to left, #35315c, #000000);
     background-color: #575477;
     padding: 0.6rem;
     border-radius: 20px;
@@ -134,7 +137,6 @@
 }
 
 .commentAddBtn:hover {
-    background-image: linear-gradient(to left, #35315c, #000000);
+    background-color: #575477;
     transform: scale(1.1);
-    color: white;
 }

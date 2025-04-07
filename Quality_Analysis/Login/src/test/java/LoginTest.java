@@ -19,7 +19,7 @@ public class LoginTest {
     public void setUp() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.get("http://localhost:3000");
+        driver.get("http://localhost:3000/Login");
     }
 
     @Test(priority = 1)
@@ -28,8 +28,8 @@ public class LoginTest {
         WebElement passwordField = driver.findElement(By.id("pass"));
         WebElement loginButton = driver.findElement(By.className("input-submit"));
 
-        emailField.sendKeys("pramudakulathunga@gmail.com");
-        passwordField.sendKeys("Pramuda@1234");
+        emailField.sendKeys("2021e078@eng.jfn.ac.lk");
+        passwordField.sendKeys("Pramuda@123");
         loginButton.click();
 
         Thread.sleep(5000);
@@ -76,8 +76,8 @@ public class LoginTest {
         WebElement rememberMeCheckbox = driver.findElement(By.id("remember"));
         WebElement loginButton = driver.findElement(By.className("input-submit"));
 
-        emailField.sendKeys("pramudakulathunga@gmail.com");
-        passwordField.sendKeys("Pramuda@1234");
+        emailField.sendKeys("2021e078@eng.jfn.ac.lk");
+        passwordField.sendKeys("Pramuda@123");
         rememberMeCheckbox.click();
         loginButton.click();
 
@@ -86,7 +86,7 @@ public class LoginTest {
 
         // Logout and navigate back to Login page
         driver.get("http://localhost:3000/HomePage"); // Replace with your logout URL
-        driver.get("http://localhost:3000");
+        driver.get("http://localhost:3000/Login");
 
         // Wait for the login page to load completely
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("user")));
@@ -96,8 +96,8 @@ public class LoginTest {
         passwordField = driver.findElement(By.id("pass"));
 
         // Verify email and password are pre-filled
-        Assert.assertEquals(emailField.getAttribute("value"), "pramudakulathunga@gmail.com");
-        Assert.assertEquals(passwordField.getAttribute("value"), "Pramuda@1234");
+        Assert.assertEquals(emailField.getAttribute("value"), "2021e078@eng.jfn.ac.lk");
+        Assert.assertEquals(passwordField.getAttribute("value"), "Pramuda@123");
     }
 
     @Test(priority = 5)

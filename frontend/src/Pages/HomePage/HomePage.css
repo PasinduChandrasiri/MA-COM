@@ -84,9 +84,9 @@ h4,
 
 .profileVisitBtn {
     margin: 0rem 1rem;
-    color: #000000;
+    color: white;
     font: bold;
-    background-color: #575477;
+    background-image: linear-gradient(to left, #35315c, #000000);
     padding: 0.6rem;
     border-radius: 20px;
     transition-duration: 0.5s;
@@ -95,9 +95,8 @@ h4,
 }
 
 .profileVisitBtn:hover {
-    background-image: linear-gradient(to left, #35315c, #000000);
     transform: scale(1.1);
-    color: white;
+    background-color: #575477;
 }
 
 .homeMainContainer {
@@ -320,6 +319,7 @@ h4,
     border-radius: 5px;
     transition: 0.5s;
 }
+
 .homeTableUpdateBtn:hover {
     background: rgb(0, 0, 116);
 }
@@ -337,6 +337,7 @@ h4,
 .homeTableDeleteBtn:hover {
     background: rgb(116, 1, 1);
 }
+
 .homeTablePic {
     width: 70px;
     height: 70px;
