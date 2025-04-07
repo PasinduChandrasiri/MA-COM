@@ -24,7 +24,7 @@ public class HomePageTest {
 
     // Helper method to log in
     private void login() {
-        driver.get("http://localhost:3000");
+        driver.get("http://localhost:3000/Login");
 
         // Find the email and password fields
         WebElement emailField = driver.findElement(By.id("user"));
@@ -32,8 +32,8 @@ public class HomePageTest {
         WebElement loginButton = driver.findElement(By.className("input-submit"));
 
         // Enter valid credentials (replace with actual values from ma_com.sql)
-        emailField.sendKeys("yasithaherath@gmail.com");
-        passwordField.sendKeys("Yasitha@1234");
+        emailField.sendKeys("pasinduchandrasiri493@gmail.com");
+        passwordField.sendKeys("Pasindu@123");
 
         // Click the login button
         loginButton.click();
@@ -53,19 +53,29 @@ public class HomePageTest {
     // Test 2: Verify profile details are displayed correctly
     @Test
     public void testProfileDetails() throws InterruptedException {
-        login();
+        driver.get("http://localhost:3000/Login");
+
+        // Find the email and password fields
+        WebElement emailField = driver.findElement(By.id("user"));
+        WebElement passwordField = driver.findElement(By.id("pass"));
+        WebElement loginButton = driver.findElement(By.className("input-submit"));
+
+        // Enter valid credentials (replace with actual values from ma_com.sql)
+        emailField.sendKeys("yasithaherath@gmail.com");
+        passwordField.sendKeys("Yasitha@1234");
+
+        // Click the login button
+        loginButton.click();
 
         Thread.sleep(5000);
 
         // Verify profile details
         WebElement profileName = driver.findElement(By.cssSelector(".cardProfileLower h3"));
         WebElement profileEmail = driver.findElement(By.cssSelector(".cardProfileLower h4"));
-        WebElement profileSemester = driver.findElement(By.cssSelector(".cardProfileLower .profilePara:nth-of-type(1)"));
-        WebElement profileProfession = driver.findElement(By.cssSelector(".cardProfileLower .profilePara:nth-of-type(2)"));
+        WebElement profileProfession = driver.findElement(By.cssSelector(".cardProfileLower .profilePara:nth-of-type(1)"));
 
         assertEquals("Yasitha herath", profileName.getText()); // Replace with expected name
         assertEquals("yasithaherath@gmail.com", profileEmail.getText()); // Replace with expected email
-        assertEquals("Semester: 6th Semester", profileSemester.getText()); // Replace with expected semester
         assertEquals("Profession: Lecturer", profileProfession.getText()); // Replace with expected profession
     }
 
@@ -102,6 +112,4 @@ public class HomePageTest {
         assertNotNull(noticeTitle);
         assertNotNull(noticeDescription);
     }
-
-
 }

@@ -17,6 +17,11 @@ function ContactUs() {
     const [nonAcademicDetails, setNonAcademicDetails] = useState([]);
     const [batch, setBatch] = useState([]);
 
+    // Scroll to top on mount
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     //Pop-up details
     const [isActive7, setIsActive7] = useState(false);
     const toggle7 = () => {

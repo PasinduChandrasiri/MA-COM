@@ -35,7 +35,11 @@
   gap: 20px
 }
 
-.contact-us-input {
+.form-group .contactUsLabel {
+  color: white;
+}
+
+.form-group .contact-us-input {
   width: 50%;
   height: 2rem;
   border-radius: 20px;
@@ -44,24 +48,34 @@
   outline: none;
   padding: 5px;
   padding-left: 20px;
+  background-color: #fff;
+  transition: 0.5s;
 }
 
-.contact-us-input-textarea {
+.form-group .contact-us-input:focus {
+  background-color: #ffffff;
+}
+
+.form-group .contact-us-input-textarea {
   height: 9rem;
-  width: 50%;
+  width: 100%;
   border-radius: 20px;
   padding: 10px;
   border: none;
   outline: none;
   padding-left: 20px;
+  transition: 0.5s;
 }
 
+.form-group .contact-us-input-textarea:focus {
+  background-color: #ffffff;
+}
 .contact-us-submit-button {
   margin-top: 5%;
   margin-bottom: 20px;
   width: 10rem;
   height: 2.2rem;
-  border-radius: 20px;
+  border-radius: 10px;
   font-size: 1rem;
   transition: 0.5s;
 }

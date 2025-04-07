@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { ContactUs, HomePage, Login, ForgotPassword, SignUp, AttendanceMarking, AttendanceView, CashRequest, CashApprove, Feedback, LandingPage, Settings, ManagementPage,FileHandling } from './Pages';
 
-function App() {
+function App() { 
 
   return (
     <Routes>

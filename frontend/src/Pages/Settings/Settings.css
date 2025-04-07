@@ -68,20 +68,20 @@ input[type="password"]::-moz-reveal-password {
 }
 
 .settings-edit-btn {
-    color: #000000;
+    color: white;
     font: bold;
-    background-color: #575477;
+    background-image: linear-gradient(to left, #35315c, #000000);
     padding: 0.6rem;
     border-radius: 8px;
     transition-duration: 0.5s;
     animation: ease-in-out;
     cursor: pointer;
+    width: calc(100% + 20px);
 }
 
 .settings-edit-btn:hover {
-    background-image: linear-gradient(to left, #35315c, #000000);
+    background-color: #575477;
     transform: scale(1.1);
-    color: white;
 }
 
 .settings-password-container {

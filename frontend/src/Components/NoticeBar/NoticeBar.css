@@ -71,9 +71,9 @@
 
 .noticeAddBtn {
     margin: 0rem 1rem;
-    color: #000000;
+    color: white;
     font: bold;
-    background-color: #575477;
+    background-image: linear-gradient(to left, #35315c, #000000);
     padding: 0.6rem;
     border-radius: 20px;
     transition-duration: 0.5s;
@@ -82,8 +82,7 @@
 }
 
 .noticeAddBtn:hover {
-    background-image: linear-gradient(to left, #35315c, #000000);
     transform: scale(1.1);
-    color: white;
+    background-color: #575477;
 }
 

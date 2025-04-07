@@ -66,7 +66,7 @@ function ContactUs() {
               <form onSubmit={handleSubmit} className="contact-form">
                 <div className="form-group">
 
-                  <label>Name:</label>
+                  <label className='contactUsLabel'>Name:</label>
                   <input
                     type="text"
                     name="name"
@@ -75,7 +75,7 @@ function ContactUs() {
                     onChange={handleChange}
                     required />
 
-                  <label>Email:</label>
+                  <label className='contactUsLabel'>Email:</label>
                   <input
                     type="text"
                     name="email"
@@ -84,7 +84,7 @@ function ContactUs() {
                     onChange={handleChange}
                     required />
 
-                  <label>Subject:</label>
+                  <label className='contactUsLabel'>Subject:</label>
                   <input
                     type="text"
                     name="subject"
@@ -93,7 +93,7 @@ function ContactUs() {
                     onChange={handleChange}
                     required />
 
-                  <label>Message:</label>
+                  <label className='contactUsLabel'>Message:</label>
                   <textarea
                     name="message"
                     class='contact-us-input-textarea'
