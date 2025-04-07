@@ -1,0 +1,131 @@
+#toastBox {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 20px;
+    z-index: 100;
+}
+
+.toast {
+    margin: 0;
+    padding: 10px 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    width: 300px;
+    backdrop-filter: blur(15px);
+    font-weight: 500;
+    margin: 15px 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    position: relative;
+    transform: translateX(100%);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    animation: moveLeft 0.5s linear forwards;
+}
+
+@keyframes moveLeft {
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.toast i {
+    margin: 0 20px;
+    font-size: 35px;
+    color: green;
+}
+
+.toast.error i,
+.toast.errorPasswordCompair i,
+.toast.NotAccount i,
+.toast.GoingWrong i,
+.toast.EmailFailed i,
+.toast.OTPsentFailed i {
+    color: red;
+}
+
+
+.toast.invalid i,
+.toast.signUpInvalid i,
+.toast.haveAccount i,
+.toast.AlreadyRecovered i,
+.toast.validation i,
+.toast.emailValidation i,
+.toast.selectFile i,
+.toast.invalidOTP i {
+    color: orange;
+}
+
+.toast {
+    color: green;
+}
+
+.toast.error,
+.toast.errorPasswordCompair,
+.toast.NotAccount,
+.toast.GoingWrong,
+.toast.EmailFailed,
+.toast.OTPsentFailed {
+    color: red;
+}
+
+.toast.invalid,
+.toast.signUpInvalid,
+.toast.haveAccount,
+.toast.AlreadyRecovered,
+.toast.validation,
+.toast.emailValidation,
+.toast.selectFile,
+.toast.invalidOTP {
+    color: orange;
+}
+
+.toast::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: green;
+    animation: anim 4s linear forwards;
+}
+
+@keyframes anim {
+    100% {
+        width: 0;
+    }
+}
+
+.toast.error::after,
+.toast.errorPasswordCompair::after,
+.toast.NotAccount::after,
+.toast.GoingWrong::after,
+.toast.EmailFailed::after,
+.toast.OTPsentFailed::after {
+    background: red;
+}
+
+.toast.invalid::after,
+.toast.signUpInvalid::after,
+.toast.haveAccount::after,
+.toast.AlreadyRecovered::after,
+.toast.validation::after,
+.toast.emailValidation::after,
+.toast.selectFile::after,
+.toast.invalidOTP::after {
+    background: orange;
+}
+
+/* Animation for removal */
+.toast.moveRight {
+    transform: translateX(100%);
+    opacity: 0;
+}

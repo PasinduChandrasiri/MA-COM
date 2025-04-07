@@ -1,0 +1,40 @@
+.titleHolder {
+    display: flex;
+    justify-content: center;
+}
+
+.title-container {
+    position: relative;
+    display: inline-block;
+    background-color: #35315c;
+    padding: 10px 0;
+    width: calc(100% - 200px);
+    height: 20px;
+    box-shadow: 0px 2px 10px rgb(63, 63, 63);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.titleName {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    height: 30px;
+    transform: translateX(-50%);
+    background-color: #161616;
+    color: white;
+    letter-spacing: 3px;
+    padding: 5px 80px;
+    font-weight: 700;
+    font-size: 16px;
+    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+    white-space: nowrap;
+    text-align: center;
+}
+
+.title span {
+    position: relative;
+    margin: 0px 100px;
+}
