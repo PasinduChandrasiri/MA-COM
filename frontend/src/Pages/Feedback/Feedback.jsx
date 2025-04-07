@@ -426,8 +426,8 @@ const Feedback = () => {
                 console.log("Submitted Data:", responses);
                 popUpRef.current.showToast("submit");
 
-                window.location.reload();
-                window.onload = () => window.scrollTo(0, 0);
+                setTimeout(() => window.location.reload(), 2000);
+                window.scrollTo(0, 0);
             })
             .catch((err) => {
                 console.error("Error submitting feedback:", err);
@@ -477,61 +477,52 @@ const Feedback = () => {
 
     const renderFeedbackTableStudent = () => {
         const feedbackType = selectedFeedbackType;
-
+    
         if (feedbackType !== dropdownOptions || !["Lecturer", "Course"].includes(feedbackType)) {
             return null;
         }
-
-        // Group questions by their QGroup
-        const groupedQuestions = questions.reduce((acc, question) => {
-            if (!acc[question.QGroup]) {
-                acc[question.QGroup] = [];
-            }
-            acc[question.QGroup].push(question);
-            return acc;
-        }, {});
-
+    
         return (
             <form onSubmit={(e) => handleSubmit(e, feedbackType)}>
                 <table className='feedback-form-table-student'>
                     <thead>
                         <tr>
-                            <th className="feedback-form-table-row-heading-th">Questions Group</th>
                             <th className='feedback-form-table-row-heading-th'>Questions</th>
+                            <th className='feedback-form-table-row-heading-th'>Question Group</th>
                             <th className='feedback-form-table-row-heading-th-student'>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {Object.entries(groupedQuestions).map(([groupName, groupQuestions]) => (
-                            <React.Fragment key={groupName}>
-                                <tr>
-                                    <td className="feedback-form-table-row-td group-header" colSpan="3">
-                                        {groupName}
+                        {questions.map((q, index) => {
+                            // Check if current QGroup is different from previous one
+                            const showQGroup = index === 0 || q.QGroup !== questions[index - 1].QGroup;
+                            
+                            return (
+                                <tr key={q.QID}>
+                                    <td className='feedback-form-table-row-td'>
+                                        {showQGroup ? q.QGroup : null}
+                                    </td>
+                                    <td className='feedback-form-table-row-td'>
+                                        {q.Questions}
+                                    </td>
+                                    <td className='feedback-form-table-data-button'>
+                                        {rates.map((rate) => (
+                                            <label key={rate} className="feedback-checkbox">
+                                                <input
+                                                    type="radio"
+                                                    name={`question-${index}`}
+                                                    value={rate}
+                                                    checked={responses[index] === rate}
+                                                    onChange={() => radioHandleSelection(index, rate)}
+                                                    className={feedbackType === "Lecturer" ? "feedbackDot" : "mr-1"}
+                                                />
+                                                {rate}
+                                            </label>
+                                        ))}
                                     </td>
                                 </tr>
-                                {groupQuestions.map((q, index) => (
-                                    <tr key={q.QID}>
-                                        <td className='feedback-form-table-row-td'></td>
-                                        <td className='feedback-form-table-row-td'>{q.Questions}</td>
-                                        <td className='feedback-form-table-data-button'>
-                                            {rates.map((rate) => (
-                                                <label key={rate} className="feedback-checkbox">
-                                                    <input
-                                                        type="radio"
-                                                        name={`question-${index}`}
-                                                        value={rate}
-                                                        checked={responses[index] === rate}
-                                                        onChange={() => radioHandleSelection(index, rate)}
-                                                        className={feedbackType === "Lecturer" ? "feedbackDot" : "mr-1"}
-                                                    />
-                                                    {rate}
-                                                </label>
-                                            ))}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </React.Fragment>
-                        ))}
+                            );
+                        })}
                     </tbody>
                 </table>
                 <button type='submit' className='submit-button-student'>
