@@ -15,9 +15,11 @@ const AttendanceView = () => {
     const [attendancePeriod, setAttendancePeriod] = useState(null);
     const [hasAttendanceData, setHasAttendanceData] = useState(false);
     const [profession, setProfession] = useState(localStorage.getItem('profession'));
+    const [regNo, setRegNo] = useState(localStorage.getItem('regNo'));
+    const [name, setName] = useState(localStorage.getItem('name'));
 
     useEffect(() => {
-        const fetchSubjects = async () => {
+            const fetchSubjects = async () => {
             setLoading(true);
             try {
                 const response = await fetch('http://localhost:8081/api/subjects');
@@ -26,13 +28,45 @@ const AttendanceView = () => {
                 }
                 const data = await response.json();
 
-                const formattedSubjects = data.map(subject => ({
-                    id: subject.subjectId,
-                    name: subject.subjectName,
-                    lecturer: subject.lecturer
-                }));
+                if (profession === "Student") {
+                    const localStorageSubjects = [
+                        localStorage.getItem('subject1'),
+                        localStorage.getItem('subject2'),
+                        localStorage.getItem('subject3'),
+                        localStorage.getItem('subject4'),
+                        localStorage.getItem('subject5'),
+                        localStorage.getItem('subject6'),
+                        localStorage.getItem('subject7'),
+                        localStorage.getItem('subject8'),
+                        localStorage.getItem('subject9'),
+                        localStorage.getItem('subject10')
+                    ].filter(Boolean);
 
-                setSubjectOptions(formattedSubjects);
+
+                    const localStorageSubjectIds = localStorageSubjects.map(subjectStr => {
+                        const matches = subjectStr.match(/\(([A-Z0-9]+)\)/);
+                        return matches ? matches[1] : null;
+                    }).filter(Boolean);
+
+                    const formattedSubjects = data
+                        .filter(subject => localStorageSubjectIds.includes(subject.subjectId))
+                        .map(subject => ({
+                            id: subject.subjectId,
+                            name: subject.subjectName,
+                            lecturer: subject.lecturer
+                        }));
+                    setSubjectOptions(formattedSubjects);
+                }
+                else {
+                    const formattedSubjects = data
+                        .filter(subject => name.includes(subject.lecturer))
+                        .map(subject => ({
+                            id: subject.subjectId,
+                            name: subject.subjectName,
+                            lecturer: subject.lecturer
+                        }));
+                    setSubjectOptions(formattedSubjects);
+                }
             } catch (err) {
                 console.error('Error fetching subjects:', err);
             } finally {
@@ -51,8 +85,11 @@ const AttendanceView = () => {
         fetch(`http://localhost:8081/api/attendance/${selectedSubject}`)
             .then(res => res.json())
             .then(data => {
-                setStudents(data);
-                setHasAttendanceData(data && data.length > 0);
+                const filteredData = profession === 'Student'
+                    ? data.filter(student => student.regNo === regNo)
+                    : data;
+                setStudents(filteredData);
+                setHasAttendanceData(filteredData && filteredData.length > 0);
             })
             .catch(err => {
                 console.error('Error fetching attendance data:', err);
@@ -77,7 +114,7 @@ const AttendanceView = () => {
         if (subject) {
             setSubjectInfo(subject);
         }
-    }, [selectedSubject, subjectOptions]);
+    }, [selectedSubject, subjectOptions, profession, regNo]);
 
     const formatDate = (dateStr) => {
         const options = { day: '2-digit', month: 'long', year: 'numeric' };
@@ -119,7 +156,7 @@ const AttendanceView = () => {
         XLSX.writeFile(workbook, `Attendance_${subjectInfo?.name || 'Unknown'}.xlsx`);
     };
 
-    if (loading) return <h2>Loading...</h2>;
+    if (loading) return <h2 className='AttendanceH2'>Loading...</h2>;
 
     return (
         <>
@@ -127,7 +164,7 @@ const AttendanceView = () => {
             <div className="attendanceview-container">
                 <Header />
                 <div className="attendanceview-content">
-                    <h2>Attendance View</h2>
+                    <h2 className='AttendanceH2'>Attendance View</h2>
                     <div className="courseview-info">
                         <DropDownSelector title="Subject" options={subjectOptions} value={selectedSubject} onChange={setSelectedSubject} />
                         {subjectInfo && (

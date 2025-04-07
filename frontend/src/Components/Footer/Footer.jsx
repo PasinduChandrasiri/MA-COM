@@ -1,9 +1,11 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
-import React from 'react';
+import React, { useState } from 'react';
 import './Footer.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Footer() {
+    const [profession, setProfession] = useState(localStorage.getItem('profession'));
+
     return (
         <footer>
             <div className="content">
@@ -17,18 +19,22 @@ function Footer() {
                         <a href="#"><i className="fab fa-youtube"></i></a>
                     </div>
                 </div>
-                <div className='veticalFooterLine'/>
+                <div className='veticalFooterLine' />
                 <div className="link-boxes">
                     <ul className="box">
                         <li className="link_name">Quick access</li>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">Attendance</a></li>
-                        <li><a href="#">Feedback</a></li>
+                        <li><a href="/HomePage">Home</a></li>
+                        <li><a href="/ContactUs">Contact us</a></li>
+                        {profession === "Student" ? (
+                            <li><a href="/AttendanceView">Attendance</a></li>
+                        ) : (
+                            <li><a href="/AttendanceMarking">Attendance</a></li>
+                        )}
+                        <li><a href="/Feedback">Feedback</a></li>
                     </ul>
                     <ul className="box">
                         <li className="link_name">My Account</li>
-                        <li><a href="#">Profile</a></li>
+                        <li><a href="/Settings">Profile</a></li>
                         <li><a href="#">View log</a></li>
                         <li><a href="#">Calendar</a></li>
                     </ul>

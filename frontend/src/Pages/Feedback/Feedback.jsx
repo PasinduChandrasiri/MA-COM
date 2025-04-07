@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-pascal-case */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import "./Feedback.css";
 import SideBar from '../../Components/SideBar/SideBar';
 import Footer from '../../Components/Footer/Footer';
-// import Pop_up from '../../Components/Pop_up/Pop_up';
+import Pop_up from '../../Components/Pop_up/Pop_up';
 import Header from '../../Components/Header/Header';
 import axios from 'axios';
 import MA01 from "../../Images/Feedback/MA01.jpg"
@@ -14,17 +14,17 @@ import Stu01 from "../../Images/Feedback/Stu01.jpg"
 import Stu02 from "../../Images/Feedback/Stu02.jpg"
 
 const Feedback = () => {
-
+    const popUpRef = useRef();
     const rates = [-2, -1, 0, 1, 2];
 
     const name = localStorage.getItem("name");
     const studentID = localStorage.getItem("id");
     const semester = localStorage.getItem("semester");
 
-    const [profession, setProfession] = useState("");
+    const [profession, setProfession] = useState(localStorage.getItem('profession'));
     const [loading, setLoading] = useState(true);
 
-    /* For editing qyestions */
+    // For editing qyestions
     const [questions, setQuestions] = useState([]);
     const [editingQuestion, setEditingQuestion] = useState(null);
     const [editedText, setEditedText] = useState("");
@@ -34,8 +34,6 @@ const Feedback = () => {
     const [courseDetails, setCourseDetails] = useState([]);  //for the dropdown in the student feedback submission
 
     const [responses, setResponses] = useState(Array(questions.length).fill(null));
-
-    //-------------------NEW---------------------
     const [selectedFeedbackType, setSelectedFeedbackType] = useState("");
     const [dropdownOptions, setDropdownOptions] = useState("");
     const [selectedOption, setSelectedOption] = useState("");
@@ -51,20 +49,6 @@ const Feedback = () => {
 
     //-------------------------------------------- COMMON -------------------------------------------
 
-    // useEffect(() => {
-    //     if (lecturerDetails.length > 0) {
-    //         // Split each "lecturer_course" and extract the course name
-    //         const extractedCourses = lecturerDetails.map(item => {
-    //             const parts = item.lecturer_course.split(' - ');
-    //             return parts[1]; // Course name is after the " - "
-    //         });
-
-    //         // Remove duplicates using Set and update state
-    //         const uniqueCourses = [...new Set(extractedCourses)];
-    //         setCourseNames(uniqueCourses);
-    //     }
-    // }, [lecturerDetails]); // Trigger when lecturerDetails changes
-
     const fetchQuestions = (selectedFeedbackType) => {
         axios.get('http://localhost:8081/feedbackquestions', {
             params: { qType: selectedFeedbackType }
@@ -77,6 +61,8 @@ const Feedback = () => {
         const userProfession = localStorage.getItem("profession") || "";
         setProfession(userProfession.trim());
         setLoading(false);
+        fetchData();
+        fetchData2();
     }, []);
 
     // Scroll to top on mount
@@ -166,6 +152,28 @@ const Feedback = () => {
         );
     };
 
+    const [lecturer, setLecturer] = useState([]);
+    const [subject, setSubject] = useState([]);
+    const fetchData = async () => {
+        try {
+            const condition = "all";
+            const res = await axios.post("http://localhost:8081/lecturers", { condition });
+            setLecturer(res.data);
+        } catch (error) {
+            console.error("Error fetching lecturer details:", error);
+        }
+    };
+
+    const fetchData2 = async () => {
+        try {
+            const condition = "all";
+            const res = await axios.post("http://localhost:8081/subjects", { condition });
+            setSubject(res.data);
+        } catch (error) {
+            console.error("Error fetching subject details:", error);
+        }
+    };
+
 
     //----------------------------------------- LECTURER FEEDBACK -----------------------------------------
 
@@ -230,7 +238,7 @@ const Feedback = () => {
         }
     };
 
-    //get lecturere details and course details for the dropdown in lecturer panel
+    //get lecturer details and course details for the dropdown in lecturer panel
     const handleDropdownLecturer = () => {
         axios.get('http://localhost:8081/subjects', {
             params: { name: name, condition: "For lecturer dropdown" }
@@ -240,9 +248,6 @@ const Feedback = () => {
                 if (res.data.lecturers) {
                     setLecturerDetails(res.data.lecturers);
                 }
-
-                console.log("lecturerDetails", res.data.lecturers);
-
                 // Check if the response contains course details
                 if (res.data.courses) {
                     setCourseDetails(res.data.courses);
@@ -252,67 +257,130 @@ const Feedback = () => {
     };
 
     const renderFeedbackTableLecturer = () => {
+        if ((selectedFeedbackType === "Lecturer" && dropdownOptions === "Lecturer") ||
+            (selectedFeedbackType === "Course" && dropdownOptions === "Course")) {
 
-        if (selectedFeedbackType === "Lecturer" && dropdownOptions === "Lecturer") {
+            // First, organize the data by QGroup
+            const groupedData = questions.reduce((acc, q, index) => {
+                const average = averages && averages[`avg${index + 1}`] !== null &&
+                    averages[`avg${index + 1}`] !== undefined ?
+                    averages[`avg${index + 1}`] : "N/A";
+
+                if (!acc[q.QGroup]) {
+                    acc[q.QGroup] = [];
+                }
+
+                acc[q.QGroup].push({
+                    question: q.Questions,
+                    average: average
+                });
+
+                return acc;
+            }, {});
+
+            // Then create an array suitable for rendering
+            const tableData = [];
+            Object.entries(groupedData).forEach(([qGroup, items]) => {
+                // Add the first row with QGroup spanning all columns
+                tableData.push({
+                    isGroupHeader: true,
+                    qGroup: qGroup,
+                    question: null,
+                    average: null
+                });
+
+                // Add all questions for this group
+                items.forEach(item => {
+                    tableData.push({
+                        isGroupHeader: false,
+                        qGroup: null,
+                        question: item.question,
+                        average: item.average
+                    });
+                });
+            });
+
+            // Function to handle download
+            const handleDownload = () => {
+                // Create CSV content
+                let csvContent = "Questions Group,Questions,Average\n";
+
+                tableData.forEach(row => {
+                    if (row.isGroupHeader) {
+                        csvContent += `"${row.qGroup}",,\n`;
+                    } else {
+                        const avgValue = row.average === "N/A" ? "N/A" : ((row.average + 2) / 4) * 100;;
+                        csvContent += `,"${row.question}",${avgValue} %\n`;
+                    }
+                });
+
+                // Create download link
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.setAttribute('href', url);
+                link.setAttribute('download', `${selectedOption}_${selectedFeedbackType}_feedback_report.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+
             return (
-                <form>
-                    <table className='feedback-form-table-lecturer'>
-                        <thead>
-                            <tr>
-                                <th className="feedback-form-table-row-heading-th">Questions</th>
-                                <th className="feedback-form-table-row-heading-th">Average</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {questions.map((q, index) => (
-                                <tr key={q.QID}>
-                                    <td className="feedback-form-table-row-td">{q.Questions}</td>
-                                    <td className="feedback-form-table-row-td">
-                                        {averages && averages[`avg${index + 1}`] !== null && averages[`avg${index + 1}`] !== undefined ? (
-                                            <ProgressBar average={averages[`avg${index + 1}`]} />
-                                        ) : (
-                                            "N/A"
-                                        )}
-                                    </td>
+                <>
+                    <form>
+                        <table className='feedback-form-table-lecturer'>
+                            <thead>
+                                <tr>
+                                    <th className="feedback-form-table-row-heading-th">Questions Group</th>
+                                    <th className="feedback-form-table-row-heading-th">Questions</th>
+                                    <th className="feedback-form-table-row-heading-th">Average</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </form>
+                            </thead>
+                            <tbody>
+                                {tableData.map((row, index) => (
+                                    <tr key={index}>
+                                        {row.isGroupHeader ? (
+                                            <td className="feedback-form-table-row-td group-header" colSpan="3">
+                                                {row.qGroup}
+                                            </td>
+                                        ) : (
+                                            <>
+                                                <td className="feedback-form-table-row-td"></td>
+                                                <td className="feedback-form-table-row-td">{row.question}</td>
+                                                <td className="feedback-form-table-row-td">
+                                                    {row.average === "N/A" ? "N/A" : <ProgressBar average={row.average} />}
+                                                </td>
+                                            </>
+                                        )}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </form>
+                    <div style={{ textAlign: 'right', marginBottom: '10px' }}>
+                        <button
+                            onClick={handleDownload}
+                            style={{
+                                padding: '8px 16px',
+                                backgroundColor: '#4CAF50',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Download Report
+                        </button>
+                    </div>
+                </>
             )
         }
-        if (selectedFeedbackType === "Course" && dropdownOptions === "Course") {
-            return (
-                <form>
-                    <table className='feedback-form-table-lecturer'>
-                        <thead>
-                            <tr>
-                                <th className="feedback-form-table-row-heading-th">Questions</th>
-                                <th className="feedback-form-table-row-heading-th">Average</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {questions.map((q, index) => (
-                                <tr key={q.QID}>
-                                    <td className="feedback-form-table-row-td">{q.Questions}</td>
-                                    <td className="feedback-form-table-row-td">
-                                        {averages && averages[`avg${index + 1}`] !== null && averages[`avg${index + 1}`] !== undefined ? (
-                                            <ProgressBar average={averages[`avg${index + 1}`]} />
-                                        ) : (
-                                            "N/A"
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </form>
-            )
-        }
+
+        return null;
     }
 
     //------------------------------------------- STUDENT FEEDBACK ------------------------------------------
-
     const handleBack = () => {
         setSelectedFeedbackType("");
         setDropdownOptions("");
@@ -335,7 +403,7 @@ const Feedback = () => {
 
 
         if (!semester || !studentID || responses.includes(null)) {
-            alert("Please fill all fields and answer all questions before submitting.");
+            popUpRef.current.showToast("signUpInvalid");
             return;
         }
 
@@ -356,13 +424,14 @@ const Feedback = () => {
             })
             .then((res) => {
                 console.log("Submitted Data:", responses);
-                alert("Feedback submitted successfully!");
+                popUpRef.current.showToast("submit");
+
                 window.location.reload();
                 window.onload = () => window.scrollTo(0, 0);
             })
             .catch((err) => {
                 console.error("Error submitting feedback:", err);
-                alert("Failed to submit feedback.");
+                popUpRef.current.showToast("GoingWrong");
             });
     };
 
@@ -372,95 +441,105 @@ const Feedback = () => {
             params: { semester: semester, condition: "For student dropdown" }
         })
             .then((res) => {
-                // Check if the response contains lecturer details
-                if (res.data.lecturers) {
-                    setLecturerDetails(res.data.lecturers);
-                }
+                const localStorageSubjects = [
+                    localStorage.getItem('subject1'),
+                    localStorage.getItem('subject2'),
+                    localStorage.getItem('subject3'),
+                    localStorage.getItem('subject4'),
+                    localStorage.getItem('subject5'),
+                    localStorage.getItem('subject6'),
+                    localStorage.getItem('subject7'),
+                    localStorage.getItem('subject8'),
+                    localStorage.getItem('subject9'),
+                    localStorage.getItem('subject10')
+                ].filter(Boolean);
 
-                // Check if the response contains course details
-                if (res.data.courses) {
-                    setCourseDetails(res.data.courses);
-                }
+                const localStorageSubjectNames = localStorageSubjects.map(subject => {
+                    return subject.split(' (')[0];
+                });
+
+                // Filter courses
+                const filteredCourses = res.data.courses.filter(course =>
+                    localStorageSubjectNames.includes(course.subjectName)
+                );
+
+                // Filter lecturers
+                const filteredLecturers = res.data.lecturers.filter(lecturer =>
+                    localStorageSubjectNames.some(subject =>
+                        lecturer.lecturer_course.includes(subject)
+                    )
+                );
+                setLecturerDetails(filteredLecturers);
+                setCourseDetails(filteredCourses);
             })
             .catch((err) => console.error(err));
     };
 
     const renderFeedbackTableStudent = () => {
-        if (selectedFeedbackType === "Lecturer" && dropdownOptions === "Lecturer") {
-            return (
-                <form onSubmit={(e) => handleSubmit(e, "Lecturer")}>
-                    <table className='feedback-form-table-student'>
-                        <thead>
-                            <tr>
-                                <th className='feedback-form-table-row-heading-th'>Questions</th>
-                                <th className='feedback-form-table-row-heading-th-student'>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {questions.map((q, index) => (
-                                <tr key={q.QID}>
-                                    <td className='feedback-form-table-row-td'>{q.Questions}</td>
-                                    <td className='feedback-form-table-data-button'>
-                                        {rates.map((rate) => (
-                                            <label key={rate} className="feedback-checkbox">
-                                                <input
-                                                    type="radio"
-                                                    name={`question-${index}`}
-                                                    value={rate}
-                                                    checked={responses[index] === rate}
-                                                    onChange={() => radioHandleSelection(index, rate)}
-                                                    className="mr-1"
-                                                />
-                                                {rate}
-                                            </label>
-                                        ))}
+        const feedbackType = selectedFeedbackType;
+
+        if (feedbackType !== dropdownOptions || !["Lecturer", "Course"].includes(feedbackType)) {
+            return null;
+        }
+
+        // Group questions by their QGroup
+        const groupedQuestions = questions.reduce((acc, question) => {
+            if (!acc[question.QGroup]) {
+                acc[question.QGroup] = [];
+            }
+            acc[question.QGroup].push(question);
+            return acc;
+        }, {});
+
+        return (
+            <form onSubmit={(e) => handleSubmit(e, feedbackType)}>
+                <table className='feedback-form-table-student'>
+                    <thead>
+                        <tr>
+                            <th className="feedback-form-table-row-heading-th">Questions Group</th>
+                            <th className='feedback-form-table-row-heading-th'>Questions</th>
+                            <th className='feedback-form-table-row-heading-th-student'>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Object.entries(groupedQuestions).map(([groupName, groupQuestions]) => (
+                            <React.Fragment key={groupName}>
+                                <tr>
+                                    <td className="feedback-form-table-row-td group-header" colSpan="3">
+                                        {groupName}
                                     </td>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <button type='submit' className='submit-button-student'>Submit Feedback</button>
-                </form>
-            )
-        }
-        if (selectedFeedbackType === "Course" && dropdownOptions === "Course") {
-            return (
-                <form onSubmit={(e) => handleSubmit(e, "Course")}>
-                    <table className='feedback-form-table-student'>
-                        <thead>
-                            <tr>
-                                <th className='feedback-form-table-row-heading-th'>Questions</th>
-                                <th className='feedback-form-table-row-heading-th-student'>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {questions.map((q, index) => (
-                                <tr key={q.QID}>
-                                    <td className='feedback-form-table-row-td'>{q.Questions}</td>
-                                    <td className='feedback-form-table-data-button'>
-                                        {rates.map((rate) => (
-                                            <label key={rate} className="feedback-checkbox">
-                                                <input
-                                                    type="radio"
-                                                    name={`question-${index}`}
-                                                    value={rate}
-                                                    checked={responses[index] === rate}
-                                                    onChange={() => radioHandleSelection(index, rate)}
-                                                    className="mr-1"
-                                                />
-                                                {rate}
-                                            </label>
-                                        ))}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <button type='submit' className='submit-button-student'>Submit Feedback</button>
-                </form>
-            )
-        }
-    }
+                                {groupQuestions.map((q, index) => (
+                                    <tr key={q.QID}>
+                                        <td className='feedback-form-table-row-td'></td>
+                                        <td className='feedback-form-table-row-td'>{q.Questions}</td>
+                                        <td className='feedback-form-table-data-button'>
+                                            {rates.map((rate) => (
+                                                <label key={rate} className="feedback-checkbox">
+                                                    <input
+                                                        type="radio"
+                                                        name={`question-${index}`}
+                                                        value={rate}
+                                                        checked={responses[index] === rate}
+                                                        onChange={() => radioHandleSelection(index, rate)}
+                                                        className={feedbackType === "Lecturer" ? "feedbackDot" : "mr-1"}
+                                                    />
+                                                    {rate}
+                                                </label>
+                                            ))}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </React.Fragment>
+                        ))}
+                    </tbody>
+                </table>
+                <button type='submit' className='submit-button-student'>
+                    Submit Feedback
+                </button>
+            </form>
+        );
+    };
 
     //--------------------------------------------------------------------------------------------------------
 
@@ -476,23 +555,25 @@ const Feedback = () => {
 
                     {profession === "Management Assistant" && (
                         <div className='feedback-inside student'>
-                            <h3 className='feedback-inside-h3'>MA Feedback</h3>
+                            {/* Conditional heading */}
+                            {!["Lecturer", "Course"].includes(selectedFeedbackType) && (
+                                <h3 className='feedback-inside-h3'>Feedback Question Management</h3>
+                            )}
+
                             <div className="card-container">
                                 {!selectedFeedbackType ? (
+                                    // Initial card selection view
                                     <div className="card-section">
                                         <div className='card-components'>
                                             <button
                                                 className="feedback-inside-button"
                                                 onClick={() => {
-                                                    setSelectedFeedbackType("Lecturer");
+                                                    setSelectedFeedbackType("LecturerQuestion");
                                                     fetchQuestions("Lecturer");
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
-                                                <img
-                                                    src={MA01}
-                                                    alt="Lecturer Icon"
-                                                    className="button-icon"
-                                                />
+                                                <img src={MA01} alt="Lecturer Icon" className="button-icon" />
                                                 <h2 className='card-components-h2'>Edit Lecturer Feedback Questions</h2>
                                             </button>
                                         </div>
@@ -500,41 +581,39 @@ const Feedback = () => {
                                             <button
                                                 className="feedback-inside-button"
                                                 onClick={() => {
-                                                    setSelectedFeedbackType("Course");
+                                                    setSelectedFeedbackType("CourseQuestion");
                                                     fetchQuestions("Course");
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
-                                                <img
-                                                    src={MA02}
-                                                    alt="Course Icon"
-                                                    className="button-icon"
-                                                />
+                                                <img src={MA02} alt="Course Icon" className="button-icon" />
                                                 <h2 className='card-components-h2'>Edit Course Feedback Questions</h2>
                                             </button>
                                         </div>
                                     </div>
-                                ) : (
+                                ) : !["Lecturer", "Course"].includes(selectedFeedbackType) ? (
+                                    // Question management view
                                     <div className="dropdown-container">
-                                        {selectedFeedbackType === "Lecturer" ? (
-                                            <h3 className='dropdown-container-h3'>Edit Lecturer Feedback Questions</h3>
-                                        ) : (
-                                            <h3 className='dropdown-container-h3'>Edit Course Feedback Questions</h3>
-                                        )}
+                                        <h3 className='dropdown-container-h3'>
+                                            {selectedFeedbackType === "LecturerQuestion"
+                                                ? "Edit Lecturer Feedback Questions"
+                                                : "Edit Course Feedback Questions"}
+                                        </h3>
+
                                         <div className="create-button-container">
-                                            <button
-                                                onClick={handleBack}
-                                                className='create-button-back'
-                                            >
+                                            <button onClick={handleBack} className='create-button-back'>
                                                 Back
                                             </button>
-                                            <button className="create-button" onClick={() => setShowAddModal(true)}>Add new question</button>
+                                            <button className="create-button" onClick={() => setShowAddModal(true)}>
+                                                Add new question
+                                            </button>
                                         </div>
 
                                         <div className='feedback-form-table-ma-container'>
                                             {renderFeedbackTableManagingAssistant()}
                                         </div>
 
-                                        {/* EDIT MODAL: show when editingQuestion is set */}
+                                        {/* Edit Question Modal */}
                                         {editingQuestion && (
                                             <div className="modal">
                                                 <h3 className='modal-h3'>Edit Question</h3>
@@ -543,12 +622,16 @@ const Feedback = () => {
                                                     value={editedText}
                                                     onChange={(e) => setEditedText(e.target.value)}
                                                 />
-                                                <button className='modal-button' onClick={handleSaveEdit}>Save</button>
-                                                <button className='modal-button' onClick={() => setEditingQuestion(null)}>Cancel</button>
+                                                <div className="modal-button-group">
+                                                    <button className='modal-button' onClick={handleSaveEdit}>Save</button>
+                                                    <button className='modal-button' onClick={() => setEditingQuestion(null)}>
+                                                        Cancel
+                                                    </button>
+                                                </div>
                                             </div>
                                         )}
 
-                                        {/* ADD MODAL */}
+                                        {/* Add Question Modal */}
                                         {showAddModal && (
                                             <div className="modal">
                                                 <h3 className='modal-h3'>Add New Question</h3>
@@ -559,35 +642,40 @@ const Feedback = () => {
                                                     placeholder="Enter your question here..."
                                                 />
                                                 <select
-                                                    // className='add-new-question-select'
                                                     value={newQuestionGroup}
                                                     onChange={(e) => setNewQuestionGroup(e.target.value)}
                                                 >
                                                     <option value="">Select QGroup</option>
                                                     <option value="General">General</option>
                                                     <option value="Materials">Materials</option>
-                                                    <option value="Tutorials/ Examples">Tutorials/ Examples</option>
-                                                    <option value="Lab/ Fieldwork">Lab/ Fieldwork</option>
+                                                    <option value="Tutorials/Examples">Tutorials/Examples</option>
+                                                    <option value="Lab/Fieldwork">Lab/Fieldwork</option>
                                                     <option value="About Myself">About Myself</option>
                                                     <option value="Time Management">Time Management</option>
                                                     <option value="Delivery Method">Delivery Method</option>
                                                     <option value="Subject Command">Subject Command</option>
                                                 </select>
-                                                <button className='modal-button' onClick={handleAddQuestion}>Add Question</button>
-                                                <button className='modal-button' onClick={() => setShowAddModal(false)}>Cancel</button>
+                                                <div className="modal-button-group">
+                                                    <button className='modal-button' onClick={handleAddQuestion}>
+                                                        Add Question
+                                                    </button>
+                                                    <button className='modal-button' onClick={() => setShowAddModal(false)}>
+                                                        Cancel
+                                                    </button>
+                                                </div>
                                             </div>
                                         )}
-
-
                                     </div>
-                                )}
+                                ) : null}
                             </div>
                         </div>
                     )}
 
-                    {profession === "Lecturer" && (
+                    {(profession === "Management Assistant" || profession === "Lecturer") && (
                         <div className='feedback-inside student'>
-                            <h3 className='feedback-inside-h3'>Lecturer Feedback</h3>
+                            {selectedFeedbackType !== "LecturerQuestion" && selectedFeedbackType !== "CourseQuestion" ? (
+                                <h3 className='feedback-inside-h3'>Feedback Average</h3>
+                            ) : null}
                             <div className="card-container">
                                 {!selectedFeedbackType ? (
                                     <div className="card-section">
@@ -598,6 +686,7 @@ const Feedback = () => {
                                                     setSelectedFeedbackType("Lecturer");
                                                     fetchQuestions("Lecturer");
                                                     handleDropdownLecturer();
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
                                                 <img
@@ -615,6 +704,7 @@ const Feedback = () => {
                                                     setSelectedFeedbackType("Course");
                                                     fetchQuestions("Course");
                                                     handleDropdownLecturer();
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
                                                 <img
@@ -626,7 +716,7 @@ const Feedback = () => {
                                             </button>
                                         </div>
                                     </div>
-                                ) : (
+                                ) : selectedFeedbackType !== "LecturerQuestion" && selectedFeedbackType !== "CourseQuestion" ? (
                                     <div className="dropdown-container">
                                         {selectedFeedbackType === "Lecturer" ? (
                                             <h3 className='dropdown-container-h3'>Averages of Lecturer Feedback</h3>
@@ -637,7 +727,6 @@ const Feedback = () => {
                                         <div className="all-container-lecturer">
                                             <label className='dropdown-option'>Select Option : </label>
                                             <select
-                                                // className='all-container-lecturer-select'
                                                 value={selectedOption}  // Bind the value to state
                                                 onChange={(e) => {
                                                     const selectedValue = e.target.value;
@@ -651,19 +740,31 @@ const Feedback = () => {
 
                                             >
                                                 <option value="" disabled>{selectedFeedbackType === "Lecturer" ? `Select your averages for relevant course` : 'Select course'}</option>
-                                                {selectedFeedbackType === "Lecturer"
-                                                    ? lecturerDetails.map((item, idx) => (
-                                                        <option key={idx} value={item.lecturer_course}>
-                                                            {item.lecturer_course}
-                                                        </option>
-
-                                                    ))
-                                                    : courseDetails.map((item, idx) => (
-                                                        <option key={idx} value={item.subjectName}>
-                                                            {item.subjectName}
-                                                        </option>
-
-                                                    ))}
+                                                {profession === "Lecturer" ? (
+                                                    selectedFeedbackType === "Course"
+                                                        ? lecturerDetails.map((item, idx) => (
+                                                            <option key={idx} value={item.lecturer_course}>
+                                                                {item.lecturer_course}
+                                                            </option>
+                                                        ))
+                                                        : courseDetails.map((item, idx) => (
+                                                            <option key={idx} value={item.subjectName}>
+                                                                {item.subjectName}
+                                                            </option>
+                                                        ))
+                                                ) : (
+                                                    selectedFeedbackType === "Lecturer"
+                                                        ? lecturer.map((item, idx) => (
+                                                            <option key={idx} value={item.lecturer_course}>
+                                                                {item.lecturerName}
+                                                            </option>
+                                                        ))
+                                                        : subject.map((item, idx) => (
+                                                            <option key={idx} value={item.subjectName}>
+                                                                {item.subjectName}
+                                                            </option>
+                                                        ))
+                                                )}
                                             </select>
 
                                             <button
@@ -674,13 +775,13 @@ const Feedback = () => {
                                             </button>
                                         </div>
 
-                                        {dropdownOptions ? (
+                                        {dropdownOptions && (
                                             <div className='feedback-form-table-ma-container'>
                                                 {renderFeedbackTableLecturer()}
-                                            </div>) : null}
-
+                                            </div>
+                                        )}
                                     </div>
-                                )}
+                                ) : null}
                             </div>
                         </div>
                     )}
@@ -698,6 +799,7 @@ const Feedback = () => {
                                                     setSelectedFeedbackType("Lecturer");
                                                     fetchQuestions("Lecturer");
                                                     handleDropdownStudent();
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
                                                 <img
@@ -715,6 +817,7 @@ const Feedback = () => {
                                                     setSelectedFeedbackType("Course");
                                                     fetchQuestions("Course");
                                                     handleDropdownStudent();
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
                                                 <img
@@ -751,7 +854,7 @@ const Feedback = () => {
                                                     fetchQuestions(feedbackType);
                                                 }}
                                             >
-                                                <option value="" disabled>Select {selectedFeedbackType}</option>
+                                                <option value="" disabled >Select {selectedFeedbackType}</option>
                                                 {selectedFeedbackType === "Lecturer"
                                                     ? lecturerDetails.map((item, idx) => (
                                                         <option key={idx} value={item.lecturer_course}>
@@ -787,12 +890,13 @@ const Feedback = () => {
                     )}
 
 
-                </div>
+                </div >
 
                 <div className="bottomSpace" style={{ height: '1px' }}></div>
-            </div>
-
-            <Footer />
+                <Footer />
+                {/* Conditionally render PopUp */}
+                <Pop_up ref={popUpRef} />
+            </div >
         </>
     );
 }

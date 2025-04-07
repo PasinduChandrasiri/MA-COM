@@ -58,6 +58,7 @@
 .toast.AlreadyRecovered i,
 .toast.validation i,
 .toast.emailValidation i,
+.toast.selectFile i,
 .toast.invalidOTP i {
     color: orange;
 }
@@ -81,6 +82,7 @@
 .toast.AlreadyRecovered,
 .toast.validation,
 .toast.emailValidation,
+.toast.selectFile,
 .toast.invalidOTP {
     color: orange;
 }
@@ -117,6 +119,7 @@
 .toast.AlreadyRecovered::after,
 .toast.validation::after,
 .toast.emailValidation::after,
+.toast.selectFile::after,
 .toast.invalidOTP::after {
     background: orange;
 }

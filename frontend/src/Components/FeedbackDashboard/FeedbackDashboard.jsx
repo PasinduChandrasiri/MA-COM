@@ -3,135 +3,125 @@ import './FeedbackDashboard.css';
 import axios from 'axios';
 
 const FeedbackDashboard = () => {
-    const [name, setName] = useState(localStorage.getItem('name'));
-    const [profession, setProfession] = useState(localStorage.getItem('profession'));
+    const [name, setName] = useState(localStorage.getItem('name') || '');
+    const [profession, setProfession] = useState(localStorage.getItem('profession') || '');
     const [subjects, setSubjects] = useState([]);
     const [subjectsFeedback, setSubjectsFeedback] = useState([]);
     const [lectureFeedback, setLectureFeedback] = useState([]);
     const [batch, setBatch] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetch = () => {
-            axios.post('http://localhost:8081/subjects', {
-                condition: "feedbackLecturer",
-                lecturer: name
-            })
-                .then(res => {
-                    setSubjects(res.data);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+
+                // Fetch all data in parallel
+                const [subjectsRes, feedbackRes, lectureRes, batchRes] = await Promise.all([
+                    axios.post('http://localhost:8081/subjects', {
+                        condition: "feedbackLecturer",
+                        lecturer: name
+                    }),
+                    axios.post('http://localhost:8081/coursefeedbackrate', {
+                        condition: "all",
+                        lecturer: name
+                    }),
+                    axios.post('http://localhost:8081/lecturerfeedbackrate', {
+                        condition: "all",
+                    }),
+                    axios.post('http://localhost:8081/batchdetails', {
+                        condition: "all",
+                    })
+                ]);
+
+                // Ensure responses are arrays
+                setSubjects(Array.isArray(subjectsRes.data) ? subjectsRes.data : []);
+                setSubjectsFeedback(Array.isArray(feedbackRes.data) ? feedbackRes.data : []);
+                setLectureFeedback(Array.isArray(lectureRes.data) ? lectureRes.data : []);
+                setBatch(Array.isArray(batchRes.data) ? batchRes.data : []);
+            } catch (err) {
+                console.error(err);
+                setError('Failed to fetch data');
+                // Reset to empty arrays on error
+                setSubjects([]);
+                setSubjectsFeedback([]);
+                setLectureFeedback([]);
+                setBatch([]);
+            } finally {
+                setLoading(false);
+            }
         };
 
-        const fetch2 = () => {
-            axios.post('http://localhost:8081/coursefeedbackrate', {
-                condition: "all",
-                lecturer: name
-            })
-                .then(res => {
-                    setSubjectsFeedback(res.data);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        };
+        fetchData();
+    }, [name]);
 
-        const fetch3 = () => {
-            axios.post('http://localhost:8081/lecturerfeedbackrate', {
-                condition: "all",
-            })
-                .then(res => {
-                    setLectureFeedback(res.data);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        };
-
-        const fetch4 = () => {
-            axios.post('http://localhost:8081/batchdetails', {
-                condition: "all",
-            })
-                .then(res => {
-                    setBatch(res.data);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        };
-
-        fetch();
-        fetch2();
-        fetch3();
-        fetch4();
-    }, []);
-
-    // Count feedbacks for a specific course
+    // Safe count functions that handle non-array inputs
     const countCoursesByName = (courseName) => {
-        const count = subjectsFeedback.filter(item =>
-            item.course_name.trim().toLowerCase() === courseName.trim().toLowerCase()
+        if (!Array.isArray(subjectsFeedback)) return 0;
+        return subjectsFeedback.filter(item =>
+            item?.course_name?.trim().toLowerCase() === courseName?.trim().toLowerCase()
         ).length;
-        return count;
     };
 
-    // Count feedbacks for a specific lecturer
     const countLecturerByName = (subjectName, lecturerName) => {
-        const count = lectureFeedback.filter(item =>
-            item.SubjectName.trim().toLowerCase() === subjectName.trim().toLowerCase() &&
-            item.lecturer_name.trim().toLowerCase() === lecturerName.trim().toLowerCase()
+        if (!Array.isArray(lectureFeedback)) return 0;
+        return lectureFeedback.filter(item =>
+            item?.subjectName?.trim().toLowerCase() === subjectName?.trim().toLowerCase() &&
+            item?.lecturer_name?.trim().toLowerCase() === lecturerName?.trim().toLowerCase()
         ).length;
-        return count;
     };
 
-    // Count course feedbacks for a specific batch
     const countBatchCoursesBySemester = (semester) => {
-        const count = subjectsFeedback.filter(item =>
-            item.semester.trim().toLowerCase() === semester.trim().toLowerCase()
+        if (!Array.isArray(subjectsFeedback)) return 0;
+        return subjectsFeedback.filter(item =>
+            item?.semester?.trim().toLowerCase() === semester?.trim().toLowerCase()
         ).length;
-        return count;
     };
 
-    // Count lecturer feedbacks for a specific batch
     const countBatchLecturersBySemester = (semester) => {
-        const count = lectureFeedback.filter(item =>
-            item.semester.trim().toLowerCase() === semester.trim().toLowerCase()
+        if (!Array.isArray(lectureFeedback)) return 0;
+        return lectureFeedback.filter(item =>
+            item?.semester?.trim().toLowerCase() === semester?.trim().toLowerCase()
         ).length;
-        return count;
     };
+
+    if (loading) {
+        return <div className="feedback-card-container">Loading...</div>;
+    }
+
+    if (error) {
+        return <div className="feedback-card-container">{error}</div>;
+    }
 
     return (
         <div className="feedback-card-container">
-            {profession === "Lecturer" ?
-                (
-                    subjects.map((item, index) => {
-                        return (
-                            <div
-                                className='feedback-card'
-                                key={index}
-                            >
-                                <div className="feedback-segment">
-                                    <span className="feedback-count">{countCoursesByName(item.subjectName)}</span>
-                                    <span className="feedback-label">Course Feedback</span>
-                                </div>
-                                <div className="feedback-segment">
-                                    <span className="feedback-count">{countLecturerByName(item.subjectName, name)}</span>
-                                    <span className="feedback-label">Lecturer Feedback</span>
-                                </div>
-                                <div className="feedback-title">
-                                    <p className="feedback-course-title">{item.subjectName}</p>
-                                    <p className="feedback-course-code">{item.subjectId}</p>
-                                </div>
+            {profession === "Lecturer" ? (
+                subjects.length > 0 ? (
+                    subjects.map((item, index) => (
+                        <div className='feedback-card' key={index}>
+                            <div className="feedback-segment">
+                                <span className="feedback-count">{countCoursesByName(item.subjectName)}</span>
+                                <span className="feedback-label">Course Feedback</span>
                             </div>
-                        );
-                    })
-                ) :
-                (
+                            <div className="feedback-segment">
+                                <span className="feedback-count">{countLecturerByName(item.subjectName, name)}</span>
+                                <span className="feedback-label">Lecturer Feedback</span>
+                            </div>
+                            <div className="feedback-title">
+                                <p className="feedback-course-title">{item.subjectName}</p>
+                                <p className="feedback-course-code">{item.subjectId}</p>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div>No subjects found</div>
+                )
+            ) : (
+                batch.length > 0 ? (
                     batch.map((item, index) => (
-                        <div
-                            className='feedback-card'
-                            key={index}
-                        >
+                        <div className='feedback-card' key={index}>
                             <div className="feedback-segment">
                                 <span className="feedback-count">{countBatchCoursesBySemester(item.semester)}</span>
                                 <span className="feedback-label">Course Feedback</span>
@@ -145,8 +135,10 @@ const FeedbackDashboard = () => {
                             </div>
                         </div>
                     ))
+                ) : (
+                    <div>No batches found</div>
                 )
-            }
+            )}
         </div>
     );
 };

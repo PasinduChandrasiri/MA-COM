@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect, useRef } from 'react';
 import { FaSearch, FaInbox, FaCheckCircle, FaTimesCircle, FaPlus, FaChevronLeft } from 'react-icons/fa';
 import SideBar from '../../Components/SideBar/SideBar';
@@ -20,10 +21,22 @@ const CashRequest = () => {
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [profession, setProfession] = useState(localStorage.getItem('profession'));
 
-    const userId = 18; // Replace this with dynamic userId from authentication context
+    // Get userId from localStorage instead of hardcoding
+    const [userId, setUserId] = useState(() => {
+        const storedUserId = localStorage.getItem('id');
+        return storedUserId ? parseInt(storedUserId) : null;
+    });
 
     useEffect(() => {
+        // If userId is not in localStorage, try to get it another way or show an error
+        if (userId === null) {
+            setError('User ID not found. Please log in again.');
+            setIsLoading(false);
+            return;
+        }
+
         // Fetch all requests and categorize them
         const fetchRequests = async () => {
             setIsLoading(true);
@@ -65,6 +78,12 @@ const CashRequest = () => {
     const handleSubmit = async () => {
         if (!type || !topic || !description) {
             popUpRef.current.showToast('invalid'); // Show invalid input toast
+            return;
+        }
+
+        // Ensure we have a valid userId before submitting
+        if (userId === null) {
+            popUpRef.current.showToast('GoingWrong'); // Show error toast
             return;
         }
 
@@ -136,12 +155,17 @@ const CashRequest = () => {
 
     return (
         <>
-            <SideBar />
+            <SideBar userType={profession?.replace(/\s+/g, '')} />
             <div className="cashrequest-container">
                 <Header />
+                <div style={{ height: '70px' }} />  {/* make distance between header and first component */}
                 <Pop_up ref={popUpRef} />
                 <div className="cashrequest-main">
-                    {!selectedRequest ? (
+                    {userId === null ? (
+                        <div className="error-container">
+                            <div className="error">User ID not found. Please log in again.</div>
+                        </div>
+                    ) : !selectedRequest ? (
                         <>
                             <div className="cashrequest-sidebar">
                                 <div className="search-container">

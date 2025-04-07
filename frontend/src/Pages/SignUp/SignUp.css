@@ -163,6 +163,10 @@ a:hover {
     transition: 0.3s;
 }
 
+.input-field_SU~.icon {
+    color: white;
+}
+
 .input-field_SU:hover {
     background-color: var(--second-color);
     color: var(--black-color);

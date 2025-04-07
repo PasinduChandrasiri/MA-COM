@@ -15,6 +15,8 @@ const Pop_up = forwardRef((props, ref) => {
         addCourse: '<i class="fa-solid fa-circle-check"></i> Course added successfully',
         addLecturer: '<i class="fa-solid fa-circle-check"></i> Lecturer added successfully',
         update: '<i class="fa-solid fa-circle-check"></i> Updated successfully',
+        upload: '<i class="fa-solid fa-circle-check"></i> Uploaded successfully',
+        status: '<i class="fa-solid fa-circle-check"></i> Status updated successfully',
         delete: '<i class="fa-solid fa-circle-check"></i> Deleted successfully',
         addComment: '<i class="fa-solid fa-circle-check"></i> Comment added successfully',
         OTPsent: '<i class="fa-solid fa-circle-check"></i> OTP sent to your email successfully ',
@@ -34,6 +36,7 @@ const Pop_up = forwardRef((props, ref) => {
         validation: '<i class="fa-solid fa-circle-exclamation"></i> Password length should be at least 8 characters, lowercase, uppercase and symbols',
         emailValidation: '<i class="fa-solid fa-circle-exclamation"></i> Email should be 20XXeXXX@eng.jfn.ac.lk type',
         invalidOTP: '<i class="fa-solid fa-circle-exclamation"></i> Invalid OTP. Please try again',
+        selectFile: '<i class="fa-solid fa-circle-exclamation"></i> Please select a file',
         };
 
     const showToast = (type) => {

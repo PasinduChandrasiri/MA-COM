@@ -68,7 +68,6 @@ function ContactUs() {
             try {
                 const condition = "all";
                 const res = await axios.post("http://localhost:8081/lecturers", { condition });
-
                 setLecturer(res.data);
             } catch (error) {
                 console.error("Error fetching lecturer details:", error);
@@ -79,7 +78,6 @@ function ContactUs() {
             try {
                 const condition = "all";
                 const res = await axios.post("http://localhost:8081/subjects", { condition });
-
                 setSubject(res.data);
             } catch (error) {
                 console.error("Error fetching subject details:", error);

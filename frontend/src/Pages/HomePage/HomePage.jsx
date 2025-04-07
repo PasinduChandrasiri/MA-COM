@@ -13,11 +13,10 @@ import FeedbackDashboard from '../../Components/FeedbackDashboard/FeedbackDashbo
 import CommentPanel from '../../Components/CommentPanel/CommentPanel';
 import defaultImage from "../../Images/default_User.png";
 import axios from 'axios';
-
-// Example data from database
-import { AttendanceStudent } from '../../Data/AttendanceStudent';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
+  const navigate = useNavigate();
   const popUpRef = useRef();
   const [records, setRecords] = useState([]);
   const [records2, setRecords2] = useState([]);
@@ -214,11 +213,11 @@ function HomePage() {
               <div className="cardProfileLower">
                 <h3>{name}</h3>
                 <h4>{email}</h4>
-                <p className='profilePara'>Semester: {semester}</p>
+                {profession === "Student" && <p className='profilePara'>Semester:{semester}</p>}
                 <p className='profilePara'>Profession: {profession}</p>
-                <p className='profilePara'>Registration Number: {regNo}</p>
+                {profession === "Student" && <p className='profilePara'>Registration Number: {regNo}</p>}
                 <p className='profilePara'>{about}</p>
-                <button className='profileVisitBtn'>Visit Profile</button>
+                <button className='profileVisitBtn' onClick={() => navigate("/Settings")}>Visit Profile</button>
               </div>
             </div>
           </div>
@@ -229,7 +228,7 @@ function HomePage() {
 
           {/* Students attendance */}
           {profession === "Student" && (<Topic name={"ATTENDANCE (STUDENT)"} />)}
-          {profession === "Student" && (<ProgressBar data={AttendanceStudent} />)}
+          {profession === "Student" && (<ProgressBar />)}
 
           {/* Lecturer Feedback dashboard */}
           {profession === "Lecturer" && (<Topic name={"FEEDBACK"} />)}
